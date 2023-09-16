@@ -1,2 +1,1 @@
-# estacao-meteorologica
-Estação meteorológica com painel solar inteligente e banco de dados.
+# Estação meteorológica com painel solar inteligente e banco de dados.
