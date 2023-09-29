@@ -1,9 +1,9 @@
-#include <Arduino.h>
+#include "uv.h"
 
-void setup(){
+uv sensorUV(A0);
 
-}
+void setup() { }
 
-void loop(){
-
+void loop() {
+  sensorUV.show();
 }
