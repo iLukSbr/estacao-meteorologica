@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "RTClock.h"
 
 RTClock::RTClock(const uint16_t& year, const uint8_t& month, const uint8_t& day, const uint8_t& hour, const uint8_t& minute, const uint8_t& second):

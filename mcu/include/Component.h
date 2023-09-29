@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
-
 #define START_TRIES 3// Attempts to start sensor
 #define LOOP_DELAY 100// (ms) Delay between start attempts
 
