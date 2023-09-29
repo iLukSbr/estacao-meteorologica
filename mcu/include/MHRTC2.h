@@ -2,28 +2,16 @@
 
 #include "Component.h"
 
-// DS3231 RTC
-// https://github.com/adafruit/RTClib
-#include <RTClib.h>// I²C address 0x57 (EEPROM) and 0x68 (RTC)
+#include <RTClib.h>
 
-#include "Gps.h"
+#include "MHRTC2.h"
 
-#define RTCLOCK_SIZE 21// Date and time string length
-#define DATE_TIME_KEY "id"// JSON date and time key
-#define DAY_OF_THE_WEEK_KEY "dia da semana"// JSON day of the week key
-#define PT_BR// Português brasileiro
-// #define EN_US// Inglês
-
-class RTClock : public Component{
+class MHRTC2 : public Component{
   private:
-    RTC_DS3231 *rtc;
-    char clock_data[RTCLOCK_SIZE] = {0};
+    RTC_DS1307 *rtc;
+    char clock_data[21] = {0};
     char *day_of_the_week;
-    #ifdef EN_US
-      char days[7][14] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-    #else
-      char days[7][14] = {"Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"};
-    #endif
+    char days[7][14] = {0};
     
   public:
     RTClock(const uint16_t& year, const uint8_t& month, const uint8_t& day, const uint8_t& hour, const uint8_t& minute, const uint8_t& second);// Create object
