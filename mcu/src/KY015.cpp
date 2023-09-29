@@ -15,23 +15,23 @@ bool KY015::isStarted() const{
 }
 
 float KY015::getHumidity() const{
-    return data[0];
+    return info[0];
 }
 
 float KY015::getTemperatureCelsius() const{
-    return data[1];
+    return info[1];
 }
 
 float KY015::getTemperatureKelvin() const{
-    return data[2];
+    return info[2];
 }
 
 float KY015::getHeatIndexCelsius() const{
-    return data[3];
+    return info[3];
 }
 
 float KY015::getHeatIndexKelvin() const{
-    return data[4];
+    return info[4];
 }
 
 
@@ -54,11 +54,11 @@ void KY015::print() const{
 }
 
 void KY015::read(){
-    data[0] = constrain(dht->readHumidity() + KY015_HUMIDITY_OFFSET,0.f,100.f);
-    data[1] = dht->readTemperature() + KY015_TEMPERATURE_OFFSET;
-    data[2] = data[1] + 273.15;
-    data[3] = dht->computeHeatIndex(data[1],data[0],false);
-    data[4] = data[3] + 273.15;
+    info[0] = constrain(dht->readHumidity() + KY015_HUMIDITY_OFFSET,0.f,100.f);
+    info[1] = dht->readTemperature() + KY015_TEMPERATURE_OFFSET;
+    info[2] = info[1] + 273.15;
+    info[3] = dht->computeHeatIndex(info[1],info[0],false);
+    info[4] = info[3] + 273.15;
 }
 
 void KY015::start(){

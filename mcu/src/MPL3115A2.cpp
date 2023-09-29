@@ -16,19 +16,19 @@ bool MPL3115A2::isStarted() const{
 }
 
 float MPL3115A2::getAltitude() const{
-    return data[0];
+    return info[0];
 }
 
 float MPL3115A2::getPressure() const{
-    return data[1];
+    return info[1];
 }
 
 float MPL3115A2::getTemperatureCelsius() const{
-    return data[2];
+    return info[2];
 }
 
 float MPL3115A2::getTemperatureKelvin() const{
-    return data[3];
+    return info[3];
 }
 
 void MPL3115A2::print() const{
@@ -48,10 +48,10 @@ void MPL3115A2::print() const{
 }
 
 void MPL3115A2::read(){
-    data[0] = baro->getAltitude();
-    data[1] = 100*(baro->getPressure() + MPL3115A2_PRESSURE_OFFSET);
-    data[2] = baro->getTemperature() + MPL3115A2_TEMPERATURE_OFFSET;
-    data[3] = data[2] + 273.15;
+    info[0] = baro->getAltitude();
+    info[1] = 100*(baro->getPressure() + MPL3115A2_PRESSURE_OFFSET);
+    info[2] = baro->getTemperature() + MPL3115A2_TEMPERATURE_OFFSET;
+    info[3] = info[2] + 273.15;
 }
 
 void MPL3115A2::start(){

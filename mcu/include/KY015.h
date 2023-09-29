@@ -13,7 +13,7 @@ class KY015 : public Component{
     private:
         DHT* dht;
 
-        float data[5] = {0.f};
+        float info[5] = {0.f};
 
     public:
         KY015();
