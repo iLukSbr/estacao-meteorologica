@@ -50,7 +50,6 @@ void KY015::print() const{
     Serial.print(F(" °C = "));
     Serial.print(getHeatIndexKelvin());
     Serial.println(F(" K"));
-    Serial.println(F("========================================"));
 }
 
 void KY015::read(){

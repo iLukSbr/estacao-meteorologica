@@ -18,14 +18,12 @@ class MPL3115A2 : public Component{
         MPL3115A2();
         ~MPL3115A2();
 
-        bool isStarted() const override;
-
         float getAltitude() const;
         float getPressure() const;
         float getTemperatureCelsius() const;
         float getTemperatureKelvin() const;
 
-        void read() override;
         void print() const override;
+        void read() override;
         void start() override;
 };

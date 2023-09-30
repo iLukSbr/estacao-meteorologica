@@ -1,22 +1,30 @@
 #include <Arduino.h>
 #include "uv.h"
 
-uv::uv(int pin) {
-  Serial.begin(9600);
-
-  pinMode(pin, OUTPUT);
-
-  pinSensorUV = pin;
-  leituraUV=0; // VARIÁVEL PARA ARMAZENAR A LEITURA DA PORTA ANALÓGICA
-  indiceUV=0;  // VARIÁVEL PARA ARMAZENAR A CONVERSÃO PARA INDICE UV
+UV::UV():
+    info(0)
+{
+    start();
 }
 
-void uv::show() {
-  delay(500); // DELAY PARA APROXIMAR AS MEDIDAS DO TEMPO DE RESPOSTA DO SENSOR DE 500 mS
-  
-  leituraUV = analogRead(pinSensorUV); // REALIZA A LEITURA DA PORTA ANALÓGICA 
-  indiceUV = map(leituraUV, 0,203,0,10) ; // CONVERTE A FAIXA DE SINAL DO SENSOR DE 0V A 1V PARA O INDICE UV DE 0 A 10.
+UV::~UV(){
 
-  Serial.print("Indice UV: ");
-  Serial.println(indiceUV);
+}
+
+byte getUVIndex() const{
+    return info;
+}
+
+void UV::print() const{
+    Serial.print(F("UV: "));
+    Serial.println(info);
+}
+
+void UV::read(){
+    info = map(analogRead(UV_PIN), 0, 203, 0, 10); // CONVERTE A FAIXA DE SINAL DO SENSOR DE 0V A 1V PARA O INDICE UV DE 0 A 10.
+}
+
+void UV::start(){
+    pinMode(UV_PIN, INPUT);
+    started = true;
 }

@@ -9,3 +9,7 @@ Component::Component():
 Component::~Component(){
     
 }
+
+bool Component::isStarted() const{
+    return started;
+}

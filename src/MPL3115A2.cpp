@@ -11,10 +11,6 @@ MPL3115A2::~MPL3115A2(){
     delete baro;
 }
 
-bool MPL3115A2::isStarted() const{
-    return started;
-}
-
 float MPL3115A2::getAltitude() const{
     return info[0];
 }
@@ -44,7 +40,6 @@ void MPL3115A2::print() const{
     Serial.print(F(" °C = "));
     Serial.print(getTemperatureKelvin());
     Serial.println(F(" K"));
-    Serial.println(F("========================================"));
 }
 
 void MPL3115A2::read(){

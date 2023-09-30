@@ -1,17 +1,18 @@
 #pragma once
 
-// DEFINIÇÕES
-#define liga    HIGH
-#define desliga LOW
+#define UV_PIN
 
-#include <Arduino.h>
+class UV : public Component{
+    private: 
+        byte info;
 
-class uv {
-  public:
-    uv(int pin);
-    void show();
-  private: 
-    int pinSensorUV;
-    int leituraUV;
-    byte indiceUV;
+    public:
+        UV();
+        ~UV();
+
+        byte getUVIndex() const;
+
+        void print() const override;
+        void read() override;
+        void start() override;
 };
