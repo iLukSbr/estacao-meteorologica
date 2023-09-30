@@ -1,17 +1,17 @@
 #include <Arduino.h>
-#include "UVHandler.h"
+#include "uv.h"
 
-UVHandler::UVHandler(int pinSensorUV) : pinSensorUV(pinSensorUV) {
+uv::uv(int pin) {
+  Serial.begin(9600);
+
+  pinMode(pin, OUTPUT);
+
+  pinSensorUV = pin;
   leituraUV=0; // VARIÁVEL PARA ARMAZENAR A LEITURA DA PORTA ANALÓGICA
   indiceUV=0;  // VARIÁVEL PARA ARMAZENAR A CONVERSÃO PARA INDICE UV
 }
 
-void UVHandler::begin(){
-  Serial.begin(UV_Serial); 
-  pinMode(pinSensorUV, OUTPUT);
-}
-
-void UVHandler::printUV() {
+void uv::show() {
   delay(500); // DELAY PARA APROXIMAR AS MEDIDAS DO TEMPO DE RESPOSTA DO SENSOR DE 500 mS
   
   leituraUV = analogRead(pinSensorUV); // REALIZA A LEITURA DA PORTA ANALÓGICA 

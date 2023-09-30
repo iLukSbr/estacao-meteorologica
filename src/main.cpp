@@ -1,18 +1,45 @@
-#include "UVHandler.h"
-#include "GPSHandler.h"
+#include <Vector.h>
 
-UVHandler uvHandler(UV_PIN);
-GPSHandler gpsHandler(GPS_RX, GPS_TX);
+#include "KY015.h"
+#include "MPL3115A2.h"
 
-void setup() { 
-  gpsHandler.begin();
-  uvHandler.begin();
+#define QUANTITY_OF_COMPONENTS 2
+#define READING_DELAY 3000// (ms) Delay between readings
+
+unsigned long stopwatch = 0;
+
+MPL3115A2* barometer;
+KY015* thermometer;
+UV* uv_sensor;
+
+Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
+Vector<Component*> component_list(storage_array);
+
+void newAll(){
+    component_list.push_back(dynamic_cast<Component*>(barometer = new MPL3115A2()));
+    component_list.push_back(dynamic_cast<Component*>(thermometer = new KY015()));
+    component_list.push_back(dynamic_cast<Component*>(uv_sensor = new UV()));
 }
 
-void loop() {
-  uvHandler.printUV();
+void setup(){
+    Serial.begin(115200);
+    while(!Serial);
+    newAll();
+}
 
-  if (gpsHandler.newDataAvailable()) {
-    gpsHandler.printGPSData();
-  }
+void loop(){
+    if(millis()-stopwatch >= READING_DELAY || !stopwatch){
+        Serial.println(F("========================================"));
+        for(auto element : component_list){
+            if(element->isStarted()){
+                element->read();
+                element->print();
+                Serial.println(F("========================================"));
+            }
+            else
+                element->start();
+        }
+        stopwatch = millis();
+        Serial.println();
+    }
 }
