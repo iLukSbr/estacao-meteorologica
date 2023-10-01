@@ -1,3 +1,5 @@
+/* GPS uBlox */
+
 #pragma once
 
 #include <Arduino.h>
@@ -8,13 +10,13 @@
 #define GPS_TX 3
 #define GPS_Serial_Baud 9600
 
-class GPSHandler {
+class GYNEO6MV2{
 private:
   TinyGPS gps;
   SoftwareSerial gpsSerial;
 
 public:
-  GPSHandler(int rxPin, int txPin);
+  GYNEO6MV2(int rxPin, int txPin);
   void begin();
   bool newDataAvailable();
   void printGPSData();

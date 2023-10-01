@@ -1,3 +1,5 @@
+/* DHT11 humidity and temperature sensor */
+
 #pragma once
 
 #include <DHT.h>

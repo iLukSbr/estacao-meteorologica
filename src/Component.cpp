@@ -1,3 +1,5 @@
+/* Component */
+
 #include "component.h"
 
 Component::Component():

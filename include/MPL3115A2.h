@@ -1,3 +1,5 @@
+/* Pressure, altitude and temperature sensor */
+
 #pragma once
 
 #include <Adafruit_MPL3115A2.h>

@@ -1,3 +1,5 @@
+/* Pressure, altitude and temperature sensor */
+
 #include "MPL3115A2.h"
 
 MPL3115A2::MPL3115A2():

@@ -1,14 +1,16 @@
+/* GPS uBlox */
+
 #include <Arduino.h>
-#include "NEO6MV2.h"
+#include "GYNEO6MV2.h"
 
-GPSHandler::GPSHandler(int rxPin, int txPin) : gpsSerial(rxPin, txPin) {}
+GYNEO6MV2::GYNEO6MV2(int rxPin, int txPin) : gpsSerial(rxPin, txPin) {}
 
-void GPSHandler::begin() {
+void GYNEO6MV2::begin() {
   Serial.begin(GPS_Serial_Baud);
   gpsSerial.begin(GPS_Serial_Baud);
 }
 
-bool GPSHandler::newDataAvailable() {
+bool GYNEO6MV2::newDataAvailable() {
   bool newData = false;
   unsigned long chars;
 
@@ -23,7 +25,7 @@ bool GPSHandler::newDataAvailable() {
   return newData;
 }
 
-void GPSHandler::printGPSData() {
+void GYNEO6MV2::printGPSData() {
   float flat, flon;
   unsigned long age;
 

@@ -1,3 +1,5 @@
+/* DHT11 humidity and temperature sensor */
+
 #include "KY015.h"
 
 KY015::KY015():
