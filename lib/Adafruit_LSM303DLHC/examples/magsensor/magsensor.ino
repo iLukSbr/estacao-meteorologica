@@ -1,5 +1,3 @@
-/* Magnetometer compass and accelerometer */
-
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_LSM303_U.h>
