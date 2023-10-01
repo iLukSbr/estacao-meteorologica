@@ -1,7 +1,9 @@
 #include <Vector.h>
 
+#include "GY511.h"
 #include "KY015.h"
 #include "MPL3115A2.h"
+#include "UV.h"
 
 #define QUANTITY_OF_COMPONENTS 2
 #define READING_DELAY 3000// (ms) Delay between readings
