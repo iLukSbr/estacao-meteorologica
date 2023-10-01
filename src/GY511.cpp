@@ -9,14 +9,18 @@ GY511::GY511():
     start();
 }
 
-char* getDirection() const{
+GY511::~GY511(){
+    delete compass;
+}
+
+char* GY511::getDirection() const{
     return info;
 }
 
 void GY511::print() const{
     Serial.println(F("GY-511:"));
     Serial.print(F("direction = "));
-    Serial.println(info);
+    Serial.println(getDirection());
 }
 
 void GY511::read(){
@@ -29,7 +33,6 @@ void GY511::read(){
 	info[1] = directions[d][1];
 	info[2] = directions[d][2];
     info[3] = '\0';
-    
 }
 
 void GY511::start(){

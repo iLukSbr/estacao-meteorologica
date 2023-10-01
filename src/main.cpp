@@ -18,10 +18,10 @@ Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
 
 void newAll(){
-    component_list.push_back(dynamic_cast<Component*>(barometer = new MPL3115A2()));
-    component_list.push_back(dynamic_cast<Component*>(thermometer = new KY015()));
-    component_list.push_back(dynamic_cast<Component*>(uv_sensor = new UV()));
     component_list.push_back(dynamic_cast<Component*>(compass1 = new GY511()));
+    component_list.push_back(dynamic_cast<Component*>(thermometer = new KY015()));
+    component_list.push_back(dynamic_cast<Component*>(barometer = new MPL3115A2()));
+    component_list.push_back(dynamic_cast<Component*>(uv_sensor = new UV()));
 }
 
 void setup(){
