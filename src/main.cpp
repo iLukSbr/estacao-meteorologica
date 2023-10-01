@@ -8,9 +8,11 @@
 
 unsigned long stopwatch = 0;
 
-MPL3115A2* barometer;
+GY511* compass1;
 KY015* thermometer;
+MPL3115A2* barometer;
 UV* uv_sensor;
+
 
 Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
@@ -19,6 +21,7 @@ void newAll(){
     component_list.push_back(dynamic_cast<Component*>(barometer = new MPL3115A2()));
     component_list.push_back(dynamic_cast<Component*>(thermometer = new KY015()));
     component_list.push_back(dynamic_cast<Component*>(uv_sensor = new UV()));
+    component_list.push_back(dynamic_cast<Component*>(compass1 = new GY511()));
 }
 
 void setup(){

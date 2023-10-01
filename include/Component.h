@@ -15,7 +15,7 @@ class Component{
         Component();
         virtual ~Component();
 
-        virtual bool isStarted() const = 0;
+        bool isStarted() const;
 
         virtual void print() const = 0;
         virtual void read() = 0;

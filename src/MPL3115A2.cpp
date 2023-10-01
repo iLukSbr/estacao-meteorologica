@@ -52,7 +52,7 @@ void MPL3115A2::read(){
 }
 
 void MPL3115A2::start(){
-    for(uint8_t i=0; i<START_TRIES; i++){
+    for(byte i=0; i<START_TRIES; i++){
         delay(LOOP_DELAY);
         if(baro->begin() && !isnan(baro->getPressure()) && !isnan(baro->getTemperature()) && !isnan(baro->getAltitude())){
             started = true;

@@ -1,69 +1,53 @@
-/* Magnetometer compass and accelerometer */
-
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_LSM303_U.h>
+#include <LSM303.h>
 
-/* Assign a unique ID to this sensor at the same time */
-Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
+char report[80];
 
-void displaySensorDetails(void)
+GY511::GY511():
+    compass(new LSM303())
 {
-  sensor_t sensor;
-  mag.getSensor(&sensor);
-  Serial.println("------------------------------------");
-  Serial.print  ("Sensor:       "); Serial.println(sensor.name);
-  Serial.print  ("Driver Ver:   "); Serial.println(sensor.version);
-  Serial.print  ("Unique ID:    "); Serial.println(sensor.sensor_id);
-  Serial.print  ("Max Value:    "); Serial.print(sensor.max_value); Serial.println(" uT");
-  Serial.print  ("Min Value:    "); Serial.print(sensor.min_value); Serial.println(" uT");
-  Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" uT");
-  Serial.println("------------------------------------");
-  Serial.println("");
-  delay(500);
+    start();
 }
 
-void setup(void)
-{
-#ifndef ESP8266
-  while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
-#endif
-  Serial.begin(9600);
-  Serial.println("Magnetometer Test"); Serial.println("");
-
-  /* Enable auto-gain */
-  mag.enableAutoRange(true);
-
-  /* Initialise the sensor */
-  if(!mag.begin())
-  {
-    /* There was a problem detecting the LSM303 ... check your connections */
-    Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
-    while(1);
-  }
-
-  /* Display some basic information on this sensor */
-  displaySensorDetails();
+char* getDirection() const{
+    return info;
 }
 
-void loop(void)
-{
-  /* Get a new sensor event */
-  sensors_event_t event;
-  mag.getEvent(&event);
+void GY511::print() const{
+    Serial.println(F("GY-511:"));
+    Serial.print(F("direction = "));
+    Serial.println(info);
+}
 
-  /* Display the results (magnetic vector values are in micro-Tesla (uT)) */
-  Serial.print("X: "); Serial.print(event.magnetic.x); Serial.print("  ");
-  Serial.print("Y: "); Serial.print(event.magnetic.y); Serial.print("  ");
-  Serial.print("Z: "); Serial.print(event.magnetic.z); Serial.print("  ");Serial.println("uT");
+void GY511::read(){
+    compass.read();
+    float heading = compass.heading();
+    unsigned long a = (heading > -0.5) ? heading/22.5 : (heading+360)/22.5;
+	unsigned long r = a - (int)a;
+	byte part = (r >= .5) ? ceil(a) : floor(a);
+	info[0] = directions[d][0];
+	info[1] = directions[d][1];
+	info[2] = directions[d][2];
+    info[3] = '\0';
+    
+}
 
-  /* Note: You can also get the raw (non unified values) for */
-  /* the last data sample as follows. The .getEvent call populates */
-  /* the raw values used below. */
-  // Serial.print("X Raw: "); Serial.print(mag.raw.x); Serial.print("  ");
-  // Serial.print("Y Raw: "); Serial.print(mag.raw.y); Serial.print("  ");
-  // Serial.print("Z Raw: "); Serial.print(mag.raw.z); Serial.println("");
-
-  /* Delay before the next sample */
-  delay(500);
+void GY511::start(){
+    LSM303::vector<int16_t> running_min = {32767, 32767, 32767}, running_max = {-32768, -32768, -32768};
+    Wire.begin();
+    compass.init();
+    compass.enableDefault();
+	unsigned long startTime = millis();
+	while((millis() - startTime) < GY511_CALIBRATION_DURATION){
+        compass.read();
+        running_min.x = min(running_min.x, compass.m.x);
+        running_min.y = min(running_min.y, compass.m.y);
+        running_min.z = min(running_min.z, compass.m.z);
+        running_max.x = max(running_max.x, compass.m.x);
+        running_max.y = max(running_max.y, compass.m.y);
+        running_max.z = max(running_max.z, compass.m.z);
+    }
+    compass.m_min = running_min;
+    compass.m_max = running_max;
+    started = true;
 }
