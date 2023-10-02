@@ -14,7 +14,7 @@ class MPL3115A2 : public Component{
     private:
         Adafruit_MPL3115A2* baro;
 
-        float info[3] = {0.f};
+        float info[2] = {0.f};
 
     public:
         MPL3115A2();
@@ -22,8 +22,8 @@ class MPL3115A2 : public Component{
 
         float getAltitude() const;
         float getPressure() const;
-        float getTemperatureCelsius() const;
-        float getTemperatureKelvin() const;
+        // float getTemperatureCelsius() const;
+        // float getTemperatureKelvin() const;
 
         void print() const override;
         void read() override;

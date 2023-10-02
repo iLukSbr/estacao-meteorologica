@@ -11,7 +11,7 @@ class ITGMPU6050 : public Component{
     private:
         MPU6050* mpu6050;
 
-       double info[4] = {0.f};
+       double info[3] = {0.f};
 
     public:
         ITGMPU6050();
@@ -20,8 +20,8 @@ class ITGMPU6050 : public Component{
         float getAngleX() const;
         float getAngleY() const;
         float getAngleZ() const;
-        float getTemperatureCelsius() const;
-        float getTemperatureKelvin() const;
+        // float getTemperatureCelsius() const;
+        // float getTemperatureKelvin() const;
 
         void print() const override;
         void read() override;

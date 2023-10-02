@@ -24,13 +24,13 @@ float ITGMPU6050::getAngleZ() const{
     return info[2];
 }
 
-float ITGMPU6050::getTemperatureCelsius() const{
-    return info[3];
-}
+// float ITGMPU6050::getTemperatureCelsius() const{
+//     return info[3];
+// }
 
-float ITGMPU6050::getTemperatureKelvin() const{
-    return info[3] + 273.15;
-}
+// float ITGMPU6050::getTemperatureKelvin() const{
+//     return info[3] + 273.15;
+// }
 
 void ITGMPU6050::print() const{
     Serial.println(F("ITGMPU6050:"));
@@ -43,11 +43,11 @@ void ITGMPU6050::print() const{
     Serial.print("angle Z = ");
     Serial.print(getAngleZ());
     Serial.println(F("°"));
-    Serial.print("temperature = ");
-    Serial.print(getTemperatureCelsius());
-    Serial.print(F(" °C = "));
-    Serial.print(getTemperatureKelvin());
-    Serial.println(F(" K"));
+    // Serial.print("temperature = ");
+    // Serial.print(getTemperatureCelsius());
+    // Serial.print(F(" °C = "));
+    // Serial.print(getTemperatureKelvin());
+    // Serial.println(F(" K"));
 }
 
 void ITGMPU6050::read(){
@@ -55,7 +55,7 @@ void ITGMPU6050::read(){
     info[0] = mpu6050->getAngleX();
     info[1] = mpu6050->getAngleY();
     info[2] = mpu6050->getAngleZ();
-    info[3] = mpu6050->getTemp();
+    // info[3] = mpu6050->getTemp();
 }
 
 void ITGMPU6050::start(){

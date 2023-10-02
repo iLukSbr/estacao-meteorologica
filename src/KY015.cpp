@@ -21,17 +21,16 @@ float KY015::getTemperatureCelsius() const{
 }
 
 float KY015::getTemperatureKelvin() const{
-    return info[2];
+    return info[1] + 273.15;
 }
 
 float KY015::getHeatIndexCelsius() const{
-    return info[3];
+    return info[2];
 }
 
 float KY015::getHeatIndexKelvin() const{
-    return info[4];
+    return info[2] + 273.15;
 }
-
 
 void KY015::print() const{
     Serial.println(F("KY015:"));
@@ -53,9 +52,7 @@ void KY015::print() const{
 void KY015::read(){
     info[0] = constrain(dht->readHumidity() + KY015_HUMIDITY_OFFSET,0.f,100.f);
     info[1] = dht->readTemperature() + KY015_TEMPERATURE_OFFSET;
-    info[2] = info[1] + 273.15;
-    info[3] = dht->computeHeatIndex(info[1],info[0],false);
-    info[4] = info[3] + 273.15;
+    info[2] = dht->computeHeatIndex(info[1],info[0],false);
 }
 
 void KY015::start(){
