@@ -3,7 +3,7 @@
 #include "TEMT6000.h"
 
 TEMT6000::TEMT6000():
-    info(0)
+    info(0.f)
 {
     start();
 }

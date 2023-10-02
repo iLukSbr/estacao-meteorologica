@@ -3,7 +3,7 @@
 #include "LDR1.h"
 
 LDR1::LDR1():
-    info(0)
+    info(0.f)
 {
     start();
 }

@@ -14,7 +14,7 @@ class MPL3115A2 : public Component{
     private:
         Adafruit_MPL3115A2* baro;
 
-        float info[4] = {0.f};
+        float info[3] = {0.f};
 
     public:
         MPL3115A2();

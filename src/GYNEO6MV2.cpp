@@ -1,44 +1,48 @@
 /* GPS uBlox */
 
-#include <Arduino.h>
 #include "GYNEO6MV2.h"
 
-GYNEO6MV2::GYNEO6MV2(int rxPin, int txPin) : gpsSerial(rxPin, txPin) {}
-
-void GYNEO6MV2::begin() {
-  Serial.begin(GPS_Serial_Baud);
-  gpsSerial.begin(GPS_Serial_Baud);
+GYNEO6MV2::GYNEO6MV2():
+    gps(new TinyGps()),
+    gpsSerial(new SoftwareSerial(GPS_RX_PIN, GPS_TX_PIN))
+{
+    start();
 }
 
-bool GYNEO6MV2::newDataAvailable() {
-  bool newData = false;
-  unsigned long chars;
-
-  for (unsigned long start = millis(); millis() - start < 1000;) {
-    while (gpsSerial.available()) {
-      char c = gpsSerial.read();
-      if (gps.encode(c))
-        newData = true;
-    }
-  }
-
-  return newData;
+GYNEO6MV2::~GYNEO6MV2(){
+    delete gps;
+    delete gpsSerial;
 }
 
-void GYNEO6MV2::printGPSData() {
-  float flat, flon;
-  unsigned long age;
+float GYNEO6MV2::getLatitude() const{
+    return info[0];
+}
 
-  gps.f_get_position(&flat, &flon, &age);
+float GYNEO6MV2::getLongitude() const{
+    return info[1];
+}
 
-  Serial.print("LAT=");
-  Serial.print(flat == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flat, 6);
-  Serial.print(" LON=");
-  Serial.print(flon == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flon, 6);
-  Serial.print(" SAT=");
-  Serial.print(gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES ? 0 : gps.satellites());
-  Serial.print(" PREC=");
-  Serial.print(gps.hdop() == TinyGPS::GPS_INVALID_HDOP ? 0 : gps.hdop());
-  Serial.println();
-  Serial.println();
+void GYNEO6MV2::print() const{
+    Serial.println(F("GPS:"));
+    Serial.print(F("latitude = "));
+    Serial.print(getLatitude());
+    Serial.println(F("°"));
+    Serial.print(F("longitude = "));
+    Serial.print(getLongitude());
+    Serial.println(F("°"));
+}
+
+bool GYNEO6MV2::read(){
+    while(gpsSerial.available())
+        gps->encode(gpsSerial->read());
+    float flat, flon;
+    unsigned long age;
+    gps->f_get_position(&flat, &flon, &age);
+    info[0] = flat;
+    info[1] = flon;
+}
+
+void GYNEO6MV2::start(){
+    gpsSerial->begin(GPS_SERIAL_BAUD);
+    started = true;
 }

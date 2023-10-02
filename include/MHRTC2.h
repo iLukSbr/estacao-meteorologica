@@ -14,13 +14,13 @@ class MHRTC2 : public Component{
     private: 
         DS1302* rtc;
 
-        char info[20];
+        char info[20] = {0};
 
     public:
         MHRTC2();
         ~MHRTC2();
 
-        float getDateTime() const;
+        char* getDateTime() const;
 
         void print() const override;
         void read() override;
