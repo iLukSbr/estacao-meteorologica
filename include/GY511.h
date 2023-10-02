@@ -1,4 +1,4 @@
-/* Magnetometer compass and accelerometer */
+/* GY511 magnetometer compass and accelerometer */
 
 #pragma once
 
@@ -8,6 +8,7 @@
 #include "Component.h"
 
 #define GY511_CALIBRATION_DURATION 10000// (ms) Time needed to calibrate
+
 class GY511 : public Component{
     private:
         LSM303 compass;
@@ -36,7 +37,7 @@ class GY511 : public Component{
         GY511();
         ~GY511();
         
-    char* getDirection() const;
+        char* getDirection() const;
 
         void print() const override;
         void read() override;

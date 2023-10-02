@@ -1,3 +1,5 @@
+/* GY511 magnetometer compass and accelerometer */
+
 #include <Wire.h>
 #include <LSM303.h>
 

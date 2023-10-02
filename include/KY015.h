@@ -21,8 +21,6 @@ class KY015 : public Component{
         KY015();
         ~KY015();
 
-        bool isStarted() const;
-
         float getHumidity() const;
         float getTemperatureCelsius() const;
         float getTemperatureKelvin() const;
