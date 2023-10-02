@@ -11,11 +11,9 @@
 #define GPS_TX_PIN 6
 #define GPS_SERIAL_BAUD 9600
 
-class GYNEO6MV2{
+class GYNEO6MV2 : public Component{
     private:
-        TinyGPS* gps;
-
-        SoftwareSerial* gpsSerial;
+        TinyGPS gps;
 
         float info[2] = {0.f};
 

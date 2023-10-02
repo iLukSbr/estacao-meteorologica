@@ -16,8 +16,8 @@
 
 class I2CServoDriver : public Component{
     private:
-        Adafruit_PWMServoDriver *pwm;
-        
+        Adafruit_PWMServoDriver pwm;
+
         long int info[2] = {0};
 
     public:
@@ -30,4 +30,4 @@ class I2CServoDriver : public Component{
         void print() const;
         void read();
         void start();
-}
+};

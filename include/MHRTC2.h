@@ -20,7 +20,7 @@ class MHRTC2 : public Component{
         MHRTC2();
         ~MHRTC2();
 
-        char* getDateTime() const;
+        const char* getDateTime() const;
 
         void print() const override;
         void read() override;

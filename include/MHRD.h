@@ -18,5 +18,5 @@ class MHRD : public Component{
 
         void print() const override;
         void read() override;
-        void start() override
-}
+        void start() override;
+};

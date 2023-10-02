@@ -2,16 +2,15 @@
 
 #include "GYNEO6MV2.h"
 
-GYNEO6MV2::GYNEO6MV2():
-    gps(new TinyGps()),
-    gpsSerial(new SoftwareSerial(GPS_RX_PIN, GPS_TX_PIN))
+SoftwareSerial gpsSerial(GPS_RX_PIN, GPS_TX_PIN);// RX pin, TX pin
+
+GYNEO6MV2::GYNEO6MV2()
 {
     start();
 }
 
 GYNEO6MV2::~GYNEO6MV2(){
-    delete gps;
-    delete gpsSerial;
+
 }
 
 float GYNEO6MV2::getLatitude() const{
@@ -32,17 +31,17 @@ void GYNEO6MV2::print() const{
     Serial.println(F("°"));
 }
 
-bool GYNEO6MV2::read(){
+void GYNEO6MV2::read(){
     while(gpsSerial.available())
-        gps->encode(gpsSerial->read());
+        gps.encode(gpsSerial.read());
     float flat, flon;
     unsigned long age;
-    gps->f_get_position(&flat, &flon, &age);
+    gps.f_get_position(&flat, &flon, &age);
     info[0] = flat;
     info[1] = flon;
 }
 
 void GYNEO6MV2::start(){
-    gpsSerial->begin(GPS_SERIAL_BAUD);
+    gpsSerial.begin(GPS_SERIAL_BAUD);
     started = true;
 }

@@ -24,7 +24,7 @@ class HMC5883L : public Component{
         HMC5883L();
         ~HMC5883L();
 
-        char* getDirection() const;
+        const char* getDirection() const;
 
         void print() const;
         void read();

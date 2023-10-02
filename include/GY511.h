@@ -11,9 +11,10 @@
 
 class GY511 : public Component{
     private:
-        LSM303 compass;
+        LSM303* compass;
 
         char info[4] = {0};
+        
         const char directions[16][3] = {
             {' ', ' ', 'N'},
             {'N', 'N', 'E'},
@@ -37,7 +38,7 @@ class GY511 : public Component{
         GY511();
         ~GY511();
         
-        char* getDirection() const;
+        const char* getDirection() const;
 
         void print() const override;
         void read() override;

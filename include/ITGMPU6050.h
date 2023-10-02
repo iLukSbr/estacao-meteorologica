@@ -1,4 +1,4 @@
-/* MPU6050 gyroscope, accelerometer and thermometer */
+/* ITGMPU6050 gyroscope, accelerometer and thermometer */
 
 #pragma once
 
@@ -7,15 +7,15 @@
 
 #include "Component.h"
 
-class MPU6050{
+class ITGMPU6050 : public Component{
     private:
-        MPU6050 *mpu6050;
+        MPU6050* mpu6050;
 
         float info[4] = {0.f};
 
     public:
-        MPU6050();
-        ~MPU6050();
+        ITGMPU6050();
+        ~ITGMPU6050();
 
         float getAngleX() const;
         float getAngleY() const;
@@ -26,4 +26,4 @@ class MPU6050{
         void print() const override;
         void read() override;
         void start() override;
-}
+};

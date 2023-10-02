@@ -9,7 +9,7 @@
 #include "MHRD.h"
 #include "MHRTC2.h"
 #include "MPL3115A2.h"
-#include "MPU6050.h"
+#include "ITGMPU6050.h"
 #include "Encoder.h"
 #include "TEMT6000.h"
 #include "UV.h"
@@ -28,7 +28,7 @@ LDR1* luxmeter1;
 MHRD* rain_sensor;
 MHRTC2* rtc;
 MPL3115A2* barometer;
-MPU6050* gyroscope;
+ITGMPU6050* gyroscope;
 Encoder* speedometer;
 TEMT6000* luxmeter0;
 UV* uv_sensor;
@@ -46,14 +46,14 @@ void newAll(){
     component_list.push_back(dynamic_cast<Component*>(rain_sensor = new MHRD()));
     component_list.push_back(dynamic_cast<Component*>(rtc = new MHRTC2()));
     component_list.push_back(dynamic_cast<Component*>(barometer = new MPL3115A2()));
-    component_list.push_back(dynamic_cast<Component*>(gyroscope = new MPU6050()));
+    component_list.push_back(dynamic_cast<Component*>(gyroscope = new ITGMPU6050()));
     component_list.push_back(dynamic_cast<Component*>(speedometer = new Encoder()));
     component_list.push_back(dynamic_cast<Component*>(luxmeter0 = new TEMT6000()));
     component_list.push_back(dynamic_cast<Component*>(uv_sensor = new UV()));
 }
 
 void setup(){
-    Serial.begin(115200);
+    Serial.begin(9600);
     while(!Serial);
     newAll();
 }

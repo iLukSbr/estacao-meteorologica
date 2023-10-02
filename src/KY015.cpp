@@ -12,10 +12,6 @@ KY015::~KY015(){
     delete dht;
 }
 
-bool KY015::isStarted() const{
-    return started;
-}
-
 float KY015::getHumidity() const{
     return info[0];
 }

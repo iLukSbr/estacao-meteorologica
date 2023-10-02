@@ -3,11 +3,7 @@
 #include "Encoder.h"
 
 Encoder::Encoder():
-    info(0.f),
-    measure_done(false),
-    T1(0),
-    T2(0),
-    T(0)
+    info(0.f)
 {
     start();
 }
@@ -16,20 +12,8 @@ Encoder::~Encoder(){
     
 }
 
-float Encoder::getSpeed(){
+float Encoder::getSpeed() const{
     return info;
-}
-
-void Encoder::INT0_ISR(){
-    if(measure_done){
-        T2 = micros();
-        T = T2 - T1;
-        measure_done = false;
-    }
-    else{
-        T1 = micros();
-        measure_done = true;
-    }
 }
 
 void Encoder::print() const{
@@ -49,3 +33,21 @@ void Encoder::start(){
     attachInterrupt(digitalPinToInterrupt(ENCODER_PIN), INT0_ISR, RISING);
     started = true;
 }
+
+void Encoder::INT0_ISR(){
+    if(measure_done){
+        T2 = micros();
+        T = T2 - T1;
+        measure_done = false;
+    }
+    else{
+        T1 = micros();
+        measure_done = true;
+    }
+}
+
+bool Encoder::measure_done = 0;
+
+unsigned long Encoder::T1 = 0;
+unsigned long Encoder::T2 = 0;
+unsigned long Encoder::T = 0;

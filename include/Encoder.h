@@ -8,21 +8,21 @@
 
 class Encoder : public Component{
     private:
-        bool measure_done;
+        static bool measure_done;
 
-        unsigned long T1;
-        unsigned long T2;
-        unsigned long T;
+        static unsigned long T1;
+        static unsigned long T2;
+        static unsigned long T;
 
         float info;
 
-        void INT0_ISR();
+        static void INT0_ISR();
 
     public:
         Encoder();
         ~Encoder();
 
-        float getSpeed();
+        float getSpeed() const;
 
         void print() const override;
         void read() override;

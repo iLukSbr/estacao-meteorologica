@@ -167,6 +167,8 @@ bool LSM303::init(deviceType device, sa0State sa0)
       translated_regs[-OUT_Z_H_M] = DLH_OUT_Z_H_M;
       translated_regs[-OUT_Z_L_M] = DLH_OUT_Z_L_M;
       break;
+    case device_auto:
+      break;
   }
   
   return true;

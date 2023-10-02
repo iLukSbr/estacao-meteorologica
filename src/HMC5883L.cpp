@@ -12,7 +12,7 @@ HMC5883L::~HMC5883L(){// Release memory
     delete compass;
 }
 
-char* HMC5883L::getDirection() const{
+const char* HMC5883L::getDirection() const{
     return info;
 }
 
@@ -24,7 +24,7 @@ void HMC5883L::print() const{// Get data from component
 
 void HMC5883L::read(){
     compass->read();// Read magnetometer
-    compass->getDirection(magnetometer_direction, compass->getAzimuth());// Direction
+    compass->getDirection(info, compass->getAzimuth());// Direction
     info[3] = '\0';
 }
 
