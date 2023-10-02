@@ -13,6 +13,10 @@ GYNEO6MV2::~GYNEO6MV2(){
 
 }
 
+const char* GYNEO6MV2::getDateTime() const{
+    return date_time;
+}
+
 float GYNEO6MV2::getLatitude() const{
     return info[0];
 }
@@ -29,6 +33,8 @@ void GYNEO6MV2::print() const{
     Serial.print(F("longitude = "));
     Serial.print(getLongitude());
     Serial.println(F("°"));
+    Serial.print(F("date and time UTC = "));
+    Serial.println(getDateTime());
 }
 
 void GYNEO6MV2::read(){
@@ -39,6 +45,10 @@ void GYNEO6MV2::read(){
     gps.f_get_position(&flat, &flon, &age);
     info[0] = flat;
     info[1] = flon;
+    int year;
+    byte month, day, hour, minute, second, hundredths;
+    gps.crack_datetime(&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
+    sprintf(date_time, "%02d/%02d/%02d %02d:%02d:%02d ", month, day, year, hour, minute, second);
 }
 
 void GYNEO6MV2::start(){

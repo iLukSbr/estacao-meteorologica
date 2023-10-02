@@ -14,13 +14,13 @@
 #include "TEMT6000.h"
 #include "UV.h"
 
-#define QUANTITY_OF_COMPONENTS 2
+#define QUANTITY_OF_COMPONENTS 13
 #define READING_DELAY 3000// (ms) Delay between readings
 
 unsigned long stopwatch = 0;
 
 GY511* compass1;
-GYNEO6MV2* gps;
+// GYNEO6MV2* gps;
 HMC5883L* compass2;
 I2CServoDriver* servo;
 KY015* thermometer;

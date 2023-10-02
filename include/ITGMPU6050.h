@@ -11,7 +11,7 @@ class ITGMPU6050 : public Component{
     private:
         MPU6050* mpu6050;
 
-        float info[4] = {0.f};
+       double info[4] = {0.f};
 
     public:
         ITGMPU6050();

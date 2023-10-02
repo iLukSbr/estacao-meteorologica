@@ -29,7 +29,6 @@ void MHRTC2::read() {
 
 void MHRTC2::start(){
     rtc->begin();
-    if(!rtc->isrunning())
-        rtc->adjust(DateTime(__DATE__, __TIME__));// sets the RTC to the date & time this sketch was compiled
+    rtc->adjust(DateTime(__DATE__, __TIME__));// sets the RTC to the date & time this sketch was compiled
     started = true;
 }

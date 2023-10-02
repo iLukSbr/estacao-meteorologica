@@ -3,7 +3,9 @@
 #include "Encoder.h"
 
 Encoder::Encoder():
-    info(0.f)
+    info(0.f),
+    timeold(0),
+    rpm(0)
 {
     start();
 }
@@ -24,30 +26,27 @@ void Encoder::print() const{
 }
 
 void Encoder::read(){
-    float rpm = 60000000/(T*ENCODER_N);
-    info = rpm*PI*CIRCUNFERENCE_DIAMETER/216.f;
+    if (millis() - timeold >= 1000)
+    {
+        detachInterrupt(0);
+        if(pulses <= 3)
+            pulses = 0;
+        rpm = (60000/ENCODER_N)/(millis() - timeold)*pulses;
+        timeold = millis();
+        pulses = 0;
+        attachInterrupt(0, counter, FALLING);
+    }
+    info = rpm*PI*CIRCUNFERENCE_DIAMETER/216000.f;
 }
 
 void Encoder::start(){
     pinMode(ENCODER_PIN, INPUT);
-    attachInterrupt(digitalPinToInterrupt(ENCODER_PIN), INT0_ISR, RISING);
+    attachInterrupt(0, counter, FALLING);
     started = true;
 }
 
-void Encoder::INT0_ISR(){
-    if(measure_done){
-        T2 = micros();
-        T = T2 - T1;
-        measure_done = false;
-    }
-    else{
-        T1 = micros();
-        measure_done = true;
-    }
+void Encoder::counter(){
+  pulses++;
 }
 
-bool Encoder::measure_done = 0;
-
-unsigned long Encoder::T1 = 0;
-unsigned long Encoder::T2 = 0;
-unsigned long Encoder::T = 0;
+volatile byte Encoder::pulses = 0;
