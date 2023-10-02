@@ -60,12 +60,12 @@ void setup(){
 
 void loop(){
     if(millis()-stopwatch >= READING_DELAY || !stopwatch){
-        Serial.println(F("========================================"));
+        Serial.println();
         for(auto element : component_list){
             if(element->isStarted()){
                 element->read();
                 element->print();
-                Serial.println(F("========================================"));
+                Serial.println();
             }
             else
                 element->start();
