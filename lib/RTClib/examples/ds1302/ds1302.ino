@@ -1,20 +1,22 @@
-// Date and time functions using a DS1307 RTC connected via I2C and Wire lib
+// Date and time functions using a DS1302 RTC
 
-#include <Wire.h>
 #include <RTClib.h>
 
-DS1307 rtc;
+// Init rtc object
+//   DS1302 rtc;
+//   DS1302 rtc(ce_pin, sck_pin, io_pin);
+//
+// ce_pin  (RST): default 4
+// sck_pin (CLK): default 5
+// io_pin  (DAT): default 6
+DS1302 rtc;
+//DS1302 rtc(8, 6, 7);
 
 // buffer for DateTime.tostr
 char buf[20];
 
 void setup() {
   Serial.begin(9600);
-#ifdef AVR
-  Wire.begin();
-#else
-  Wire1.begin(); // Shield I2C pins connect to alt I2C bus on Arduino Due
-#endif
   rtc.begin();
 
   if (!rtc.isrunning()) {
@@ -29,7 +31,7 @@ void loop() {
 
   Serial.println(now.tostr(buf));
 
-  Serial.print(" since midnight 1/1/1970 = ");
+  Serial.print(" since midnight 1970/01/01 = ");
   Serial.print(now.unixtime());
   Serial.print("s = ");
   Serial.print(now.unixtime() / 86400L);
@@ -46,6 +48,7 @@ void loop() {
 
   Serial.print(" now - 30d: ");
   Serial.println(past.tostr(buf));
+
   Serial.println();
   delay(3000);
 }

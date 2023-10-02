@@ -24,7 +24,7 @@ class I2CServoDriver : public Component{
         I2CServoDriver();
         ~I2CServoDriver();
 
-        long getPotentiometerRead() const;
+        float getPotentiometerRead() const;
         long getServoPWM() const;
 
         void print() const;

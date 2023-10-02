@@ -1,86 +1,51 @@
-// Date and time functions using a DS3231 RTC connected via I2C and Wire lib
-#include "RTClib.h"
+// Example for DS3231 module connected via I2C interface
 
-RTC_DS3231 rtc;
+#include <RTClib.h>
 
-char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+DS3231 rtc;
 
-void setup () {
-  Serial.begin(57600);
+// buffer for DateTime.tostr
+char buf[20];
 
-#ifndef ESP8266
-  while (!Serial); // wait for serial port to connect. Needed for native USB
+void setup() {
+  Serial.begin(9600);
+#ifdef AVR
+  Wire.begin();
+#else
+  Wire1.begin(); // Shield I2C pins connect to alt I2C bus on Arduino Due
 #endif
+  rtc.begin();
 
-  if (! rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    Serial.flush();
-    while (1) delay(10);
-  }
-
-  if (rtc.lostPower()) {
-    Serial.println("RTC lost power, let's set the time!");
-    // When time needs to be set on a new device, or after a power loss, the
+  if (!rtc.isrunning()) {
+    Serial.println("RTC is NOT running!");
     // following line sets the RTC to the date & time this sketch was compiled
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    // This line sets the RTC with an explicit date & time, for example to set
-    // January 21, 2014 at 3am you would call:
-    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+    rtc.adjust(DateTime(__DATE__, __TIME__));
   }
-
-  // When time needs to be re-set on a previously configured device, the
-  // following line sets the RTC to the date & time this sketch was compiled
-  // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  // This line sets the RTC with an explicit date & time, for example to set
-  // January 21, 2014 at 3am you would call:
-  // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
 }
 
-void loop () {
-    DateTime now = rtc.now();
+void loop() {
+  DateTime now = rtc.now();
 
-    Serial.print(now.year(), DEC);
-    Serial.print('/');
-    Serial.print(now.month(), DEC);
-    Serial.print('/');
-    Serial.print(now.day(), DEC);
-    Serial.print(" (");
-    Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
-    Serial.print(") ");
-    Serial.print(now.hour(), DEC);
-    Serial.print(':');
-    Serial.print(now.minute(), DEC);
-    Serial.print(':');
-    Serial.print(now.second(), DEC);
-    Serial.println();
+  Serial.println(now.tostr(buf));
 
-    Serial.print(" since midnight 1/1/1970 = ");
-    Serial.print(now.unixtime());
-    Serial.print("s = ");
-    Serial.print(now.unixtime() / 86400L);
-    Serial.println("d");
+  Serial.print(" since midnight 1970/1/1 = ");
+  Serial.print(now.unixtime());
+  Serial.print("s = ");
+  Serial.print(now.unixtime() / 86400L);
+  Serial.println("d");
 
-    // calculate a date which is 7 days, 12 hours, 30 minutes, 6 seconds into the future
-    DateTime future (now + TimeSpan(7,12,30,6));
+  // calculate a date which is 7 days and 30 seconds into the future
+  DateTime future(now + (7 * 86400L + 30));
 
-    Serial.print(" now + 7d + 12h + 30m + 6s: ");
-    Serial.print(future.year(), DEC);
-    Serial.print('/');
-    Serial.print(future.month(), DEC);
-    Serial.print('/');
-    Serial.print(future.day(), DEC);
-    Serial.print(' ');
-    Serial.print(future.hour(), DEC);
-    Serial.print(':');
-    Serial.print(future.minute(), DEC);
-    Serial.print(':');
-    Serial.print(future.second(), DEC);
-    Serial.println();
+  Serial.print(" now + 7d + 30s: ");
+  Serial.println(future.tostr(buf));
 
-    Serial.print("Temperature: ");
-    Serial.print(rtc.getTemperature());
-    Serial.println(" C");
+  // calculate a date which is 30 days before
+  DateTime past(now - 30 * 86400L);
 
-    Serial.println();
-    delay(3000);
+  Serial.print(" now - 30d: ");
+  Serial.println(past.tostr(buf));
+
+  Serial.println();
+  delay(3000);
 }

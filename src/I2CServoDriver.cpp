@@ -10,8 +10,8 @@ I2CServoDriver::~I2CServoDriver(){
     delete pwm;
 }
 
-long I2CServoDriver::getPotentiometerRead() const{
-    return info[0];
+float I2CServoDriver::getPotentiometerRead() const{
+    return info[0]*5.f/1024.f;
 }
 
 long I2CServoDriver::getServoPWM() const{
@@ -25,11 +25,13 @@ void I2CServoDriver::read(){
 }
 
 void I2CServoDriver::print() const{
-    Serial.println(F("Servos: "));
+    Serial.println(F("I²C Servo Driver:"));
     Serial.print(F("potentiometer read = "));
-    Serial.println(getPotentiometerRead());
+    Serial.print(getPotentiometerRead());
+    Serial.println(F(" V"));
     Serial.print(F("servo pwm = "));
-    Serial.println(getServoPWM());
+    Serial.print(getServoPWM());
+    Serial.println(F(" Hz"));
 }
 
 void I2CServoDriver::start(){

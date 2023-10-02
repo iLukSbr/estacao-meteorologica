@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Component.h"
+
 #define UV_PIN A1
 
 class UV : public Component{

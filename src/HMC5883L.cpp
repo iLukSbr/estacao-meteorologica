@@ -12,12 +12,12 @@ HMC5883L::~HMC5883L(){// Release memory
     delete compass;
 }
 
-char* GY511::getDirection() const{
+char* HMC5883L::getDirection() const{
     return info;
 }
 
 void HMC5883L::print() const{// Get data from component
-    Serial.println(F("HMC5883L: "));
+    Serial.println(F("HMC5883L:"));
     Serial.print(F("direction = "));
     Serial.println(getDirection());
 }

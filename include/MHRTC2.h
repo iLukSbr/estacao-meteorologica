@@ -1,29 +1,28 @@
-/* Clock */
+/* MH-Real Time Clock 2  DS1302*/
 
 #pragma once
 
-#include "Component.h"
-
 #include <RTClib.h>
 
-#include "MHRTC2.h"
+#include "Component.h"
+
+#define RTC_CLK_PIN 2// Serial Clock
+#define RTC_DAT_PIN 3// Input/Output
+#define RTC_RST_PIN 4// Chip Enable
 
 class MHRTC2 : public Component{
-  private:
-    RTC_DS1307 *rtc;
-    char clock_data[21] = {0};
-    char *day_of_the_week;
-    char days[7][14] = {0};
-    
-  public:
-    RTClock(const uint16_t& year, const uint8_t& month, const uint8_t& day, const uint8_t& hour, const uint8_t& minute, const uint8_t& second);// Create object
-    RTClock();
-    ~RTClock();// Release memory
-    void gatherData() override;// Get data from component
-    void printData() override;// Display data for test
-    void makeJSON(const bool& isHTTP, JsonDocument& doc, JsonObject& payload) override;// Create JSON entries
-    void saveCSVToFile(SdFile* my_file) override;// Save data to MicroSD card
-    char* getDateTime();// Date and time
-    bool checkValidDate(const uint16_t& minute);// If date is valid
-    void rtcAdjust(const uint16_t& year, const uint8_t& month, const uint8_t& day, const uint8_t& hour, const uint8_t& minute, const uint8_t& second);
+    private: 
+        DS1302* rtc;
+
+        char info[20];
+
+    public:
+        MHRTC2();
+        ~MHRTC2();
+
+        float getDateTime() const;
+
+        void print() const override;
+        void read() override;
+        void start() override;
 };
