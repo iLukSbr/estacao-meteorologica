@@ -20,7 +20,7 @@
 unsigned long stopwatch = 0;
 
 GY511* compass1;
-// GYNEO6MV2* gps;
+GYNEO6MV2* gps;
 HMC5883L* compass2;
 I2CServoDriver* servo;
 KY015* thermometer;
