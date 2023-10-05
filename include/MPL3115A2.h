@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef MPL3115A2
-    #define MPL3115A2
+#ifndef _MPL3115A2
+    #define _MPL3115A2
+    #define _MPL3115A2_ 1
 #endif
 
 #include <Adafruit_MPL3115A2.h>

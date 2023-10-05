@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef HMC5883L
-    #define HMC5883L
+#ifndef _HMC5883L
+    #define _HMC5883L
+    #define _HMC5883L_ 1
 #endif
 
 #include <Wire.h>

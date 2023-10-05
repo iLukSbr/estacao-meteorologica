@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef ITGMPU6050
-    #define ITGMPU6050
+#ifndef _ITGMPU6050
+    #define _ITGMPU6050
+    #define _ITGMPU6050_ 1
 #endif
 
 #include <Wire.h>

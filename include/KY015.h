@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef KY015
-    #define KY015
+#ifndef _KY015
+    #define _KY015
+    #define _KY015_ 1
 #endif
 
 #include <DHT.h>

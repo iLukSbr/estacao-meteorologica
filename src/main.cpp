@@ -1,23 +1,4 @@
-#include <Vector.h>
-
-/* Comment the header to disable the component
-   Uncomment the header to enable the component */
-#include "GY511.h"
-#include "GYNEO6MV2.h"
-#include "HMC5883L.h"
-#include "I2CServoDriver.h"
-#include "KY015.h"
-#include "LDR.h"
-#include "MHRD.h"
-#include "MHRTC2.h"
-#include "MPL3115A2.h"
-#include "ITGMPU6050.h"
-#include "Encoder.h"
-#include "TEMT6000.h"
-#include "UV.h"
-
-#define QUANTITY_OF_COMPONENTS 13
-#define READING_DELAY 3000// (ms) Delay between readings
+#include "componentInclude.h"
 
 unsigned long stopwatch = 0;
 
@@ -42,43 +23,43 @@ Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
 
 void newAll(){
-    #ifdef GY511
+    #ifdef _GY511
         component_list.push_back(dynamic_cast<Component*>(/*compass1 = */new GY511()));
     #endif
-    #ifdef GYNEO6MV2
+    #ifdef _GYNEO6MV2
         component_list.push_back(dynamic_cast<Component*>(/*gps = */new GYNEO6MV2()));
     #endif
-    #ifdef HMC5883L
+    #ifdef _HMC5883L
         component_list.push_back(dynamic_cast<Component*>(/*compass2 = */new HMC5883L()));
     #endif
-    #ifdef I2CSERVODRIVER
+    #ifdef _I2CSERVODRIVER
         component_list.push_back(dynamic_cast<Component*>(/*servo = */new I2CServoDriver()));
     #endif
-    #ifdef LDR
+    #ifdef _LDR
         component_list.push_back(dynamic_cast<Component*>(/*luxmeter1 = */new LDR(A2)));
     #endif
-    #ifdef KY015
+    #ifdef _KY015
         component_list.push_back(dynamic_cast<Component*>(/*thermometer = */new KY015()));
     #endif
-    #ifdef MHRD
+    #ifdef _MHRD
         component_list.push_back(dynamic_cast<Component*>(/*rain_sensor = */new MHRD()));
     #endif
-    #ifdef MHRTC2
+    #ifdef _MHRTC2
         component_list.push_back(dynamic_cast<Component*>(/*rtc = */new MHRTC2()));
     #endif
-    #ifdef MPL3115A2
+    #ifdef _MPL3115A2
         component_list.push_back(dynamic_cast<Component*>(/*barometer = */new MPL3115A2()));
     #endif
-    #ifdef ITGMPU6050
+    #ifdef _ITGMPU6050
         component_list.push_back(dynamic_cast<Component*>(/*gyroscope = */new ITGMPU6050()));
     #endif
-    #ifdef ENCODER
+    #ifdef _ENCODER
         component_list.push_back(dynamic_cast<Component*>(/*speedometer = */new Encoder()));
     #endif
-    #ifdef TEMT6000
+    #ifdef _TEMT6000
         component_list.push_back(dynamic_cast<Component*>(/*luxmeter0 = */new TEMT6000()));
     #endif
-    #ifdef UV
+    #ifdef _UV
         component_list.push_back(dynamic_cast<Component*>(/*uv_sensor = */new UV()));
     #endif
 }

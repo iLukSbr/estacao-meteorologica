@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef UV
-    #define UV
+#ifndef _UV
+    #define _UV
+    #define _UV_ 1
 #endif
 
 #include "Component.h"

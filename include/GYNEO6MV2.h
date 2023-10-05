@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef GYNEO6MV2
-    #define GYNEO6MV2
+#ifndef _GYNEO6MV2
+    #define _GYNEO6MV2
+    #define _GYNEO6MV2_ 1
 #endif
 
 #include <SoftwareSerial.h>

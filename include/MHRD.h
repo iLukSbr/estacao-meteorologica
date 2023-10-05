@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef MHRD
-    #define MHRD
+#ifndef _MHRD
+    #define _MHRD 1
+    #define _MHRD_ 1
 #endif
 
 #include "Component.h"

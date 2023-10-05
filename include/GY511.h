@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef GY511
-    #define GY511
+#ifndef _GY511
+    #define _GY511
+    #define _GY511_ 1
 #endif
 
 #include <Wire.h>

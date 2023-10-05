@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef TEMT6000
-    #define TEMT6000
+#ifndef _TEMT6000
+    #define _TEMT6000
+    #define _TEMT6000_ 1
 #endif
 
 #include "Component.h"

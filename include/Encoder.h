@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef ENCODER
-    #define ENCODER
+#ifndef _ENCODER
+    #define _ENCODER
+    #define _ENCODER_ 1
 #endif
 
 #include "Component.h"

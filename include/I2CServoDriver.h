@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef I2CSERVODRIVER
-    #define I2CSERVODRIVER
+#ifndef _I2CSERVODRIVER
+    #define _I2CSERVODRIVER
+    #define _I2CSERVODRIVER_ 1
 #endif
 
 #include <Wire.h>

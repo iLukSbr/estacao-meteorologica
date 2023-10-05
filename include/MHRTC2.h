@@ -2,8 +2,9 @@
 
 #pragma once
 
-#ifndef MHRTC2
-    #define MHRTC2
+#ifndef _MHRTC2
+    #define _MHRTC2
+    #define _MHRTC2_ 1
 #endif
 
 #include <RTClib.h>
