@@ -1,6 +1,4 @@
-#include "componentInclude.h"
-
-unsigned long stopwatch = 0;
+#include "componentInclude.h"// enable/disable components there
 
 /* Specific pointers to access exclusive methods of the component
     Uncomment here and in newAll() if necessary
@@ -18,6 +16,8 @@ unsigned long stopwatch = 0;
 // Encoder* speedometer;
 // TEMT6000* luxmeter0;
 // UV* uv_sensor;
+
+unsigned long stopwatch = 0;
 
 Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
