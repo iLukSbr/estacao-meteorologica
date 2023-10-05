@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef HMC5883L
+    #define HMC5883L
+#endif
+
 #include <Wire.h>
 #include <QMC5883LCompass.h>
 

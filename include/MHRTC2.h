@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef MHRTC2
+    #define MHRTC2
+#endif
+
 #include <RTClib.h>
 
 #include "Component.h"

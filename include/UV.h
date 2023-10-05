@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef UV
+    #define UV
+#endif
+
 #include "Component.h"
 
 #define UV_PIN A1

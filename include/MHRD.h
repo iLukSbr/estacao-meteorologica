@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef MHRD
+    #define MHRD
+#endif
+
 #include "Component.h"
 
 #define MHRD_PIN 9

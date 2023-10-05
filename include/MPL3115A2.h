@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef MPL3115A2
+    #define MPL3115A2
+#endif
+
 #include <Adafruit_MPL3115A2.h>
 
 #include "Component.h"

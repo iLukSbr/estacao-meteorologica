@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef GY511
+    #define GY511
+#endif
+
 #include <Wire.h>
 #include <LSM303.h>
 

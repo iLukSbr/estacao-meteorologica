@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef GYNEO6MV2
+    #define GYNEO6MV2
+#endif
+
 #include <SoftwareSerial.h>
 #include <TinyGPS.h>
 

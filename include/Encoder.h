@@ -1,5 +1,11 @@
 /* Optical switch encoder speed sensor */
 
+#pragma once
+
+#ifndef ENCODER
+    #define ENCODER
+#endif
+
 #include "Component.h"
 
 #define ENCODER_PIN 2

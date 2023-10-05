@@ -2,11 +2,15 @@
 
 #pragma once
 
+#ifndef KY015
+    #define KY015
+#endif
+
 #include <DHT.h>
 
 #include "Component.h"
 
-#define KY015_PIN 2// Digital pin connected to the KY-015 sensor
+#define KY015_PIN 5// Digital pin connected to the KY-015 sensor
 #define KY015_TYPE DHT11
 #define KY015_HUMIDITY_OFFSET 28.0// (%) Adjust till humidity is accurate
 #define KY015_TEMPERATURE_OFFSET -1.5// (°C) Adjust till temperature is accurate

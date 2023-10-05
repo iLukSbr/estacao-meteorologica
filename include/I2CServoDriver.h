@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef I2CSERVODRIVER
+    #define I2CSERVODRIVER
+#endif
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 

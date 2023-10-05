@@ -1,22 +1,24 @@
-/* TEMT6000 precision luminosity sensor */
+/* LDR luminosity sensor */
 
 #pragma once
 
-#ifndef TEMT6000
-    #define TEMT6000
+#ifndef LDR
+    #define LDR
 #endif
 
 #include "Component.h"
 
-#define TEMT6000_PIN A0
-
-class TEMT6000 : public Component{
+class LDR : public Component{
     private: 
+        byte ldr_pin;
+
         float info;
 
+        unsigned int resistor;
+
     public:
-        TEMT6000();
-        ~TEMT6000();
+        LDR(byte _ldr_pin, unsigned int _resistor = 10000);
+        ~LDR();
 
         float getIlluminance() const;
 

@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifndef ITGMPU6050
+    #define ITGMPU6050
+#endif
+
 #include <Wire.h>
 #include <MPU6050_tockn.h>
 

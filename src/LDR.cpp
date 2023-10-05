@@ -1,14 +1,16 @@
 /* LDR luminosity sensor */
 
-#include "LDR1.h"
+#include "LDR.h"
 
-LDR1::LDR1():
-    info(0.f)
+LDR::LDR(byte _ldr_pin, unsigned int _resistor = 10000):
+    ldr_pin(_ldr_pin),
+    info(0.f),
+    resistor(_resistor)
 {
     start();
 }
 
-LDR1::~LDR1(){
+LDR::~LDR(){
 
 }
 
@@ -24,13 +26,13 @@ void LDR1::print() const{
 }
 
 void LDR1::read(){
-    float resistor_voltage = analogRead(LDR1_PIN)*5.f/1024.f;
+    float resistor_voltage = analogRead(ldr_pin)*5.f/1024.f;
     float ldr_voltage = 5.f - resistor_voltage;
-    float ldr_resistance = ldr_voltage*LDR1_RESISTOR/resistor_voltage;
+    float ldr_resistance = ldr_voltage*resistor/resistor_voltage;
     info = 12518931*pow(ldr_resistance, -1.405);
 }
 
 void LDR1::start(){
-    pinMode(LDR1_PIN, INPUT);
+    pinMode(ldr_pin, INPUT);
     started = true;
 }
