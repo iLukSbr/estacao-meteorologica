@@ -18,6 +18,8 @@
 #include "TEMT6000.h"
 #include "UV.h"
 
+#define READING_DELAY 3000// (ms) Delay between readings
+
 #include <Vector.h>
 
 #ifndef _GY511_
@@ -61,4 +63,3 @@
 #endif
 
 #define QUANTITY_OF_COMPONENTS (_GY511_ + _GYNEO6MV2_ + _HMC5883L_ + _I2CSERVODRIVER_ + QUANTITY_OF_LDR*_LDR_ + _KY015_ + _MHRD_ + _MHRTC2_ + _MPL3115A2_ + _ITGMPU6050_ + _ENCODER_ + _TEMT6000_ + _UV_)
-#define READING_DELAY 3000// (ms) Delay between readings

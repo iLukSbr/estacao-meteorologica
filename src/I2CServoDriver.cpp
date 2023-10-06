@@ -2,6 +2,7 @@
 
 I2CServoDriver::I2CServoDriver()
 {
+    measure_delay = 0;
     start();
 }
 

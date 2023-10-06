@@ -70,19 +70,18 @@ void setup(){
     newAll();
 }
 
-void loop(){
-    if(millis()-stopwatch >= READING_DELAY || !stopwatch){
-        Serial.println();
-        for(auto element : component_list){
-            if(element->isStarted()){
+void loop(){    
+    for(auto element : component_list){
+        if(element->isStarted()){
+            if(element->verifyDelay()){
                 element->read();
+                Serial.println();
                 element->print();
                 Serial.println();
             }
-            else
-                element->start();
         }
-        stopwatch = millis();
-        Serial.println();
+        else
+            element->start();
     }
+    Serial.println();
 }
