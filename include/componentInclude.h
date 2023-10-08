@@ -1,22 +1,23 @@
 #pragma once
 
-/* How many LDRs? */
+/* How many? */
 #define QUANTITY_OF_LDR 1
+#define QUANTITY_OF_SERVOS 2
 
 /* Comment the header to disable or uncomment to enable the component */
-#include "GY511.h"
-#include "GYNEO6MV2.h"
-#include "HMC5883L.h"
+// #include "GY511.h"
+// #include "GYNEO6MV2.h"
+// #include "HMC5883L.h"
 #include "I2CServoDriver.h"
-#include "KY015.h"
-#include "LDR.h"
-#include "MHRD.h"
-#include "MHRTC2.h"
-#include "MPL3115A2.h"
-#include "ITGMPU6050.h"
-#include "Encoder.h"
-#include "TEMT6000.h"
-#include "UV.h"
+// #include "KY015.h"
+// #include "LDR.h"
+// #include "MHRD.h"
+// #include "MHRTC2.h"
+// #include "MPL3115A2.h"
+// #include "ITGMPU6050.h"
+// #include "Encoder.h"
+// #include "TEMT6000.h"
+// #include "UV.h"
 
 #define READING_DELAY 3000// (ms) Delay between readings
 
@@ -62,4 +63,4 @@
    #define _UV_ 0
 #endif
 
-#define QUANTITY_OF_COMPONENTS (_GY511_ + _GYNEO6MV2_ + _HMC5883L_ + _I2CSERVODRIVER_ + QUANTITY_OF_LDR*_LDR_ + _KY015_ + _MHRD_ + _MHRTC2_ + _MPL3115A2_ + _ITGMPU6050_ + _ENCODER_ + _TEMT6000_ + _UV_)
+#define QUANTITY_OF_COMPONENTS (_GY511_ + _GYNEO6MV2_ + _HMC5883L_ + QUANTITY_OF_SERVOS*_I2CSERVODRIVER_ + QUANTITY_OF_LDR*_LDR_ + _KY015_ + _MHRD_ + _MHRTC2_ + _MPL3115A2_ + _ITGMPU6050_ + _ENCODER_ + _TEMT6000_ + _UV_)

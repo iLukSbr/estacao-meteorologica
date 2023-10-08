@@ -6,7 +6,11 @@
 // GY511* compass1;
 // GYNEO6MV2* gps;
 // HMC5883L* compass2;
-// I2CServoDriver* servo;
+// I2CServoDriver* servo1;
+// I2CServoDriver* stepper1a;
+// I2CServoDriver* stepper1b;
+// I2CServoDriver* stepper1c;
+// I2CServoDriver* stepper1d;
 // KY015* thermometer;
 // LDR* luxmeter1;
 // MHRD* rain_sensor;
@@ -33,7 +37,8 @@ void newAll(){
         component_list.push_back(dynamic_cast<Component*>(/*compass2 = */new HMC5883L()));
     #endif
     #ifdef _I2CSERVODRIVER
-        component_list.push_back(dynamic_cast<Component*>(/*servo = */new I2CServoDriver()));
+        component_list.push_back(dynamic_cast<Component*>(/*servo1 = */new I2CServoDriver(15, 150, 420, 0)));
+        component_list.push_back(dynamic_cast<Component*>(/*servo2 = */new I2CServoDriver(14, 99, 456, 0)));
     #endif
     #ifdef _LDR
         component_list.push_back(dynamic_cast<Component*>(/*luxmeter1 = */new LDR(A2)));
