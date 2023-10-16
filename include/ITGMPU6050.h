@@ -8,7 +8,6 @@
 #endif
 
 #include <Wire.h>
-#include <MPU6050_tockn.h>
 
 #include "Component.h"
 
@@ -17,6 +16,7 @@ class ITGMPU6050 : public Component{
         MPU6050* mpu6050;
 
        double info[3] = {0.f};
+       doblue cali[2] = {0.f};
 
     public:
         ITGMPU6050();
@@ -31,4 +31,5 @@ class ITGMPU6050 : public Component{
         void print() const override;
         void read() override;
         void start() override;
+        void gyro_signals();
 };
