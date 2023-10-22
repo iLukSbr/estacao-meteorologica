@@ -14,7 +14,13 @@ SolarTracker::~SolarTracker(){
 }
 
 void SolarTracker::print() const{
-
+    ldr1->print();
+    ldr2->print();
+    ldr3->print();
+    ldr4->print();
+    servo_base->print();
+    servo_panel->print();
+    gyro->print();
 }
 
 void SolarTracker::read(){
