@@ -2,11 +2,12 @@
 
 Adafruit_PWMServoDriver* I2CServoDriver::pwm = new Adafruit_PWMServoDriver();
 
-I2CServoDriver::I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count):
+I2CServoDriver::I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count, unsigned short _step):
     count(_count),
     pin(_pin),
     min_freq(_min_freq),
-    max_freq(_max_freq)
+    max_freq(_max_freq),
+    step(_step)
 {
     info = (min_freq + max_freq)/2;
     start();
@@ -25,8 +26,8 @@ void I2CServoDriver::read(){
 }
 
 bool I2CServoDriver::decreasePWM(){
-    if(info > min_freq){
-        pwm->setPWM(pin, 0, --info);
+    if(info > min_freq + step - 1){
+        pwm->setPWM(pin, 0, info-=step);
         return true;
     }
     else
@@ -34,8 +35,8 @@ bool I2CServoDriver::decreasePWM(){
 }
 
 bool I2CServoDriver::increasePWM(){
-    if(info < max_freq){
-        pwm->setPWM(pin, 0, ++info);
+    if(info < max_freq - step + 1){
+        pwm->setPWM(pin, 0, info+=step);
         return true;
     }
     else

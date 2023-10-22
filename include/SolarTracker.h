@@ -12,18 +12,28 @@
 #include "ITGMPU6050.h"
 #include "LDR.h"
 
-#define TOLERANCE 10
+#define TOLERANCE 20
+
 #define SERVO_BASE_PIN 14
+#define SERVO_BASE_STEP 5
+#define SERVO_BASE_MIN 99
+#define SERVO_BASE_MAX 456
+
 #define SERVO_PANEL_PIN 15
-#define LDR1_PIN A1
-#define LDR2_PIN A2
-#define LDR3_PIN A3
-#define LDR4_PIN A4
-#define PWM_MIN 99
-#define PWM_MAX 456
+#define SERVO_PANEL_STEP 20
+#define SERVO_PANEL_MIN 160
+#define SERVO_PANEL_MAX 400
+
+#define LDR1_PIN A0
 #define LDR1_RESISTOR 6650
+
+#define LDR2_PIN A1
 #define LDR2_RESISTOR 7120
+
+#define LDR3_PIN A2
 #define LDR3_RESISTOR 8070
+
+#define LDR4_PIN A3
 #define LDR4_RESISTOR 6430
 
 class SolarTracker : public Component{

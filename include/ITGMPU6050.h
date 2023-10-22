@@ -29,12 +29,11 @@ class ITGMPU6050 : public Component{
 
         bool isMoving() const;
 
-        float getAngleX() const;
-        float getAngleY() const;
-        float getAngleZ() const;
-        // float getTemperatureCelsius() const;
-        // float getTemperatureKelvin() const;
+        float getRollRate() const;
+        float getPitchRate() const;
+        float getYawRate() const;
 
+        void calibrate();
         void gyroSignals();
         void print() const override;
         void read() override;

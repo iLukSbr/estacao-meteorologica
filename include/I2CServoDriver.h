@@ -21,9 +21,10 @@ class I2CServoDriver : public Component{
         unsigned short info = 0;
         unsigned short min_freq;
         unsigned short max_freq;
+        unsigned short step;
 
     public:
-        I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count);
+        I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count, unsigned short _step);
         ~I2CServoDriver();
 
         bool decreasePWM();

@@ -15,33 +15,34 @@ SolarTracker::~SolarTracker(){
 }
 
 void SolarTracker::checkLightChange(){
-    if(ldr1->getIlluminance() > ldr2->getIlluminance() + TOLERANCE && ldr4->getIlluminance() > ldr3->getIlluminance() + TOLERANCE){
+    float mean1_2 = (ldr1->getIlluminance() + ldr2->getIlluminance())/2;
+    float mean3_4 = (ldr3->getIlluminance() + ldr4->getIlluminance())/2;
+    float mean1_4 = (ldr1->getIlluminance() + ldr4->getIlluminance())/2;
+    float mean2_3 = (ldr2->getIlluminance() + ldr3->getIlluminance())/2;
+    float dif_x = mean1_4 - mean2_3;
+    float dif_y = mean1_2 - mean3_4;
+    light_change_detected = false;
+    if(-TOLERANCE > dif_x || dif_x > TOLERANCE){
         lightChangeDetected();
-        if(!servo_base->decreasePWM())
-            flip();
+        if(mean1_4 > mean2_3 && !servo_base->decreasePWM()){
+            // flip();
+        }
+        else if(mean2_3 > mean1_4 && !servo_base->increasePWM()){
+            // flip();
+        }
     }
-    else if(ldr1->getIlluminance() + TOLERANCE < ldr2->getIlluminance() && ldr4->getIlluminance() + TOLERANCE < ldr3->getIlluminance()){
+    if(-TOLERANCE > dif_y || dif_y > TOLERANCE){
         lightChangeDetected();
-        if(!servo_base->increasePWM())
-            flip();
+        if(mean1_2 > mean3_4)
+            servo_panel->increasePWM();
+        else if(mean1_2 < mean3_4)
+            servo_panel->decreasePWM();
     }
-    else
-        light_change_detected = false;
-    if(ldr1->getIlluminance() > ldr4->getIlluminance() + TOLERANCE && ldr2->getIlluminance() > ldr3->getIlluminance() + TOLERANCE){
-        lightChangeDetected();
-        servo_panel->decreasePWM();
-    }
-    else if(ldr1->getIlluminance() + TOLERANCE < ldr4->getIlluminance() && ldr2->getIlluminance() + TOLERANCE < ldr3->getIlluminance()){
-        lightChangeDetected();
-        servo_panel->increasePWM();
-    }
-    else
-        light_change_detected = false;
 }
 
 void SolarTracker::checkServosMovement(){
     gyro->read();
-    if(light_change_detected && !gyro->isMoving()){
+    if(!gyro->isMoving()){
         Serial.println(F("A servo motor is blocked!"));
         unblockServos();
     }
@@ -58,6 +59,13 @@ void SolarTracker::lightChangeDetected(){
 }
 
 void SolarTracker::print() const{
+    gyro->read();
+    ldr1->read();
+    ldr2->read();
+    ldr3->read();
+    ldr4->read();
+    servo_base->print();
+    servo_panel->print();
     ldr1->print();
     ldr2->print();
     ldr3->print();
@@ -74,17 +82,19 @@ void SolarTracker::read(){
     ldr3->read();
     ldr4->read();
     checkLightChange();
-    checkServosMovement();
+    if(light_change_detected){
+        // checkServosMovement();
+    }
 }
 
 void SolarTracker::start(){
     Serial.println(F("Starting Solar Tracker..."));
     do{
-        servo_base = new I2CServoDriver(SERVO_BASE_PIN, PWM_MIN, PWM_MAX, 1);
+        servo_base = new I2CServoDriver(SERVO_BASE_PIN, SERVO_BASE_MIN, SERVO_BASE_MAX, 1, SERVO_BASE_STEP);
         delay(10);
     }while(!servo_base->isStarted());
     do{
-        servo_panel = new I2CServoDriver(SERVO_PANEL_PIN, PWM_MIN, PWM_MAX, 2);
+        servo_panel = new I2CServoDriver(SERVO_PANEL_PIN, SERVO_PANEL_MIN, SERVO_PANEL_MAX, 2, SERVO_PANEL_STEP);
     }while(!servo_base->isStarted());
     ldr1 = new LDR(LDR1_PIN, 1, LDR1_RESISTOR);
     ldr2 = new LDR(LDR2_PIN, 2, LDR2_RESISTOR);
