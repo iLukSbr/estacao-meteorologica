@@ -7,7 +7,7 @@
 #include "Component.h"
 
 #define MPU6050_MAX 4000
-#define SENSIBILITY 1
+#define SENSIBILITY 0.1
 
 class ITGMPU6050 : public Component{
     private:

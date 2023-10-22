@@ -24,12 +24,10 @@ void SolarTracker::checkLightChange(){
     light_change_detected = false;
     if(-TOLERANCE > dif_x || dif_x > TOLERANCE){
         lightChangeDetected();
-        if(mean1_4 > mean2_3 && !servo_base->decreasePWM()){
-            // flip();
-        }
-        else if(mean2_3 > mean1_4 && !servo_base->increasePWM()){
-            // flip();
-        }
+        if(mean1_4 > mean2_3 && !servo_base->decreasePWM())
+            flip();
+        else if(mean2_3 > mean1_4 && !servo_base->increasePWM())
+            flip();
     }
     if(-TOLERANCE > dif_y || dif_y > TOLERANCE){
         lightChangeDetected();
@@ -82,9 +80,8 @@ void SolarTracker::read(){
     ldr3->read();
     ldr4->read();
     checkLightChange();
-    if(light_change_detected){
-        // checkServosMovement();
-    }
+    if(light_change_detected)
+        checkServosMovement();
 }
 
 void SolarTracker::start(){

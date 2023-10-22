@@ -45,9 +45,9 @@ bool I2CServoDriver::increasePWM(){
 
 void I2CServoDriver::flip(){
     if(info > (max_freq + min_freq)/2)
-        info = min_freq + info;
+        info = min_freq + 100 + info;
     else
-        info = max_freq - info;
+        info = max_freq - 100 - info;
     pwm->setPWM(pin, 0, info);
 }
 
