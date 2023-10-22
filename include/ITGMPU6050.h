@@ -38,4 +38,5 @@ class ITGMPU6050 : public Component{
         void print() const override;
         void read() override;
         void start() override;
+        void gyro_signals();
 };
