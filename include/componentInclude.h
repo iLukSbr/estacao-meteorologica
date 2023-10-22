@@ -1,21 +1,15 @@
 #pragma once
 
-/* How many? */
-#define QUANTITY_OF_LDR 1
-#define QUANTITY_OF_SERVOS 2
-
 /* Comment the header to disable or uncomment to enable the component */
-#include "GY511.h"
+// #include "GY511.h"
 // #include "GYNEO6MV2.h"
 // #include "HMC5883L.h"
-// #include "I2CServoDriver.h"
 // #include "KY015.h"
-// #include "LDR.h"
 // #include "MHRD.h"
 // #include "MHRTC2.h"
 // #include "MPL3115A2.h"
-// #include "ITGMPU6050.h"
 // #include "Encoder.h"
+#include "SolarTracker.h"
 // #include "TEMT6000.h"
 // #include "UV.h"
 
@@ -23,6 +17,9 @@
 
 #include <Vector.h>
 
+#ifndef _ENCODER_
+   #define _ENCODER_ 0
+#endif
 #ifndef _GY511_
    #define _GY511_ 0
 #endif
@@ -31,12 +28,6 @@
 #endif
 #ifndef _HMC5883L_
    #define _HMC5883L_ 0
-#endif
-#ifndef _I2CSERVODRIVER_
-   #define _I2CSERVODRIVER_ 0
-#endif
-#ifndef _LDR_
-   #define _LDR_ 0
 #endif
 #ifndef _KY015_
    #define _KY015_ 0
@@ -50,11 +41,8 @@
 #ifndef _MPL3115A2_
    #define _MPL3115A2_ 0
 #endif
-#ifndef _ITGMPU6050_
-   #define _ITGMPU6050_ 0
-#endif
-#ifndef _ENCODER_
-   #define _ENCODER_ 0
+#ifndef _SOLAR_TRACKER_
+   #define _SOLAR_TRACKER_ 0
 #endif
 #ifndef _TEMT6000_
    #define _TEMT6000_ 0
@@ -63,4 +51,4 @@
    #define _UV_ 0
 #endif
 
-#define QUANTITY_OF_COMPONENTS (_GY511_ + _GYNEO6MV2_ + _HMC5883L_ + QUANTITY_OF_SERVOS*_I2CSERVODRIVER_ + QUANTITY_OF_LDR*_LDR_ + _KY015_ + _MHRD_ + _MHRTC2_ + _MPL3115A2_ + _ITGMPU6050_ + _ENCODER_ + _TEMT6000_ + _UV_)
+#define QUANTITY_OF_COMPONENTS (_ENCODER_ + _GY511_ + _GYNEO6MV2_ + _HMC5883L_ + _KY015_ + _MHRD_ + _MHRTC2_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)

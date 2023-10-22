@@ -2,23 +2,19 @@
 
 #pragma once
 
-#ifndef _LDR
-    #define _LDR
-    #define _LDR_ 1
-#endif
-
 #include "Component.h"
 
 class LDR : public Component{
     private: 
         byte ldr_pin;
+        byte count;
 
         float info;
 
         unsigned int resistor;
 
     public:
-        LDR(byte _ldr_pin, unsigned int _resistor = 10000);
+        LDR(byte _ldr_pin, byte _count = 0, unsigned int _resistor = 10000);
         ~LDR();
 
         float getIlluminance() const;

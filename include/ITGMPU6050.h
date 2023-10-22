@@ -2,25 +2,31 @@
 
 #pragma once
 
-#ifndef _ITGMPU6050
-    #define _ITGMPU6050
-    #define _ITGMPU6050_ 1
-#endif
-
 #include <Wire.h>
-#include <MPU6050_tockn.h>
 
 #include "Component.h"
 
+#define MPU6050_MAX 4000
+#define SENSIBILITY 10
+
 class ITGMPU6050 : public Component{
     private:
-        MPU6050* mpu6050;
+        bool moving;
+        //-----------------variaves de giro----------------------//
+        float rate_roll, rate_pitch, rate_yaw;
 
-       double info[3] = {0.f};
+        // --------------- Calibrar sensor-----------------------------//
+        float rate_cali_roll, rate_cali_pitch, rate_cali_yaw;
+
+        int rate_cali_number;
+
+        float info[3] = {0.f};
 
     public:
         ITGMPU6050();
         ~ITGMPU6050();
+
+        bool isMoving() const;
 
         float getAngleX() const;
         float getAngleY() const;
@@ -28,6 +34,7 @@ class ITGMPU6050 : public Component{
         // float getTemperatureCelsius() const;
         // float getTemperatureKelvin() const;
 
+        void gyroSignals();
         void print() const override;
         void read() override;
         void start() override;

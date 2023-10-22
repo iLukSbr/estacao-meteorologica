@@ -2,8 +2,9 @@
 
 #include "LDR.h"
 
-LDR::LDR(byte _ldr_pin, unsigned int _resistor):
+LDR::LDR(byte _ldr_pin, byte _count, unsigned int _resistor):
     ldr_pin(_ldr_pin),
+    count(_count),
     info(0.f),
     resistor(_resistor)
 {
@@ -19,17 +20,24 @@ float LDR::getIlluminance() const{
 }
 
 void LDR::print() const{
-    Serial.println(F("LDR1:"));
+    Serial.print(F("LDR"));
+    Serial.print(count);
+    Serial.println(F(":"));
     Serial.print(F("illuminance = "));
     Serial.print(info);
     Serial.println(F(" lux"));
 }
 
 void LDR::read(){
-    float resistor_voltage = analogRead(ldr_pin)*5.f/1024.f;
-    float ldr_voltage = 5.f - resistor_voltage;
-    float ldr_resistance = ldr_voltage*resistor/resistor_voltage;
-    info = 12518931*pow(ldr_resistance, -1.405);
+    byte n = 100;
+    float median = 0.f, resistor_voltage, ldr_voltage, ldr_resistance;
+    for(byte i=0; i<n; i++){
+        resistor_voltage = analogRead(ldr_pin)*5.f/1024.f;
+        ldr_voltage = 5.f - resistor_voltage;
+        ldr_resistance = ldr_voltage*resistor/resistor_voltage;
+        median += 12518931*pow(ldr_resistance, -1.405);
+    }
+    info = median/n;
 }
 
 void LDR::start(){

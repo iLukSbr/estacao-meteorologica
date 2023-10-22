@@ -2,11 +2,6 @@
 
 #pragma once
 
-#ifndef _I2CSERVODRIVER
-    #define _I2CSERVODRIVER
-    #define _I2CSERVODRIVER_ 1
-#endif
-
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
@@ -18,26 +13,25 @@
 
 class I2CServoDriver : public Component{
     private:
-        Adafruit_PWMServoDriver* pwm;
+        static Adafruit_PWMServoDriver* pwm;
 
+        byte count;
         byte pin;
 
-        long info[2] = {0};
-
+        unsigned short info = 0;
         unsigned short min_freq;
         unsigned short max_freq;
 
     public:
-        I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, unsigned long _measure_delay);
+        I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count, unsigned long _measure_delay = 10);
         ~I2CServoDriver();
 
-        bool moveLeft();
-        bool moveRight();
+        bool decreasePWM();
+        bool increasePWM();
 
-        float getPotentiometerRead() const;
+        unsigned short getServoPWM() const;
 
-        long getServoPWM() const;
-
+        void flip();
         void print() const;
         void read();
         void start();

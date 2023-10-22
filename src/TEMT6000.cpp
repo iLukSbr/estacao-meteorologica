@@ -24,10 +24,15 @@ void TEMT6000::print() const{
 }
 
 void TEMT6000::read(){
-    float volts = analogRead(TEMT6000_PIN)*5.f/1024.f;
-    float amps = volts/10000.f;  // across 10,000 Ohms
-    float microamps = amps*1000000.f;
-    info = microamps*2.f;
+    byte n = 100;
+    float median = 0.f, volts, amps, microamps;
+    for(byte i=0; i<n; i++){
+        volts = analogRead(TEMT6000_PIN)*5.f/1024.f;
+        amps = volts/10000.f;// across 10,000 Ohms
+        microamps = amps*1000000.f;
+        median += microamps*2.f;
+    }
+    info = median/n;
 }
 
 void TEMT6000::start(){
