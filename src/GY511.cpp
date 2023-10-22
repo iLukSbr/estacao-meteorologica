@@ -39,7 +39,6 @@ void GY511::read(){
 
 void GY511::start(){
     LSM303::vector<int16_t> running_min = {-257, -349, -193}, running_max = {241, 172, 257};
-    Wire.begin();
     compass->init();
     compass->enableDefault();
 	unsigned long startTime = millis();

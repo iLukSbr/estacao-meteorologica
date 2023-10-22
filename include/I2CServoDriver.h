@@ -23,7 +23,7 @@ class I2CServoDriver : public Component{
         unsigned short max_freq;
 
     public:
-        I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count, unsigned long _measure_delay = 10);
+        I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count);
         ~I2CServoDriver();
 
         bool decreasePWM();

@@ -2,14 +2,13 @@
 
 Adafruit_PWMServoDriver* I2CServoDriver::pwm = new Adafruit_PWMServoDriver();
 
-I2CServoDriver::I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count, unsigned long _measure_delay):
+I2CServoDriver::I2CServoDriver(byte _pin, unsigned short _min_freq, unsigned short _max_freq, byte _count):
     count(_count),
     pin(_pin),
     min_freq(_min_freq),
     max_freq(_max_freq)
 {
     info = (min_freq + max_freq)/2;
-    measure_delay = _measure_delay;
     start();
 }
 

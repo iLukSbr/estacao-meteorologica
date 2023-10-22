@@ -1,3 +1,5 @@
+#include <Wire.h>
+
 #include "componentInclude.h"// enable/disable components there
 
 /* Specific pointers to access exclusive methods of the component
@@ -20,7 +22,12 @@ unsigned long stopwatch = 0;
 Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
 
+void beginI2C(){
+    Wire.begin();
+}
+
 void newAll(){
+    beginI2C();
     #ifdef _ENCODER
         component_list.push_back(dynamic_cast<Component*>(/*speedometer = */new Encoder()));
     #endif
@@ -67,7 +74,6 @@ void loop(){
         if(element->isStarted()){
             if(element->verifyDelay()){
                 element->read();
-                Serial.println();
                 element->print();
                 Serial.println();
             }

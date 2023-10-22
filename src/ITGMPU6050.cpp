@@ -69,13 +69,13 @@ void ITGMPU6050::print() const{
     Serial.println(F("ITGMPU6050:"));
     Serial.print(F("roll rate = "));
     Serial.print(info[0]);
-    Serial.println(F("°/s"));
+    Serial.println(F(" °/s"));
     Serial.print(F("pitch rate = "));
     Serial.print(info[1]);
-    Serial.println(F("°/s"));
+    Serial.println(F(" °/s"));
     Serial.print(F("yaw rate = "));
     Serial.print(info[2]);
-    Serial.println(F("°/s"));
+    Serial.println(F(" °/s"));
 }
 
 void ITGMPU6050::read(){
@@ -93,9 +93,6 @@ void ITGMPU6050::read(){
 }
 
 void ITGMPU6050::start(){  
-    Wire.setClock(400000);// Sensor specification
-    Wire.begin();
-    delay(250);
     Wire.beginTransmission(0x68);
     Wire.write(0x6B);// Puts gyroscope into power on mode
     Wire.write(0x00);

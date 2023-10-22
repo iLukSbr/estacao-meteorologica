@@ -4,7 +4,7 @@
 
 Component::Component():
     started(false),
-    measure_delay(1000),
+    measure_delay(2000),
     stopwatch(0)
 {
 

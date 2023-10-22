@@ -70,6 +70,7 @@ void SolarTracker::read(){
 }
 
 void SolarTracker::start(){
+    Serial.println(F("Starting Solar Tracker"));
     do{
         servo_base = new I2CServoDriver(SERVO_BASE_PIN, PWM_MIN, PWM_MAX, 1);
         delay(10);
