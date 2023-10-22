@@ -8,40 +8,40 @@
 #endif
 
 #include "Component.h"
-#include "I2CServoDriver.h"
+#include "ServoMotor.h"
 #include "ITGMPU6050.h"
 #include "LDR.h"
 
 #define TOLERANCE 20
 
-#define SERVO_BASE_PIN 14
+#define SERVO_BASE_PIN 5
 #define SERVO_BASE_STEP 5
-#define SERVO_BASE_MIN 99
-#define SERVO_BASE_MAX 456
+#define SERVO_BASE_MIN 0
+#define SERVO_BASE_MAX 180
 
-#define SERVO_PANEL_PIN 15
+#define SERVO_PANEL_PIN 6
 #define SERVO_PANEL_STEP 20
-#define SERVO_PANEL_MIN 160
-#define SERVO_PANEL_MAX 400
+#define SERVO_PANEL_MIN 20
+#define SERVO_PANEL_MAX 160
 
 #define LDR1_PIN A0
-#define LDR1_RESISTOR 6650
+#define LDR1_RESISTOR 9970
 
 #define LDR2_PIN A1
-#define LDR2_RESISTOR 7120
+#define LDR2_RESISTOR 9970
 
 #define LDR3_PIN A2
-#define LDR3_RESISTOR 8070
+#define LDR3_RESISTOR 9970
 
 #define LDR4_PIN A3
-#define LDR4_RESISTOR 6430
+#define LDR4_RESISTOR 9970
 
 class SolarTracker : public Component{
     private:
         bool light_change_detected;
 
-        I2CServoDriver* servo_base;
-        I2CServoDriver* servo_panel;
+        ServoMotor* servo_base;
+        ServoMotor* servo_panel;
 
         ITGMPU6050* gyro;
 
@@ -61,5 +61,4 @@ class SolarTracker : public Component{
         void print() const;
         void read();
         void start();
-        void unblockServos();
 };

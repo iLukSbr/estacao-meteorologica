@@ -6,7 +6,6 @@
 SolarTracker::SolarTracker():
     light_change_detected(false)
 {
-    // measure_delay = 10;
     start();
 }
 
@@ -24,17 +23,29 @@ void SolarTracker::checkLightChange(){
     light_change_detected = false;
     if(-TOLERANCE > dif_x || dif_x > TOLERANCE){
         lightChangeDetected();
-        if(mean1_4 > mean2_3 && !servo_base->decreasePWM())
-            flip();
-        else if(mean2_3 > mean1_4 && !servo_base->increasePWM())
-            flip();
+        if(servo_panel->getServoAngle() < 90){
+            if(mean1_4 > mean2_3 && !servo_base->decreaseAngle()){
+                flip();
+            }
+            else if(mean2_3 > mean1_4 && !servo_base->increaseAngle()){
+                flip();
+            }
+        }
+        else{
+            if(mean1_4 > mean2_3 && !servo_base->increaseAngle()){
+                flip();
+            }
+            else if(mean2_3 > mean1_4 && !servo_base->decreaseAngle()){
+                flip();
+            }
+        }            
     }
     if(-TOLERANCE > dif_y || dif_y > TOLERANCE){
         lightChangeDetected();
         if(mean1_2 > mean3_4)
-            servo_panel->increasePWM();
+            servo_panel->increaseAngle();
         else if(mean1_2 < mean3_4)
-            servo_panel->decreasePWM();
+            servo_panel->decreaseAngle();
     }
 }
 
@@ -42,7 +53,7 @@ void SolarTracker::checkServosMovement(){
     gyro->read();
     if(!gyro->isMoving()){
         Serial.println(F("A servo motor is blocked!"));
-        unblockServos();
+        unblock();
     }
 }
 
@@ -87,11 +98,11 @@ void SolarTracker::read(){
 void SolarTracker::start(){
     Serial.println(F("Starting Solar Tracker..."));
     do{
-        servo_base = new I2CServoDriver(SERVO_BASE_PIN, SERVO_BASE_MIN, SERVO_BASE_MAX, 1, SERVO_BASE_STEP);
+        servo_base = new ServoMotor(SERVO_BASE_PIN, SERVO_BASE_MIN, SERVO_BASE_MAX, 1, SERVO_BASE_STEP);
         delay(10);
     }while(!servo_base->isStarted());
     do{
-        servo_panel = new I2CServoDriver(SERVO_PANEL_PIN, SERVO_PANEL_MIN, SERVO_PANEL_MAX, 2, SERVO_PANEL_STEP);
+        servo_panel = new ServoMotor(SERVO_PANEL_PIN, SERVO_PANEL_MIN, SERVO_PANEL_MAX, 2, SERVO_PANEL_STEP);
     }while(!servo_base->isStarted());
     ldr1 = new LDR(LDR1_PIN, 1, LDR1_RESISTOR);
     ldr2 = new LDR(LDR2_PIN, 2, LDR2_RESISTOR);
@@ -103,16 +114,4 @@ void SolarTracker::start(){
         delay(10);
     }while(!gyro->isStarted());
     started = true;
-}
-
-void SolarTracker::unblockServos(){
-    byte i;
-    for(i=0; i<10; i++)
-        servo_base->decreasePWM();
-    for(i=0; i<10; i++)
-        servo_base->increasePWM();
-    for(i=0; i<10; i++)
-        servo_panel->decreasePWM();
-    for(i=0; i<10; i++)
-        servo_panel->increasePWM();
 }
