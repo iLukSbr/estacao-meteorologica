@@ -12,10 +12,11 @@
 class ITGMPU6050 : public Component{
     private:
         bool moving;
-        //-----------------variaves de giro----------------------//
+
+        // Gyro variables
         float rate_roll, rate_pitch, rate_yaw;
 
-        // --------------- Calibrar sensor-----------------------------//
+        // Sensor calibration
         float rate_cali_roll, rate_cali_pitch, rate_cali_yaw;
 
         int rate_cali_number;
