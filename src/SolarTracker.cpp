@@ -10,7 +10,13 @@ SolarTracker::SolarTracker():
 }
 
 SolarTracker::~SolarTracker(){
-    
+    delete gyro;
+    delete ldr1;
+    delete ldr2;
+    delete ldr3;
+    delete ldr4;
+    delete servo_base;
+    delete servo_panel;
 }
 
 void SolarTracker::checkLightChange(){

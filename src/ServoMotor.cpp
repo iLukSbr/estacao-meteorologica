@@ -89,6 +89,7 @@ void ServoMotor::unblock(){
     if(info < 90){
         info = 45;
         servo->write(info);
+    }
     else{
         info = 135;
         servo->write(info);
