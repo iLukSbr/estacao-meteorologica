@@ -15,7 +15,7 @@
 #define TOLERANCE 20
 
 #define SERVO_BASE_PIN 5
-#define SERVO_BASE_STEP 5
+#define SERVO_BASE_STEP 1
 #define SERVO_BASE_MIN 0
 #define SERVO_BASE_MAX 180
 

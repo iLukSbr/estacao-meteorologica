@@ -10,13 +10,13 @@ ServoMotor::ServoMotor(byte _pin, byte _min_angle, byte _max_angle, byte _count,
     servo(new Servo())
 {
     if(_min_angle > _max_angle)
-        min_angle = constrain(_max_angle, 0, 180);
-    else
         max_angle = constrain(_min_angle, 0, 180);
+    else
+        max_angle = constrain(_max_angle, 0, 180);
     if(_max_angle < _min_angle)
-        max_angle = constrain(_min_angle, 0, 180);
-    else
         min_angle = constrain(_max_angle, 0, 180);
+    else
+        min_angle = constrain(_min_angle, 0, 180);
     start();
 }
 
@@ -34,7 +34,9 @@ void ServoMotor::read(){
 
 bool ServoMotor::decreaseAngle(){
     if(info > min_angle + step - 1){
+        Serial.println(F("Decreasing angle"));
         info -= step;
+        info = constrain(info, 0, 180);
         servo->write(info);
         return true;
     }
@@ -44,7 +46,9 @@ bool ServoMotor::decreaseAngle(){
 
 bool ServoMotor::increaseAngle(){
     if(info < max_angle - step + 1){
+        Serial.println(F("Increasing angle"));
         info += step;
+        info = constrain(info, 0, 180);
         servo->write(info);
         return true;
     }
@@ -57,16 +61,11 @@ void ServoMotor::flip(){
         info = min_angle + 100 + info;
     else
         info = max_angle - 100 - info;
+    info = constrain(info, 0, 180);
     servo->write(info);
 }
 
 void ServoMotor::print() const{
-    // Serial.println("min");
-    // for(byte i=0; i<180; i+=20){
-    //     servo->write(i);
-    //     delay(100);
-    // }
-    // Serial.println("max");
     Serial.print(F("Servo Motor "));
     Serial.print(count);
     Serial.println(F(":"));
@@ -87,11 +86,11 @@ void ServoMotor::start(){
 
 void ServoMotor::unblock(){
     if(info < 90){
-        info = 45;
+        info = constrain(min_angle + 45, 0, 180);
         servo->write(info);
     }
     else{
-        info = 135;
+        info = constrain(max_angle - 45, 0 ,180);
         servo->write(info);
     }
 }

@@ -6,6 +6,7 @@
 SolarTracker::SolarTracker():
     light_change_detected(false)
 {
+    measure_delay = 100;
     start();
 }
 
@@ -20,38 +21,56 @@ SolarTracker::~SolarTracker(){
 }
 
 void SolarTracker::checkLightChange(){
-    float mean1_2 = (ldr1->getIlluminance() + ldr2->getIlluminance())/2;
-    float mean3_4 = (ldr3->getIlluminance() + ldr4->getIlluminance())/2;
-    float mean1_4 = (ldr1->getIlluminance() + ldr4->getIlluminance())/2;
-    float mean2_3 = (ldr2->getIlluminance() + ldr3->getIlluminance())/2;
+    bool move_allowed;
+    float mean1_2 = (ldr1->getIlluminance() + ldr2->getIlluminance())/2.f;
+    float mean3_4 = (ldr3->getIlluminance() + ldr4->getIlluminance())/2.f;
+    float mean1_4 = (ldr1->getIlluminance() + ldr4->getIlluminance())/2.f;
+    float mean2_3 = (ldr2->getIlluminance() + ldr3->getIlluminance())/2.f;
     float dif_x = mean1_4 - mean2_3;
     float dif_y = mean1_2 - mean3_4;
     light_change_detected = false;
     if(-TOLERANCE > dif_x || dif_x > TOLERANCE){
         lightChangeDetected();
-        if(servo_panel->getServoAngle() < 90){
-            if(mean1_4 > mean2_3 && !servo_base->decreaseAngle()){
-                flip();
+        if(servo_panel->getServoAngle() > 90){
+            if(mean1_4 > mean2_3){
+                move_allowed = servo_base->increaseAngle();
+                Serial.println(F("Turning right"));
+                if(!move_allowed)
+                    flip();
             }
-            else if(mean2_3 > mean1_4 && !servo_base->increaseAngle()){
-                flip();
+            else if(mean2_3 > mean1_4){
+                move_allowed = servo_base->decreaseAngle();
+                Serial.println(F("Turning left"));
+                if(!move_allowed)
+                    flip();
             }
         }
         else{
-            if(mean1_4 > mean2_3 && !servo_base->increaseAngle()){
-                flip();
+            if(mean1_4 > mean2_3){
+                move_allowed = servo_base->decreaseAngle();
+                Serial.println(F("Turning left"));
+                if(!move_allowed)
+                    flip();
             }
-            else if(mean2_3 > mean1_4 && !servo_base->decreaseAngle()){
-                flip();
+            else if(mean2_3 > mean1_4){
+                move_allowed = servo_base->increaseAngle();
+                Serial.println(F("Turning right"));
+                if(!move_allowed)
+                    flip();
             }
         }            
     }
     if(-TOLERANCE > dif_y || dif_y > TOLERANCE){
-        lightChangeDetected();
-        if(mean1_2 > mean3_4)
-            servo_panel->increaseAngle();
-        else if(mean1_2 < mean3_4)
+        if(mean1_2 < mean3_4 && servo_panel->getServoAngle() > SERVO_PANEL_MIN){
+            lightChangeDetected();
+            Serial.println(F("Turning backward"));
             servo_panel->decreaseAngle();
+        }
+        else if(mean1_2 > mean3_4 && servo_panel->getServoAngle() < SERVO_PANEL_MAX){
+            lightChangeDetected();
+            Serial.println(F("Turning forward"));
+            servo_panel->increaseAngle();
+        }
     }
 }
 
@@ -98,8 +117,8 @@ void SolarTracker::read(){
     ldr3->read();
     ldr4->read();
     checkLightChange();
-    if(light_change_detected)
-        checkServosMovement();
+    // if(light_change_detected)
+    //     checkServosMovement();
 }
 
 void SolarTracker::start(){
