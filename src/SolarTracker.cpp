@@ -53,7 +53,8 @@ void SolarTracker::checkServosMovement(){
     gyro->read();
     if(!gyro->isMoving()){
         Serial.println(F("A servo motor is blocked!"));
-        unblock();
+        servo_panel->unblock();
+        servo_base->unblock();
     }
 }
 
