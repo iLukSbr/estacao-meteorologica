@@ -60,8 +60,13 @@ void I2CServoDriver::print() const{
 }
 
 void I2CServoDriver::start(){
-    pwm->begin();
-    pwm->setOscillatorFrequency(OSCILLATOR_FREQ);
-    pwm->setPWMFreq(SERVO_FREQ);  // Analog servos run at ~50 Hz updates
+    Serial.print(F("Starting I²C Servo Driver"));
+    Serial.print(count);
+    Serial.println(F("..."));
+    if(count == 1){
+        pwm->begin();
+        pwm->setOscillatorFrequency(OSCILLATOR_FREQ);
+        pwm->setPWMFreq(SERVO_FREQ);  // Analog servos run at ~50 Hz updates
+    }
     started = true;
 }

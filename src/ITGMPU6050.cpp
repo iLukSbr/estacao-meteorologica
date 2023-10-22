@@ -83,7 +83,7 @@ void ITGMPU6050::read(){
     rate_roll -= rate_cali_roll;
     rate_pitch -= rate_cali_pitch;
     rate_yaw -= rate_cali_yaw;
-    if(abs(rate_roll - info[0]) > SENSIBILITY || abs(rate_pitch - info[1]) > SENSIBILITY || abs(rate_yaw - info[2]) > SENSIBILITY)
+    if(abs(rate_roll) > SENSIBILITY || abs(rate_pitch) > SENSIBILITY || abs(rate_yaw) > SENSIBILITY)
         moving = true;
     else
         moving = false;
@@ -92,7 +92,8 @@ void ITGMPU6050::read(){
     info[2] = rate_yaw;
 }
 
-void ITGMPU6050::start(){  
+void ITGMPU6050::start(){
+    Serial.println(F("Starting ITG/MPU6050..."));
     Wire.beginTransmission(0x68);
     Wire.write(0x6B);// Puts gyroscope into power on mode
     Wire.write(0x00);

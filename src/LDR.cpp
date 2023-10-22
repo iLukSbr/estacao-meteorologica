@@ -41,6 +41,9 @@ void LDR::read(){
 }
 
 void LDR::start(){
+    Serial.print(F("Starting LDR"));
+    Serial.print(count);
+    Serial.println(F("..."));
     pinMode(ldr_pin, INPUT);
     started = true;
 }

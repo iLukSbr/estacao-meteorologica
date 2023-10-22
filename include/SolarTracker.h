@@ -44,7 +44,12 @@ class SolarTracker : public Component{
         SolarTracker();
         ~SolarTracker();
 
+        void checkLightChange();
+        void checkServosMovement();
+        void flip();
+        void lightChangeDetected();
         void print() const;
         void read();
         void start();
+        void unblockServos();
 };

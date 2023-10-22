@@ -81,6 +81,5 @@ void loop(){
         else
             element->start();
     }
-    Serial.println();
-    delay(1000);
+    delay(10);
 }
