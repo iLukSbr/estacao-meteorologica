@@ -5,10 +5,10 @@
 #define QUANTITY_OF_SERVOS 2
 
 /* Comment the header to disable or uncomment to enable the component */
-// #include "GY511.h"
+#include "GY511.h"
 // #include "GYNEO6MV2.h"
 // #include "HMC5883L.h"
-#include "I2CServoDriver.h"
+// #include "I2CServoDriver.h"
 // #include "KY015.h"
 // #include "LDR.h"
 // #include "MHRD.h"

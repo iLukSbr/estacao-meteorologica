@@ -32,22 +32,22 @@ void I2CServoDriver::read(){
         pwm->setPWM(pin, 0, --info[1]);
 }
 
-bool I2CServoDriver::turnLeft(){
-    if(info[1] < max_freq){
-        pwm->setPWM(pin, 0, ++info[1]);
-        return true;
-    else
-        return false;
-}
+// bool I2CServoDriver::turnLeft(){
+//     if(info[1] < max_freq){
+//         pwm->setPWM(pin, 0, ++info[1]);
+//         return true;
+//     else
+//         return false;
+// }
 
-bool I2CServoDriver::turnRight(){
-    if(info[1] > min_freq){
-        pwm->setPWM(pin, 0, --info[1]);
-        return true;
-    }
-    else
-        return false;
-}
+// bool I2CServoDriver::turnRight(){
+//     if(info[1] > min_freq){
+//         pwm->setPWM(pin, 0, --info[1]);
+//         return true;
+//     }
+//     else
+//         return false;
+// }
 
 void I2CServoDriver::print() const{
     Serial.println(F("I²C Servo Driver:"));
