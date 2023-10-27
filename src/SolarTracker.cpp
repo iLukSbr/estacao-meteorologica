@@ -94,7 +94,7 @@ void SolarTracker::lightChangeDetected(){
 }
 
 void SolarTracker::print() const{
-    gyro->read();
+    // gyro->read();
     ldr1->read();
     ldr2->read();
     ldr3->read();
@@ -107,11 +107,11 @@ void SolarTracker::print() const{
     ldr4->print();
     servo_base->print();
     servo_panel->print();
-    gyro->print();
+    // gyro->print();
 }
 
 void SolarTracker::read(){
-    gyro->read();
+    // gyro->read();
     ldr1->read();
     ldr2->read();
     ldr3->read();
@@ -135,9 +135,9 @@ void SolarTracker::start(){
     ldr3 = new LDR(LDR3_PIN, 3, LDR3_RESISTOR);
     ldr4 = new LDR(LDR4_PIN, 4, LDR4_RESISTOR);
     delay(3000);
-    do{
-        gyro = new ITGMPU6050();
-        delay(10);
-    }while(!gyro->isStarted());
+    // do{
+    //     gyro = new ITGMPU6050();
+    //     delay(10);
+    // }while(!gyro->isStarted());
     started = true;
 }
