@@ -10,7 +10,7 @@
 // GYNEO6MV2* gps;
 // HMC5883L* compass2;
 // KY015* thermometer;
-// MHRD* rain_sensor;
+// KY021* rain_gauge;
 // MHRTC2* rtc;
 // MPL3115A2* barometer;
 // SolarTracker* solar_tracker;
@@ -44,7 +44,7 @@ void newAll(){
         component_list.push_back(dynamic_cast<Component*>(/*thermometer = */new KY015()));
     #endif
     #ifdef _MHRD
-        component_list.push_back(dynamic_cast<Component*>(/*rain_sensor = */new MHRD()));
+        component_list.push_back(dynamic_cast<Component*>(/*rain_gauge = */new KY021()));
     #endif
     #ifdef _MHRTC2
         component_list.push_back(dynamic_cast<Component*>(/*rtc = */new MHRTC2()));

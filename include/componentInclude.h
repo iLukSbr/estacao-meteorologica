@@ -5,7 +5,7 @@
 // #include "GYNEO6MV2.h"
 // #include "HMC5883L.h"
 // #include "KY015.h"
-// #include "MHRD.h"
+// #include "KY021.h"
 // #include "MHRTC2.h"
 // #include "MPL3115A2.h"
 // #include "Encoder.h"
@@ -32,8 +32,8 @@
 #ifndef _KY015_
    #define _KY015_ 0
 #endif
-#ifndef _MHRD_
-   #define _MHRD_ 0
+#ifndef _KY021_
+   #define _KY021_ 0
 #endif
 #ifndef _MHRTC2_
    #define _MHRTC2_ 0
@@ -51,4 +51,4 @@
    #define _UV_ 0
 #endif
 
-#define QUANTITY_OF_COMPONENTS (_ENCODER_ + _GY511_ + _GYNEO6MV2_ + _HMC5883L_ + _KY015_ + _MHRD_ + _MHRTC2_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)
+#define QUANTITY_OF_COMPONENTS (_ENCODER_ + _GY511_ + _GYNEO6MV2_ + _HMC5883L_ + _KY015_ + _KY021_ + _MHRTC2_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)
