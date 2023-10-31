@@ -4,6 +4,11 @@
 
 #include <Wire.h>
 
+#ifndef _ITGMPU6050
+    #define _ITGMPU6050
+    #define _ITGMPU6050_ 1
+#endif
+
 #include "Component.h"
 
 #define MPU6050_MAX 4000

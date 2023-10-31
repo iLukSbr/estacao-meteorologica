@@ -16,6 +16,8 @@
 
 class GY511 : public Component{
     private:
+        byte part;
+
         LSM303* compass;
 
         char info[4] = {0};
@@ -44,6 +46,7 @@ class GY511 : public Component{
         ~GY511();
         
         const char* getDirection() const;
+        const char* getDirectionsArray() const;
 
         void print() const override;
         void read() override;

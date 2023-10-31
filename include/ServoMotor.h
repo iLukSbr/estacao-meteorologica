@@ -2,6 +2,11 @@
 
 #pragma once
 
+#ifndef _SERVO_MOTOR
+    #define _SERVO_MOTOR
+    #define _SERVO_MOTOR_ 1
+#endif
+
 #include <Servo.h>
 
 #include "Component.h"

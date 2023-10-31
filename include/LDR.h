@@ -2,6 +2,11 @@
 
 #pragma once
 
+#ifndef _LDR
+    #define _LDR
+    #define _LDR_ 1
+#endif
+
 #include "Component.h"
 
 class LDR : public Component{

@@ -2,6 +2,11 @@
 
 #pragma once
 
+#ifndef _KY021
+    #define _KY021
+    #define _KY021_ 1
+#endif
+
 #include "Component.h"
 #include "MHRD.h"
 

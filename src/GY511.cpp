@@ -6,6 +6,7 @@
 #include "GY511.h"
 
 GY511::GY511():
+    part(0),
     compass(new LSM303())
 {
     start();
@@ -15,8 +16,16 @@ GY511::~GY511(){
     delete compass;
 }
 
+byte GY511::getDirectionPart() const{
+    return part;
+}
+
 const char* GY511::getDirection() const{
     return info;
+}
+
+const char* GY511::getDirectionsArray() const{
+    return directions;
 }
 
 void GY511::print() const{
@@ -28,9 +37,9 @@ void GY511::print() const{
 void GY511::read(){
     compass->read();
     float heading = compass->heading();
-    unsigned long a = (heading > -0.5) ? heading/22.5 : (heading+360)/22.5;
+    unsigned long a = (heading>-0.5 ? heading/22.5 : (heading+360)/22.5);
 	unsigned long r = a - (int)a;
-	byte part = (r >= .5) ? ceil(a) : floor(a);
+	part = (r>=.5 ? ceil(a) : floor(a));
 	info[0] = directions[part][0];
 	info[1] = directions[part][1];
 	info[2] = directions[part][2];
