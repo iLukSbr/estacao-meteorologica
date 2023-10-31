@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <SdFat.h>
+
 #include "Component.h"
 
 #ifndef _SD_READER_WRITER

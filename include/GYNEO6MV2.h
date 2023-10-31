@@ -8,7 +8,7 @@
 #endif
 
 #include <SoftwareSerial.h>
-#include <TinyGPS.h>
+#include <TinyGPSPlus.h>
 
 #include "Component.h"
 
@@ -18,7 +18,7 @@
 
 class GYNEO6MV2 : public Component{
     private:
-        TinyGPS gps;
+        TinyGPSPlus gps;
 
         // char date_time[32] = {0};
 
