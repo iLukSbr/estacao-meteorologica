@@ -1,3 +1,5 @@
+/* KY-021 reed switch module */
+
 #include "KY021.h"
 
 KY021::KY021():
@@ -28,10 +30,7 @@ void KY021::read(){
     bool actual_seesaw_state;
     long actual_time = millis();
     long time_span;
-    if(digitalRead(KY021_PIN) == HIGH)
-        actual_seesaw_state = true;
-    else
-        actual_seesaw_state = false;
+    actual_seesaw_state = ((digitalRead(KY021_PIN) == HIGH) ? true : false);
     rainmeter->read();
     if(rainmeter->getRaining()){
         if(actual_seesaw_state != seesaw_state){

@@ -1,6 +1,8 @@
 #pragma once
 
 /* Comment the header to disable or uncomment to enable the component */
+// #include "Demultiplexer.h"
+// #include "Encoder.h"
 // #include "GY511.h"
 // #include "GYNEO6MV2.h"
 // #include "HMC5883L.h"
@@ -8,7 +10,6 @@
 // #include "KY021.h"
 // #include "MHRTC2.h"
 // #include "MPL3115A2.h"
-// #include "Encoder.h"
 #include "SolarTracker.h"
 // #include "TEMT6000.h"
 // #include "UV.h"
@@ -17,6 +18,8 @@
 
 #include <Vector.h>
 
+#ifndef _DEMULTIPLEXER_
+   #define _DEMULTIPLEXER_ 0
 #ifndef _ENCODER_
    #define _ENCODER_ 0
 #endif
@@ -51,4 +54,4 @@
    #define _UV_ 0
 #endif
 
-#define QUANTITY_OF_COMPONENTS (_ENCODER_ + _GY511_ + _GYNEO6MV2_ + _HMC5883L_ + _KY015_ + _KY021_ + _MHRTC2_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)
+#define QUANTITY_OF_COMPONENTS (_DEMULTIPLEXER_ + _ENCODER_ + _GY511_ + _GYNEO6MV2_ + _HMC5883L_ + _KY015_ + _KY021_ + _MHRTC2_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)

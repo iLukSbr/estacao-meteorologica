@@ -1,3 +1,7 @@
+/* KY-021 reed switch module */
+
+#pragma once
+
 #include "Component.h"
 #include "MHRD.h"
 
