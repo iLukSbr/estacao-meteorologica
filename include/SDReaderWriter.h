@@ -11,8 +11,14 @@
     #define _SD_READER_WRITER_ 1
 #endif
 
+#define CS_PIN 5
+#define FILENAME weather_station.json
+
 class SDReaderWriter : public Component{
     private:
+        SdFat* card;
+        
+        SdFile* datafile;
 
     public:
         SDReaderWriter();
