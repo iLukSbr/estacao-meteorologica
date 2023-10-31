@@ -26,5 +26,6 @@ class SDReaderWriter : public Component{
 
         void print() const override;
         void read() override;
-        void start() override;    
+        void save(char* data);
+        void start() override;
 }
