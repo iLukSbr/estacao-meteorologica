@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include <Arduino_FreeRTOS.h>
+#include <ArduinoJson.h>
 
 #include "componentInclude.h"// enable/disable components there
 
@@ -52,7 +53,7 @@ void newAll(){
         component_list.push_back(dynamic_cast<Component*>(/*barometer = */new MPL3115A2()));
     #endif
     #ifdef _RELAY
-        component_list.push_back(dynamic_cast<Component*>(/*relay = */new RELAY()));
+        component_list.push_back(dynamic_cast<Component*>(/*relay = */new Relay()));
     #endif
     #ifdef _SD_READER_WRITER
         component_list.push_back(dynamic_cast<Component*>(/*micro_sd = */new SDReaderWriter()));  
