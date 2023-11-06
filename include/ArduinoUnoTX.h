@@ -24,4 +24,4 @@ class ArduinoUnoTX : public Component{
         void read() override;
         void send(char* _arr);
         void start() override;    
-}
+};

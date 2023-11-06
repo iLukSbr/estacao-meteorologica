@@ -23,4 +23,4 @@ class SDReaderWriter : public Component{
         void read() override;
         void save(char* data);
         void start() override;
-}
+};

@@ -4,11 +4,6 @@
 
 #include "Component.h"
 
-#ifndef _ESP_01
-    #define _ESP_01
-    #define _ESP_01_ 1
-#endif
-
 class ESP01 : public Component{
     private:
 
@@ -18,5 +13,6 @@ class ESP01 : public Component{
 
         void print() const override;
         void read() override;
+        void send(char* data);
         void start() override;    
-}
+};

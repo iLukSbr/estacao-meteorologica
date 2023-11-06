@@ -24,7 +24,7 @@ const char* GY511::getDirection() const{
     return info;
 }
 
-const char* GY511::getDirectionsArray() const{
+const char** GY511::getDirectionsArray() const{
     return directions;
 }
 

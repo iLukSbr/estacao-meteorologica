@@ -2,8 +2,9 @@
 
 #include <INA219.h>
 
-INA219::INA219():
-    multi(new INA219_WE(INA219_I2C_ADDRESS))
+INA219::INA219(byte address, byte _count, _amp_def, _volt_def, _calibration_factor, _calibration_volt):
+    count(_count),
+    multi(new INA219_WE(address))
 {
     start();
 }
@@ -26,7 +27,7 @@ float INA219::getVoltage(){
 
 void INA219::print() const{
     Serial.print(F("INA219 "));
-    Serial.print(name);
+    Serial.print(count);
     Serial.println(F(:));
     Serial.print(F("current = "));
     Serial.println(info[0]);

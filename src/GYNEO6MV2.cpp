@@ -13,9 +13,9 @@ GYNEO6MV2::~GYNEO6MV2(){
 
 }
 
-// const char* GYNEO6MV2::getDateTime() const{
-//     return date_time;
-// }
+const char* GYNEO6MV2::getDateTime() const{
+    return date_time;
+}
 
 float GYNEO6MV2::getLatitude() const{
     return info[0];
@@ -33,8 +33,8 @@ void GYNEO6MV2::print() const{
     Serial.print(F("longitude = "));
     Serial.print(getLongitude());
     Serial.println(F("°"));
-    // Serial.print(F("date and time UTC = "));
-    // Serial.println(getDateTime());
+    Serial.print(F("date and time UTC = "));
+    Serial.println(getDateTime());
 }
 
 void GYNEO6MV2::read(){

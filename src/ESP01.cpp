@@ -18,6 +18,10 @@ void ESP01::read(){
 
 }
 
+void ESP01::send(char* data){
+    
+}
+
 void ESP01::start(){
 
 }

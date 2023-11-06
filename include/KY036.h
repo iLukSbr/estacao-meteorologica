@@ -23,4 +23,4 @@ class KY036 : public Component{
         void read() override;
         void start() override;
         void print() const override;
-}
+};

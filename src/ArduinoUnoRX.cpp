@@ -3,7 +3,7 @@
 #include "ArduinoUnoRX.h"
 
 ArduinoUnoRX::ArduinoUnoRX():
-    myTransfer(new I2CTransfer()))
+    myTransfer(new I2CTransfer())
 {
     start();
 }
@@ -22,9 +22,7 @@ void ArduinoUnoRX::receive(){
 
 void ArduinoUnoRX::start(){
     configST* myConfig = new configST();
-    myConfig->debug = true;
-    myConfig->callbacks = arr;
-    myConfig->callbacksLen = sizeof(arr)/sizeof(functionPtr);  
+    myConfig->debug = true; 
     myTransfer->begin(Wire, myConfig);
     delete myConfig;
     started = true;

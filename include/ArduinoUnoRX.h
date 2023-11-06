@@ -24,4 +24,4 @@ class ArduinoUnoRX : public Component{
         void read() override;
         void receive();
         void start() override;    
-}
+};

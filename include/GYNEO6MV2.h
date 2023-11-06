@@ -20,7 +20,7 @@ class GYNEO6MV2 : public Component{
     private:
         TinyGPSPlus gps;
 
-        // char date_time[32] = {0};
+        char date_time[32] = {0};
 
         float info[2] = {0.f};
 
@@ -28,7 +28,7 @@ class GYNEO6MV2 : public Component{
         GYNEO6MV2();
         ~GYNEO6MV2();
 
-        // const char* getDateTime() const;
+        const char* getDateTime() const;
 
         float getLatitude() const;
         float getLongitude() const;

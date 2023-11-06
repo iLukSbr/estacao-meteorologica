@@ -4,7 +4,7 @@
 
 CD74HC4067::CD74HC4067():
     magnetometer(new GY511()),
-    mux(Pin(CD74HC4067_SIGNAL_PIN, INPUT, PinType::Digital), CD74HC4067_CHANNEL_PINS)
+    mux(new Mux(Pin(CD74HC4067_SIGNAL_PIN, INPUT, PinType::Digital), CD74HC4067_CHANNEL_PINS))
 {
     start();
 }
@@ -14,7 +14,7 @@ CD74HC4067::~CD74HC4067(){
     delete mux;
 }
 
-char* CD74HC4067::getDirection() const{
+const char* CD74HC4067::getDirection() const{
     return info;
 }
 
@@ -26,11 +26,11 @@ void CD74HC4067::print() const{
 
 void CD74HC4067::read(){
     byte part;
-    const char* directions = magnetometer->getDirectionsArray();
+    const char** directions = magnetometer->getDirectionsArray();
     magnetometer->read();
     for(byte i=0; i<mux->channelCount(); i++){
         if((mux->read(i) == HIGH) ? true : false){
-            part = magnetometer->getPart()+i;
+            part = magnetometer->getDirectionPart()+i;
             info[0] = directions[part][0];
             info[1] = directions[part][1];
             info[2] = directions[part][2];

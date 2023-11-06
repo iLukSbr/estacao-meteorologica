@@ -15,12 +15,14 @@
 
 class INA219 : public Component{
     private:
+        byte count;
+        
         float info[3];
 
         INA219_WE* multi;
 
     public:
-        INA219();
+        INA219(byte address);
         ~INA219();
 
         float getCurrent();

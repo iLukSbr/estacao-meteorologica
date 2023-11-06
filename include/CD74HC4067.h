@@ -5,6 +5,7 @@
 #ifndef _CD74HC4067
     #define _CD74HC4067
     #define _CD74HC4067_ 1
+#endif
 
 #include <Mux.h>
 
@@ -33,4 +34,4 @@ class CD74HC4067 : public Component{
         void print() const override;
         void read() override;
         void start() override;
-}
+};
