@@ -23,7 +23,10 @@ void UV::print() const{
 }
 
 void UV::read(){
-    info = constrain(map(analogRead(UV_PIN), 0, 203, 0, 10), 0, 11); // CONVERTE A FAIXA DE SINAL DO SENSOR DE 0V A 1V PARA O INDICE UV DE 0 A 11.
+    uint_16t sum = 0;
+    for(byte i=0; i<UV_MEASURES; i++)
+        sum += constrain(map(analogRead(UV_PIN), 0, 203, 0, 10), 0, 11);// Converts sensor reading to UV index
+    info = sum/UV_MEASURES;
 }
 
 void UV::start(){

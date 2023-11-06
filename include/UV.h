@@ -10,6 +10,7 @@
 #include "Component.h"
 
 #define UV_PIN A1
+#define UV_MEASURES 256
 
 class UV : public Component{
     private: 

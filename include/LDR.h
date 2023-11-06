@@ -9,6 +9,8 @@
 
 #include "Component.h"
 
+#define LDR_MEASURES 256
+
 class LDR : public Component{
     private: 
         byte ldr_pin;

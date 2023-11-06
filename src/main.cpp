@@ -1,19 +1,20 @@
 #include <Wire.h>
-#include <Arduino_FreeRTOS.h>
-#include <ArduinoJson.h>
 
 #include "componentInclude.h"// enable/disable components there
+
+#define JSON_DELAY 60000// ms
 
 /* Specific pointers to access exclusive methods of the component
     Uncomment here and in newAll() if necessary
     Comment here and in newAll() if not necessary */
 // Encoder* speedometer;
+// ESP01* wifi;
 // GYNEO6MV2* gps;
 // KY015* thermometer;
 // KY021* rain_gauge;
 // KY36* led;
 // MHRTC2* rtc;
-// SDReaderWriter* micro_sd;
+SDReaderWriter* micro_sd;
 // MPL3115A2* barometer;
 // Relay* relay;
 // SolarTracker* solar_tracker;
@@ -30,6 +31,8 @@ void beginI2C(){
         Wire.begin(MAIN_UNO_I2C_ADDRESS);
     #elif defined(UNO_SLAVE)
         Wire.begin(SLAVE_UNO_I2C_ADDRESS);
+    #else
+        Wire.begin();
     #endif
 }
 
@@ -73,13 +76,25 @@ void newAll(){
     #endif
 }
 
+char* makeJSON(){
+    StaticJsonDocument<1000> doc;
+    char* doc_serialized;
+    for(auto element : component_list){
+        if(element->isStarted()){
+            element->makeJSON(doc);
+        }
+    }
+    serializeJson(doc, doc_serialized);
+    return doc_serialized;
+}
+
 void setup(){
     Serial.begin(9600);
     while(!Serial);
     newAll();
 }
 
-void loop(){    
+void loop(){
     for(auto element : component_list){
         if(element->isStarted()){
             if(element->verifyDelay()){
@@ -90,6 +105,14 @@ void loop(){
         }
         else
             element->start();
+    }
+    if(millis() - stopwatch > JSON_DELAY || !stopwatch){
+        char* json_str = makeJSON();
+        Serial.println(json_str);
+        Serial.println();
+        micro_sd->save(json_str);
+        // wifi->send(json_str);
+        stopwatch = millis();
     }
     delay(10);
 }

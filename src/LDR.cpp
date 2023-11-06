@@ -29,15 +29,14 @@ void LDR::print() const{
 }
 
 void LDR::read(){
-    byte n = 100;
     float median = 0.f, resistor_voltage, ldr_voltage, ldr_resistance;
-    for(byte i=0; i<n; i++){
+    for(byte i=0; i<LDR_MEASURES; i++){
         resistor_voltage = analogRead(ldr_pin)*5.f/1024.f;
         ldr_voltage = 5.f - resistor_voltage;
         ldr_resistance = ldr_voltage*resistor/resistor_voltage;
         median += 12518931*pow(ldr_resistance, -1.405);
     }
-    info = median/n;
+    info = median/LDR_MEASURES;
 }
 
 void LDR::start(){
