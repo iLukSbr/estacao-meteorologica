@@ -16,8 +16,9 @@ void ArduinoUnoTX::print() const{
 
 }
 
-void ArduinoUnoTX::send() const{
+void ArduinoUnoTX::send(char* _arr){
     uint16_t sendSize = 0;
+    arr = _arr;
     sendSize = myTransfer->txObj(arr, sendSize);
     myTransfer->sendData(sendSize);
 }

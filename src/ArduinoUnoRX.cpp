@@ -16,15 +16,15 @@ void ArduinoUnoRX::print() const{
 
 }
 
-void ArduinoUnoRX::receive() const{
+void ArduinoUnoRX::receive(){
     myTransfer->rxObj(arr);
 }
 
 void ArduinoUnoRX::start(){
     configST* myConfig = new configST();
     myConfig->debug = true;
-    myConfig->callbacks = callbackArr;
-    myConfig->callbacksLen = sizeof(callbackArr)/sizeof(functionPtr);  
+    myConfig->callbacks = arr;
+    myConfig->callbacksLen = sizeof(arr)/sizeof(functionPtr);  
     myTransfer->begin(Wire, myConfig);
     delete myConfig;
     started = true;

@@ -18,6 +18,6 @@ class ArduinoUnoTX : public Component{
 
         void print() const override;
         void read() override;
-        void send();
+        void send(char* _arr);
         void start() override;    
 }
