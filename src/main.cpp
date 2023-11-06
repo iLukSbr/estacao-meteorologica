@@ -26,7 +26,11 @@ Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
 
 void beginI2C(){
-    Wire.begin();
+    #ifdef UNO_MAIN
+        Wire.begin(MAIN_UNO_I2C_ADDRESS);
+    #elif defined(UNO_SLAVE)
+        Wire.begin(SLAVE_UNO_I2C_ADDRESS);
+    #endif
 }
 
 void newAll(){
