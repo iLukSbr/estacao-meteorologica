@@ -22,8 +22,9 @@ class Relay : public Component
 
         bool getState() const;
 
+        void off();
+        void on();
         void print() const;
         void read();
-        void setState();
         void start();
 };

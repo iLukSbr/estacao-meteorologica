@@ -1,5 +1,7 @@
 #include <Wire.h>
 
+// #include "ArduinoUnoTX.h"// SLAVE, enable for slave, disable for main
+#include "ArduinoUnoRX.h"// MAIN, enable for main, disable for slave
 #include "componentInclude.h"// enable/disable components there
 
 #define JSON_DELAY 60000// ms
@@ -21,7 +23,7 @@
 // MHRTC2* rtc;
 SDReaderWriter* micro_sd;
 // MPL3115A2* barometer;
-// Relay* relay;
+Relay* relay;
 // SolarTracker* solar_tracker;
 // TEMT6000* luxmeter0;
 // UV* uv_sensor;
@@ -64,12 +66,6 @@ void newAll(){
     #ifdef _MPL3115A2
         component_list.push_back(dynamic_cast<Component*>(/*barometer = */new MPL3115A2()));
     #endif
-    #ifdef _RELAY
-        component_list.push_back(dynamic_cast<Component*>(/*relay = */new Relay()));
-    #endif
-    #ifdef _SD_READER_WRITER
-        component_list.push_back(dynamic_cast<Component*>(/*micro_sd = */new SDReaderWriter()));  
-    #endif
     #ifdef _SOLAR_TRACKER
         component_list.push_back(dynamic_cast<Component*>(/*solar_tracker = */new SolarTracker()));  
     #endif
@@ -108,6 +104,8 @@ void merge(JsonObject dest, JsonObjectConst src)
 void setup(){
     Serial.begin(9600);
     while(!Serial);
+    relay->on();
+    relay->print();
     newAll();
 }
 
