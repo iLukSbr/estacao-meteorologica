@@ -8,7 +8,12 @@
     Uncomment here and in newAll() if necessary
     Comment here and in newAll() if not necessary */
 // Encoder* speedometer;
-// ESP01* wifi;
+#ifdef UNO_MAIN
+    ESP01* wifi;
+    ArduinoUnoRX* uno;
+#elif defined(UNO_SLAVE)
+    ArduinoUnoTX* uno;
+#endif
 // GYNEO6MV2* gps;
 // KY015* thermometer;
 // KY021* rain_gauge;
@@ -84,8 +89,20 @@ char* makeJSON(){
             element->makeJSON(doc);
         }
     }
+    #ifdef UNO_MAIN
+        uno->receive();
+        char* slave_doc_serialized = uno->getData();
+        deserializeJson(slave_doc, slave_doc_serialized);
+        merge(doc, slave_doc);
+    #endif
     serializeJson(doc, doc_serialized);
     return doc_serialized;
+}
+
+void merge(JsonObject dest, JsonObjectConst src)
+{
+    for(JsonPairConst kvp : src)
+        dest[kvp.key()] = kvp.value();
 }
 
 void setup(){
@@ -108,10 +125,14 @@ void loop(){
     }
     if(millis() - stopwatch > JSON_DELAY || !stopwatch){
         char* json_str = makeJSON();
+        micro_sd->save(json_str);
+        #ifdef UNO_MAIN
+            wifi->send(json_str);
+        #elif defined(UNO_SLAVE)
+            uno->send(json_str);
+        #endif
         Serial.println(json_str);
         Serial.println();
-        micro_sd->save(json_str);
-        // wifi->send(json_str);
         stopwatch = millis();
     }
     delay(10);
