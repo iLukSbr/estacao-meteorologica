@@ -1,26 +1,26 @@
-// /* Touch module */
+/* Touch module for LED light */
 
-// #pragma once
+#pragma once
 
-// #ifndef _KY036
-//     #define _KY036
-//     #define _KY036_ 1
-// #endif
+#ifndef _KY036
+    #define _KY036
+    #define _KY036_ 1
+#endif
 
-// #include "Component.h"
+#include "Component.h"
 
-// #define KY036_PIN 10
-// #define LED_PIN 11
+#define KY036_PIN 10
+#define LED_PIN 11
 
-// class KY036 : public Component{
-//     private:
-//         bool info;
+class KY036 : public Component{
+    private:
+        bool info;
     
-//     public:
-//         KY036();
-//         ~KY036();
+    public:
+        KY036();
+        ~KY036();
 
-//         void read() override;
-//         void start() override;
-//         void print() const override;
-// };
+        void read() override;
+        void start() override;
+        void print() const override;
+};

@@ -58,7 +58,7 @@ void newAll(){
         component_list.push_back(dynamic_cast<Component*>(/*rain_gauge = */new KY021()));
     #endif
     #ifdef _KY036
-        component_list.push_back(dynamic_cast<Component*>(/*led = */new KY36()));
+        component_list.push_back(dynamic_cast<Component*>(/*led = */new KY036()));
     #endif
     #ifdef _MHRTC2
         component_list.push_back(dynamic_cast<Component*>(/*rtc = */new MHRTC2()));
