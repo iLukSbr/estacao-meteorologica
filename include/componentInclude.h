@@ -1,10 +1,10 @@
 #pragma once
 
 /* Comment the header to disable or uncomment to enable the component */
-// #include "CD74HC4067.h"
+#include "CD74HC4067.h"
 #include "Encoder.h"
 #include "GYNEO6MV2.h"
-// #include "INA219.h"
+#include "INA219.h"
 #include "KY015.h"
 #include "KY021.h"
 #include "KY036.h"
