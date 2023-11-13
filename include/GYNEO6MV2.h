@@ -18,11 +18,13 @@
 
 class GYNEO6MV2 : public Component{
     private:
-        TinyGPSPlus gps;
+        SoftwareSerial* gpsSerial;
+
+        TinyGPSPlus* gps;
 
         char date_time[32] = {0};
 
-        float info[2] = {0.f};
+        float info[6] = {0.f};
 
     public:
         GYNEO6MV2();

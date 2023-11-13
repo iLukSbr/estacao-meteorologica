@@ -1,27 +1,27 @@
 #include <Wire.h>
 
 // #include "ArduinoUnoTX.h"// SLAVE, enable for slave, disable for main
-#include "ArduinoUnoRX.h"// MAIN, enable for main, disable for slave
+// #include "ArduinoUnoRX.h"// MAIN, enable for main, disable for slave
 #include "componentInclude.h"// enable/disable components there
 
-#define JSON_DELAY 60000// ms
+// #define JSON_DELAY 60000// ms
 
 /* Specific pointers to access exclusive methods of the component
     Uncomment here and in newAll() if necessary
     Comment here and in newAll() if not necessary */
 // Encoder* speedometer;
-#ifdef UNO_MAIN
-    ESP01* wifi;
-    ArduinoUnoRX* uno;
-#elif defined(UNO_SLAVE)
-    ArduinoUnoTX* uno;
-#endif
+// #ifdef UNO_MAIN
+//     ESP01* wifi;
+//     ArduinoUnoRX* uno;
+// #elif defined(UNO_SLAVE)
+//     ArduinoUnoTX* uno;
+// #endif
 // GYNEO6MV2* gps;
 // KY015* thermometer;
 // KY021* rain_gauge;
 // KY36* led;
 // MHRTC2* rtc;
-SDReaderWriter* micro_sd;
+// SDReaderWriter* micro_sd;
 // MPL3115A2* barometer;
 Relay* relay;
 // SolarTracker* solar_tracker;
@@ -34,13 +34,13 @@ Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
 
 void beginI2C(){
-    #ifdef UNO_MAIN
-        Wire.begin(MAIN_UNO_I2C_ADDRESS);
-    #elif defined(UNO_SLAVE)
-        Wire.begin(SLAVE_UNO_I2C_ADDRESS);
-    #else
+    // #ifdef UNO_MAIN
+    //     Wire.begin(MAIN_UNO_I2C_ADDRESS);
+    // #elif defined(UNO_SLAVE)
+    //     Wire.begin(SLAVE_UNO_I2C_ADDRESS);
+    // #else
         Wire.begin();
-    #endif
+    // #endif
 }
 
 void newAll(){
@@ -77,29 +77,29 @@ void newAll(){
     #endif
 }
 
-char* makeJSON(){
-    StaticJsonDocument<1000> doc;
-    char* doc_serialized;
-    for(auto element : component_list){
-        if(element->isStarted()){
-            element->makeJSON(doc);
-        }
-    }
-    #ifdef UNO_MAIN
-        uno->receive();
-        char* slave_doc_serialized = uno->getData();
-        deserializeJson(slave_doc, slave_doc_serialized);
-        merge(doc, slave_doc);
-    #endif
-    serializeJson(doc, doc_serialized);
-    return doc_serialized;
-}
+// char* makeJSON(){
+//     StaticJsonDocument<1000> doc;
+//     char* doc_serialized;
+//     for(auto element : component_list){
+//         if(element->isStarted()){
+//             element->makeJSON(doc);
+//         }
+//     }
+//     #ifdef UNO_MAIN
+//         uno->receive();
+//         char* slave_doc_serialized = uno->getData();
+//         deserializeJson(slave_doc, slave_doc_serialized);
+//         merge(doc, slave_doc);
+//     #endif
+//     serializeJson(doc, doc_serialized);
+//     return doc_serialized;
+// }
 
-void merge(JsonObject dest, JsonObjectConst src)
-{
-    for(JsonPairConst kvp : src)
-        dest[kvp.key()] = kvp.value();
-}
+// void merge(JsonObject dest, JsonObjectConst src)
+// {
+//     for(JsonPairConst kvp : src)
+//         dest[kvp.key()] = kvp.value();
+// }
 
 void setup(){
     Serial.begin(9600);
@@ -121,17 +121,17 @@ void loop(){
         else
             element->start();
     }
-    if(millis() - stopwatch > JSON_DELAY || !stopwatch){
-        char* json_str = makeJSON();
-        micro_sd->save(json_str);
-        #ifdef UNO_MAIN
-            wifi->send(json_str);
-        #elif defined(UNO_SLAVE)
-            uno->send(json_str);
-        #endif
-        Serial.println(json_str);
-        Serial.println();
-        stopwatch = millis();
-    }
+    // if(millis() - stopwatch > JSON_DELAY || !stopwatch){
+    //     char* json_str = makeJSON();
+    //     micro_sd->save(json_str);
+    //     #ifdef UNO_MAIN
+    //         wifi->send(json_str);
+    //     #elif defined(UNO_SLAVE)
+    //         // uno->send(json_str);
+    //     #endif
+    //     Serial.println(json_str);
+    //     Serial.println();
+    //     stopwatch = millis();
+    // }
     delay(10);
 }

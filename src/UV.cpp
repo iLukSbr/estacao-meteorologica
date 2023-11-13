@@ -23,7 +23,7 @@ void UV::print() const{
 }
 
 void UV::read(){
-    uint_16t sum = 0;
+    unsigned short sum = 0;
     for(byte i=0; i<UV_MEASURES; i++)
         sum += constrain(map(analogRead(UV_PIN), 0, 203, 0, 10), 0, 11);// Converts sensor reading to UV index
     info = sum/UV_MEASURES;

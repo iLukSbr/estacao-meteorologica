@@ -48,7 +48,7 @@ class GY511 : public Component{
         byte getDirectionPart() const;
 
         const char* getDirection() const;
-        const char** getDirectionsArray() const;
+        // const char** getDirectionsArray() const;
 
         void print() const override;
         void read() override;

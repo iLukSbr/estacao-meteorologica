@@ -1,26 +1,26 @@
-/* SD card reader/writer module */
+// /* SD card reader/writer module */
 
-#pragma once
+// #pragma once
 
-#include <SdFat.h>
+// #include <SdFat.h>
 
-#include "Component.h"
+// #include "Component.h"
 
-#define CS_PIN 5
-#define FILENAME weather_station.json
+// #define CS_PIN 5
+// #define FILENAME weather_station.json
 
-class SDReaderWriter : public Component{
-    private:
-        SdFat* card;
+// class SDReaderWriter : public Component{
+//     private:
+//         SdFat* card;
         
-        SdFile* datafile;
+//         SdFile* datafile;
 
-    public:
-        SDReaderWriter();
-        ~SDReaderWriter();
+//     public:
+//         SDReaderWriter();
+//         ~SDReaderWriter();
 
-        void print() const override;
-        void read() override;
-        void save(char* data);
-        void start() override;
-};
+//         void print() const override;
+//         void read() override;
+//         void save(char* data);
+//         void start() override;
+// };

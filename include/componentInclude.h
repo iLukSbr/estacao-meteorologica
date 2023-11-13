@@ -1,16 +1,16 @@
 #pragma once
 
 /* Comment the header to disable or uncomment to enable the component */
-#include "CD74HC4067.h"
+// #include "CD74HC4067.h"
 #include "Encoder.h"
 #include "GYNEO6MV2.h"
 #include "KY015.h"
-#include "KY021.h"
-#include "KY026.h"
+// #include "KY021.h"
+// #include "KY036.h"
 #include "MHRTC2.h"
 #include "MPL3115A2.h"
 #include "Relay.h"
-#include "SDReaderWriter.h"
+// #include "SDReaderWriter.h"
 #include "SolarTracker.h"
 #include "TEMT6000.h"
 #include "UV.h"
