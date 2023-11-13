@@ -1,27 +1,27 @@
-/* Slave Arduino Uno */
+// /* Slave Arduino Uno */
 
-#pragma once
+// #pragma once
 
-#include <I2CTransfer.h>
+// #include <I2CTransfer.h>
 
-#include "Component.h"
+// #include "Component.h"
 
-#define UNO_SLAVE
-#define SLAVE_UNO_I2C_ADDRESS 0x0E
-#define DATA_ARRAY_SIZE 50
+// #define UNO_SLAVE
+// #define SLAVE_UNO_I2C_ADDRESS 0x0E
+// #define DATA_ARRAY_SIZE 50
 
-class ArduinoUnoTX : public Component{
-    private:
-        I2CTransfer* myTransfer;
+// class ArduinoUnoTX : public Component{
+//     private:
+//         I2CTransfer* myTransfer;
 
-        char arr[DATA_ARRAY_SIZE] = {0};
+//         char arr[DATA_ARRAY_SIZE] = {0};
 
-    public:
-        ArduinoUnoTX();
-        ~ArduinoUnoTX();
+//     public:
+//         ArduinoUnoTX();
+//         ~ArduinoUnoTX();
 
-        void print() const override;
-        void read() override;
-        void send(char* _arr);
-        void start() override;    
-};
+//         void print() const override;
+//         void read() override;
+//         void send(char* _arr);
+//         void start() override;    
+// };

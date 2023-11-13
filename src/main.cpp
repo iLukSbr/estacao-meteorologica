@@ -17,6 +17,7 @@
 //     ArduinoUnoTX* uno;
 // #endif
 // GYNEO6MV2* gps;
+// INA219 *multimeter_solar, *multimeter_batteries;
 // KY015* thermometer;
 // KY021* rain_gauge;
 // KY36* led;
@@ -50,6 +51,10 @@ void newAll(){
     #endif
     #ifdef _GYNEO6MV2
         component_list.push_back(dynamic_cast<Component*>(/*gps = */new GYNEO6MV2()));
+    #endif
+    #ifdef _INA219
+        component_list.push_back(dynamic_cast<Component*>(/*multimeter_solar = */new INA219(0x40, PG_80, BRNG16, 1.f, 1.f)));
+        component_list.push_back(dynamic_cast<Component*>(/*multimeter_batteries = */new INA219(0x41, PG_160, BRNG32, 1.f, 1.f)));
     #endif
     #ifdef _KY015
         component_list.push_back(dynamic_cast<Component*>(/*thermometer = */new KY015()));

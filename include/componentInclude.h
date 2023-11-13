@@ -16,6 +16,7 @@
 #include "TEMT6000.h"
 #include "UV.h"
 
+#define N_MULTIMETERS 2// Quantity of INA219
 #define READING_DELAY 3000// (ms) Delay between readings
 
 #include <Vector.h>
@@ -28,6 +29,9 @@
 #endif
 #ifndef _GYNEO6MV2_
    #define _GYNEO6MV2_ 0
+#endif
+#ifndef _INA219_
+   #define _INA219_ 0
 #endif
 #ifndef _KY015_
    #define _KY015_ 0
@@ -54,4 +58,4 @@
    #define _UV_ 0
 #endif
 
-#define QUANTITY_OF_COMPONENTS (_CD74HC4067_ + _ENCODER_ + _GYNEO6MV2_ + _KY015_ + _KY021_ + _KY036_ + _MHRTC2_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)
+#define QUANTITY_OF_COMPONENTS (_CD74HC4067_ + _ENCODER_ + _GYNEO6MV2_ + N_MULTIMETERS*_INA219_ + _KY015_ + _KY021_ + _KY036_ + _MHRTC2_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)

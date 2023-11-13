@@ -1,35 +1,38 @@
-// /* Voltage and current sensor INA219 */
+/* Voltage and current sensor INA219 */
 
-// #pragma once
+#pragma once
 
-// #include <INA219_WE.h>
+#include <INA219_WE.h>
 
-// #include "Component.h"
+#include "Component.h"
 
-// #ifndef _INA219
-//     #define _INA219
-//     #define _INA219_ 1
-// #endif
+#ifndef _INA219
+    #define _INA219
+    #define _INA219_ 1
+#endif
 
-// #define SHUNT_RESISTANCE 100
-
-// class INA219 : public Component{
-//     private:
-//         byte count;
+class INA219 : public Component{
+    private:
+        byte count;
         
-//         float info[3];
+        float info[3];
 
-//         INA219_WE* multi;
+        INA219_WE* multi;
 
-//     public:
-//         INA219(byte address);
-//         ~INA219();
+        INA219_PGAIN amp_def;
+        INA219_BUS_RANGE volt_def;
+        float calibration_factor;
+        float calibration_volt;
 
-//         float getCurrent();
-//         float getPercentage();
-//         float getVoltage();
+    public:
+        INA219(byte address, byte _count, INA219_PGAIN _amp_def, INA219_BUS_RANGE _volt_def, float _calibration_factor, float _calibration_volt);
+        ~INA219();
 
-//         void print() const override;
-//         void read() override;
-//         void start() override;
-// };
+        float getCurrent();
+        float getPercentage();
+        float getVoltage();
+
+        void print() const override;
+        void read() override;
+        void start() override;
+};
