@@ -39,3 +39,8 @@ void TEMT6000::start(){
     pinMode(TEMT6000_PIN, INPUT);
     started = true;
 }
+
+
+void TEMT6000::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("luminancia")] = getIlluminance();
+}

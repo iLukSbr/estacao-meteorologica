@@ -30,3 +30,8 @@ void UV::start(){
     pinMode(UV_PIN, INPUT);
     started = true;
 }
+
+
+void UV::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("indiceUV")] = getUVIndex();
+}

@@ -43,3 +43,7 @@ void CD74HC4067::read(){
 void CD74HC4067::start(){
     started = true;
 }
+
+void CD74HC4067::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("direcaoVento")] = getDirection();
+}

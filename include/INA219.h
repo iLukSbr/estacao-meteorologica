@@ -11,7 +11,7 @@
     #define _INA219_ 1
 #endif
 
-#define SHUNT_RESISTANCE 100
+#define INA219_I2C_ADDRESS 0x40
 
 class INA219 : public Component{
     private:
@@ -20,7 +20,7 @@ class INA219 : public Component{
         INA219_WE* multi;
 
     public:
-        INA219();
+        INA219(INA219_PGAIN );
         ~INA219();
 
         float getCurrent();

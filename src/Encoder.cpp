@@ -50,3 +50,8 @@ void Encoder::counter(){
 }
 
 volatile byte Encoder::pulses = 0;
+
+
+void Encoder::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("velocidadeVento")] = getSpeed();
+}

@@ -55,3 +55,9 @@ void GYNEO6MV2::start(){
     gpsSerial.begin(GPS_SERIAL_BAUD);
     started = true;
 }
+
+
+void GYNEO6MV2::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("latitude")] = getLatitude();
+    doc[F("longitude")] = getLongitude();
+}

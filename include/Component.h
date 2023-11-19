@@ -23,5 +23,5 @@ class Component{
 
         virtual void print() const = 0;
         virtual void read() = 0;
-        virtual void start() = 0;      
-};
+        virtual void start() = 0;
+        virtual void makeJson(JsonDocument& doc);// Create JSON entries

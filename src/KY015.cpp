@@ -64,3 +64,9 @@ void KY015::start(){
         }
     }
 }
+
+
+void KY015::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("temperatura")] = getTemperature();
+    doc[F("umidade")] = getHumidity();
+}

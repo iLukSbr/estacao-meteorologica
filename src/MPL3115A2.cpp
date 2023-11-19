@@ -59,3 +59,9 @@ void MPL3115A2::start(){
         }
     }
 }
+
+
+void MPL3115A2::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("pressao")] = getPressure();
+    doc[F("altitude")] = getAltitude();
+}

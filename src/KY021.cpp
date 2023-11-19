@@ -51,3 +51,8 @@ void KY021::start(){
     start_time = millis();
     read();
 }
+
+
+void KY021::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("volumeChuva")] = getRainfall();
+}

@@ -26,3 +26,8 @@ bool Component::verifyDelay(){
     else
         return false;
 }
+
+
+void Component::makeJson(JsonDocument& doc){
+  
+}
