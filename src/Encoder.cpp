@@ -1,4 +1,5 @@
 /* Optical switch encoder speed sensor */
+//TODO: attachInterrupt(0, counter, FALLING);
 
 #include "Encoder.h"
 

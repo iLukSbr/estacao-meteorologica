@@ -1,4 +1,4 @@
-/* KY-021 reed switch module */
+/* KY-021 reed switch module for rain sensor tipping bucket */
 
 #include "KY021.h"
 
@@ -15,7 +15,7 @@ KY021::~KY021(){
     delete rainmeter;
 }
 
-bool KY021::getRainfall() const{
+float KY021::getRainfall() const{
     return info;
 }
 
@@ -48,7 +48,6 @@ void KY021::start(){
     else
         seesaw_state = false;
     started = true;
-    start_time = millis();
     read();
 }
 

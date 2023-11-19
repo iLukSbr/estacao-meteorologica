@@ -24,10 +24,6 @@ const char* GY511::getDirection() const{
     return info;
 }
 
-const char* GY511::getDirectionsArray() const{
-    return directions;
-}
-
 void GY511::print() const{
     Serial.println(F("GY-511:"));
     Serial.print(F("direction = "));
@@ -43,7 +39,6 @@ void GY511::read(){
 	info[0] = directions[part][0];
 	info[1] = directions[part][1];
 	info[2] = directions[part][2];
-    info[3] = '\0';
 }
 
 void GY511::start(){

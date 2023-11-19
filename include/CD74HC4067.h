@@ -5,6 +5,7 @@
 #ifndef _CD74HC4067
     #define _CD74HC4067
     #define _CD74HC4067_ 1
+#endif
 
 #include <Mux.h>
 
@@ -16,13 +17,13 @@
 
 using namespace admux;
 
-class CD74HC4067 : public Component{
+class CD74HC4067 : public GY511{
     private:
         GY511* magnetometer;
 
         Mux* mux;
 
-        char info[4] = {0};
+        char info[3] = {0};
 
     public:
         CD74HC4067();
@@ -33,4 +34,4 @@ class CD74HC4067 : public Component{
         void print() const override;
         void read() override;
         void start() override;
-}
+};

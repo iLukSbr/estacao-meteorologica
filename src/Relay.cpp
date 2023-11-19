@@ -17,6 +17,16 @@ bool Relay::getState() const{
     return info;
 }
 
+void Relay::off(){
+    info = false;
+    read();
+}
+
+void Relay::on(){
+    info = true;
+    read();
+}
+
 void Relay::print() const{
     Serial.print(F("Relay: "));
     Serial.println(info ? F("on") : F("off"));
@@ -27,13 +37,6 @@ void Relay::read(){
         digitalWrite(RELAY_PIN, HIGH);
     else
         digitalWrite(RELAY_PIN, LOW);
-}
-
-void Relay::setState(bool state){
-    if(state)
-        info = true;
-    else
-        info = false;
 }
 
 void Relay::start(){

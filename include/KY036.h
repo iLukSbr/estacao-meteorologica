@@ -1,4 +1,4 @@
-/* Touch module */
+/* Touch module for LED light */
 
 #pragma once
 
@@ -23,4 +23,4 @@ class KY036 : public Component{
         void read() override;
         void start() override;
         void print() const override;
-}
+};

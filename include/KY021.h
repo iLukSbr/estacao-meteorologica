@@ -1,4 +1,4 @@
-/* KY-021 reed switch module */
+/* KY-021 reed switch module for rain sensor tipping bucket */
 
 #pragma once
 
@@ -11,7 +11,7 @@
 #include "MHRD.h"
 
 #define KY021_PIN 3
-#define SEESAW_VOLUME 0.01// liter
+#define SEESAW_VOLUME 0.002// liter
 #define FUNNEL_AREA 0.5// m^2
 
 class KY021 : public Component{

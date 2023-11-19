@@ -18,17 +18,19 @@
 
 class GYNEO6MV2 : public Component{
     private:
-        TinyGPSPlus gps;
+        SoftwareSerial* gpsSerial;
 
-        // char date_time[32] = {0};
+        TinyGPSPlus* gps;
 
-        float info[2] = {0.f};
+        char date_time[32] = {0};
+
+        float info[6] = {0.f};
 
     public:
         GYNEO6MV2();
         ~GYNEO6MV2();
 
-        // const char* getDateTime() const;
+        const char* getDateTime() const;
 
         float getLatitude() const;
         float getLongitude() const;
