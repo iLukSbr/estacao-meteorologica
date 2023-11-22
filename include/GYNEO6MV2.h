@@ -12,13 +12,13 @@
 
 #include "Component.h"
 
-#define GPS_RX_PIN 7
-#define GPS_TX_PIN 6
-#define GPS_SERIAL_BAUD 9600
+// #define GPS_RX_PIN 7
+// #define GPS_TX_PIN 6
+#define GPS_SERIAL_BAUD 115200
 
 class GYNEO6MV2 : public Component{
     private:
-        SoftwareSerial* gpsSerial;
+        // SoftwareSerial* gpsSerial;
 
         TinyGPSPlus* gps;
 

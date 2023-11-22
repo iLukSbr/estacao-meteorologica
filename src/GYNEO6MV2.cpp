@@ -3,7 +3,7 @@
 #include "GYNEO6MV2.h"
 
 GYNEO6MV2::GYNEO6MV2():
-    gpsSerial(new SoftwareSerial(GPS_RX_PIN, GPS_TX_PIN)),
+    // Serial2(new SoftwareSerial(GPS_RX_PIN, GPS_TX_PIN)),
     gps(new TinyGPSPlus())
 {
     start();
@@ -38,8 +38,8 @@ void GYNEO6MV2::print() const{
 }
 
 void GYNEO6MV2::read(){
-    while(gpsSerial->available()){
-        if(gps->encode(gpsSerial->read())){// Getting data
+    while(Serial2.available()){
+        if(gps->encode(Serial2.read())){// Getting data
             if(gps->location.isValid()){
                 info[0] = gps->location.lat();// Latitude (°)
                 info[1] = gps->location.lng();// Longitude (°)
@@ -61,6 +61,6 @@ void GYNEO6MV2::read(){
 }
 
 void GYNEO6MV2::start(){
-    gpsSerial->begin(GPS_SERIAL_BAUD);
+    Serial2.begin(GPS_SERIAL_BAUD);
     started = true;
 }

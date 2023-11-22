@@ -35,14 +35,14 @@ void Encoder::read(){
         rpm = (60000/ENCODER_N)/(millis() - timeold)*pulses;
         timeold = millis();
         pulses = 0;
-        attachInterrupt(0, counter, FALLING);
+        attachInterrupt(2, counter, FALLING);
     }
     info = rpm*PI*CIRCUNFERENCE_DIAMETER/216000.f;
 }
 
 void Encoder::start(){
     pinMode(ENCODER_PIN, INPUT);
-    attachInterrupt(0, counter, FALLING);
+    attachInterrupt(2, counter, FALLING);
     started = true;
 }
 

@@ -1,7 +1,5 @@
 #include <Wire.h>
 
-// #include "ArduinoUnoTX.h"// SLAVE, enable for slave, disable for main
-// #include "ArduinoUnoRX.h"// MAIN, enable for main, disable for slave
 #include "componentInclude.h"// enable/disable components there
 
 // #define JSON_DELAY 60000// ms
@@ -10,12 +8,7 @@
     Uncomment here and in newAll() if necessary
     Comment here and in newAll() if not necessary */
 // Encoder* speedometer;
-// #ifdef UNO_MAIN
-//     ESP01* wifi;
-//     ArduinoUnoRX* uno;
-// #elif defined(UNO_SLAVE)
-//     ArduinoUnoTX* uno;
-// #endif
+// ESP01* wifi;
 // GYNEO6MV2* gps;
 // INA219 *multimeter_solar, *multimeter_batteries;
 // KY015* thermometer;
@@ -24,28 +17,25 @@
 // MHRTC2* rtc;
 // SDReaderWriter* micro_sd;
 // MPL3115A2* barometer;
-Relay* relay;
+// Relay* relay;
 // SolarTracker* solar_tracker;
 // TEMT6000* luxmeter0;
 // UV* uv_sensor;
 
 unsigned long stopwatch = 0;
 
-Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
+Component* storage_array[QUANTITY_OF_COMPONENTS+1] = {nullptr};
 Vector<Component*> component_list(storage_array);
 
 void beginI2C(){
-    // #ifdef UNO_MAIN
-    //     Wire.begin(MAIN_UNO_I2C_ADDRESS);
-    // #elif defined(UNO_SLAVE)
-    //     Wire.begin(SLAVE_UNO_I2C_ADDRESS);
-    // #else
         Wire.begin();
-    // #endif
 }
 
 void newAll(){
     beginI2C();
+    // #ifdef _WIND_VANE
+        component_list.push_back(dynamic_cast<Component*>(/*magnetometer = */new GY511()));
+    // #endif
     #ifdef _ENCODER
         component_list.push_back(dynamic_cast<Component*>(/*speedometer = */new Encoder()));
     #endif
@@ -53,8 +43,8 @@ void newAll(){
         component_list.push_back(dynamic_cast<Component*>(/*gps = */new GYNEO6MV2()));
     #endif
     #ifdef _INA219
-        component_list.push_back(dynamic_cast<Component*>(/*multimeter_solar = */new INA219(0x40, 0, PG_80, BRNG_16, 1.f, 1.f)));
-        component_list.push_back(dynamic_cast<Component*>(/*multimeter_batteries = */new INA219(0x41, 1, PG_160, BRNG_32, 1.f, 1.f)));
+        // component_list.push_back(dynamic_cast<Component*>(/*multimeter_solar = */new INA219(0x40, 0, PG_80, BRNG_16, 1.f, 1.f)));
+        // component_list.push_back(dynamic_cast<Component*>(/*multimeter_batteries = */new INA219(0x41, 1, PG_160, BRNG_32, 1.f, 1.f)));
     #endif
     #ifdef _KY015
         component_list.push_back(dynamic_cast<Component*>(/*thermometer = */new KY015()));
@@ -78,7 +68,7 @@ void newAll(){
         component_list.push_back(dynamic_cast<Component*>(/*luxmeter0 = */new TEMT6000()));
     #endif
     #ifdef _UV
-        component_list.push_back(dynamic_cast<Component*>(/*uv_sensor = */new UV()));
+        component_list.push_back(dynamic_cast<Component*>(uv_sensor = new UV()));
     #endif
 }
 
@@ -109,19 +99,27 @@ void newAll(){
 void setup(){
     Serial.begin(9600);
     while(!Serial);
-    relay->on();
-    relay->print();
+    // relay->on();
+    // relay->print();
     newAll();
 }
 
 void loop(){
+    // Serial.println("passou1");
     for(auto element : component_list){
+        // Serial.println("passou2");
+        // uv_sensor->read();
+        // Serial.println("passou3");
+        // uv_sensor->print();
         if(element->isStarted()){
-            if(element->verifyDelay()){
+            // 
+            // if(element->verifyDelay()){
                 element->read();
+                // Serial.println("passou4");
                 element->print();
+                // Serial.println("passou5");
                 Serial.println();
-            }
+            // }
         }
         else
             element->start();
@@ -138,5 +136,5 @@ void loop(){
     //     Serial.println();
     //     stopwatch = millis();
     // }
-    delay(10);
+    delay(1000);
 }

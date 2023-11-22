@@ -10,7 +10,7 @@
 #include "Component.h"
 #include "MHRD.h"
 
-#define KY021_PIN 3
+#define KY021_PIN 8
 #define SEESAW_VOLUME 0.002// liter
 #define FUNNEL_AREA 0.5// m^2
 

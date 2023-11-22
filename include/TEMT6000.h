@@ -9,7 +9,7 @@
 
 #include "Component.h"
 
-#define TEMT6000_PIN A0
+#define TEMT6000_PIN A5
 #define TEMT6000_MEASURES 256
 
 class TEMT6000 : public Component{

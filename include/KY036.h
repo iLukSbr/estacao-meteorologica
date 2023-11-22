@@ -9,8 +9,8 @@
 
 #include "Component.h"
 
-#define KY036_PIN 10
-#define LED_PIN 11
+#define KY036_PIN 26
+#define LED_PIN 27
 
 class KY036 : public Component{
     private:
