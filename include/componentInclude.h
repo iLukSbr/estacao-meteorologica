@@ -1,13 +1,14 @@
 #pragma once
 
 /* Comment the header to disable or uncomment to enable the component */
+#include "ESP01.h"
 // #include "CD74HC4067.h"
 // #include "Encoder.h"
 // #include "GYNEO6MV2.h"
 // #include "INA219.h"
 // #include "KY015.h"
-#include "KY021.h"
-#include "MHRD.h"
+// #include "KY021.h"
+// #include "MHRD.h"
 // #include "MHRTC2.h"
 // #include "MPL3115A2.h"
 // #include "Relay.h"
@@ -39,6 +40,9 @@
 #endif
 #ifndef _KY021_
    #define _KY021_ 0
+#endif
+#ifndef _MHRD_
+   #define _MHRD_ 0
 #endif
 #ifndef _MPL3115A2_
    #define _MPL3115A2_ 0

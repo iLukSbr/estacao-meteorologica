@@ -112,11 +112,11 @@ void SolarTracker::print() const{
     ldr4->print();
     servo_base->print();
     servo_panel->print();
-    // gyro->print();
+    gyro->print();
 }
 
 void SolarTracker::read(){
-    // gyro->read();
+    gyro->read();
     ldr1->read();
     ldr2->read();
     ldr3->read();

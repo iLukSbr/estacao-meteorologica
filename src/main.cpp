@@ -12,7 +12,7 @@
     Uncomment here and in newAll() if necessary
     Comment here and in newAll() if not necessary */
 // Encoder* speedometer;
-// ESP01* wifi;
+ESP01* wifi = new ESP01();
 // GYNEO6MV2* gps;
 // INA219 *multimeter_solar, *multimeter_batteries;
 // KY015* thermometer;
@@ -35,8 +35,8 @@
 
 unsigned long stopwatch = 0;
 
-Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
-Vector<Component*> component_list(storage_array);
+// Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
+// Vector<Component*> component_list(storage_array);
 
 void beginI2C(){
         Wire.begin();
@@ -107,40 +107,72 @@ void newAll(){
 void setup(){
     Serial.begin(9600);
     while(!Serial){}
-    delay(100);
-    #ifdef _RELAY
-        relay->on();
-        relay->print();
-    #endif
-    delay(100);
-    newAll();
+    // delay(100);
+    // #ifdef _RELAY
+    //     relay->on();
+    //     relay->print();
+    // #endif
+    // delay(100);
+    // newAll();
 }
 
 void loop(){
-    for(auto element : component_list){
-        if(element->isStarted()){
-            if(element->verifyDelay()){
-                element->read();
-                element->print();
-                Serial.println();
-            }
-        }
-        else
-            element->start();
-    }
-    #ifdef MAKE_JSON
-        if(millis() - stopwatch > SEND_JSON_DELAY || !stopwatch){
-            String json_str = makeJson(true);
-            delay(100);
-            // wifi->sendJson(makeJson());
-            delay(100);
-            #ifdef _MICROSD_READER_WRITER
-                sd->save(json_str);
-            #endif
-            Serial.println(json_str);
-            Serial.println();
-            stopwatch = millis();
-        }
-    #endif
-    delay(1000);
+    StaticJsonDocument<384> doc;
+    doc[F("latitude")] = 2;
+    doc[F("longitude")] = 2;
+    doc[F("altitude")] = 2;
+    doc[F("temperatura")] = 2;
+    doc[F("pressao")] = 2;
+    doc[F("umidade")] = 2;
+    doc[F("velocidadeVento")] = 2;
+    doc[F("direcaoVento")] = "N";
+    doc[F("indiceUV")] = 2;
+    doc[F("intensidadeLuminosa")] = 2;
+    doc[F("chuva")] = true;
+    doc[F("volumeChuva")] = 2;
+    doc[F("porcentagemBaterias")] = 2;
+    doc[F("tensaoEletricaPlacaSolar")] = 2;
+    doc[F("orientacaoPlacaSolar")] = "N";
+      int tamdoc = measureJson(doc);
+      Serial.println();
+      Serial.print(F("Tamanho do json = "));
+      Serial.println(tamdoc);
+
+  if (wifi->sendCommand("AT+CIPSTART=\"SSL\",\"api-oficinas.onrender.com\",443", 1, "OK")) {
+    String tam = String(139 + tamdoc);
+    String cipSend = "AT+CIPSEND=";
+    cipSend += tam;
+    wifi->sendCommand(cipSend, 1, ">");
+    delay(500);
+    wifi->sendData("api-oficinas.onrender.com", "/sensores", 443, tamdoc, doc);
+    delay(500);
+  }
+
+  wifi->sendCommand("AT+CIPCLOSE", 1, "OK");
+    // for(auto element : component_list){
+    //     if(element->isStarted()){
+    //         if(element->verifyDelay()){
+    //             element->read();
+    //             element->print();
+    //             Serial.println();
+    //         }
+    //     }
+    //     else
+    //         element->start();
+    // }
+    // #ifdef MAKE_JSON
+    //     if(millis() - stopwatch > SEND_JSON_DELAY || !stopwatch){
+    //         String json_str = makeJson(true);
+    //         delay(100);
+    //         // wifi->sendJson(makeJson());
+    //         delay(100);
+    //         #ifdef _MICROSD_READER_WRITER
+    //             sd->save(json_str);
+    //         #endif
+    //         Serial.println(json_str);
+    //         Serial.println();
+    //         stopwatch = millis();
+    //     }
+    // #endif
+    delay(60000);
 }
