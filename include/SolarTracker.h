@@ -54,10 +54,13 @@ class SolarTracker : public Component{
         SolarTracker();
         ~SolarTracker();
 
+        const char* getDirection() const;
+
         void checkLightChange();
         void checkServosMovement();
         void flip();
         void lightChangeDetected();
+        void makeJson(JsonDocument& doc) override;
         void print() const;
         void read();
         void start();

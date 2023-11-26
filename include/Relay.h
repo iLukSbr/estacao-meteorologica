@@ -4,7 +4,6 @@
 
 #ifndef _RELAY
     #define _RELAY
-    #define _RELAY_ 1
 #endif
 
 #include "Component.h"

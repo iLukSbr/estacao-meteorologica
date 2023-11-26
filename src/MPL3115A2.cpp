@@ -51,7 +51,7 @@ void MPL3115A2::print() const{
 }
 
 void MPL3115A2::read(){
-    info[0] = baro->getAltitude();
+    info[0] = baro->getAltitude()*MPL3115A2_ALTITUDE_OFFSET;
     info[1] = 100*(baro->getPressure()*MPL3115A2_PRESSURE_OFFSET);
     info[2] = baro->getTemperature()*MPL3115A2_TEMPERATURE_OFFSET;
 }
@@ -64,10 +64,4 @@ void MPL3115A2::start(){
             return;
         }
     }
-}
-
-
-void MPL3115A2::makeJson(JsonDocument& doc){// Create JSON entries
-    doc[F("pressao")] = getPressure();
-    doc[F("altitude")] = getAltitude();
 }

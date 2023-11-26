@@ -34,6 +34,7 @@ class INA219 : public Component{
         float getPercentage();
         float getVoltage();
 
+        void makeJson(JsonDocument& doc) override;
         void print() const override;
         void read() override;
         void start() override;

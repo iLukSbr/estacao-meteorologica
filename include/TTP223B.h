@@ -4,7 +4,6 @@
 
 #ifndef _TTP223B
     #define _TTP223B
-    #define _TTP223B_ 1
 #endif
 
 #include "Component.h"

@@ -4,7 +4,9 @@
 
 #include "componentInclude.h"// enable/disable components there
 
+// #define MAKE_JSON
 #define SEND_JSON_DELAY 60000// ms
+#define TIME_KEY "dataHora"
 
 /* Specific pointers to access exclusive methods of the component
     Uncomment here and in newAll() if necessary
@@ -15,18 +17,24 @@
 // INA219 *multimeter_solar, *multimeter_batteries;
 // KY015* thermometer;
 // KY021* rain_gauge;
-// TTP223B* led;
-// MHRTC2* rtc;
-// SDReaderWriter* micro_sd;
+// MHRTC2* rtc = new MHRTC2();
 // MPL3115A2* barometer;
-Relay* relay;
+#ifdef _RELAY
+    Relay* relay = new Relay();
+#endif
+#ifdef _MICROSD_READER_WRITER
+    SDReaderWriter* sd = new SDReaderWriter();
+#endif
 // SolarTracker* solar_tracker;
 // TEMT6000* luxmeter0;
+#ifdef _TTP223B
+    TTP223B* led = new TTP223B();
+#endif
 // UV* uv_sensor;
 
 unsigned long stopwatch = 0;
 
-Component* storage_array[QUANTITY_OF_COMPONENTS+1] = {nullptr};
+Component* storage_array[QUANTITY_OF_COMPONENTS] = {nullptr};
 Vector<Component*> component_list(storage_array);
 
 void beginI2C(){
@@ -35,60 +43,71 @@ void beginI2C(){
 
 void newAll(){
     beginI2C();
-    // #ifdef _WIND_VANE
-        // component_list.push_back(dynamic_cast<Component*>(/*magnetometer = */new GY511()));
-    // #endif
     #ifdef _ENCODER
         component_list.push_back(dynamic_cast<Component*>(/*speedometer = */new Encoder()));
+        delay(100);
     #endif
     #ifdef _GYNEO6MV2
         component_list.push_back(dynamic_cast<Component*>(/*gps = */new GYNEO6MV2()));
+        delay(100);
     #endif
     #ifdef _INA219
         // component_list.push_back(dynamic_cast<Component*>(/*multimeter_solar = */new INA219(0x40, 0, PG_80, BRNG_16, 1.f, 1.f)));
+        delay(100);
         // component_list.push_back(dynamic_cast<Component*>(/*multimeter_batteries = */new INA219(0x41, 1, PG_160, BRNG_32, 1.f, 1.f)));
+        delay(100);
     #endif
     #ifdef _KY015
         component_list.push_back(dynamic_cast<Component*>(/*thermometer = */new KY015()));
+        delay(100);
     #endif
     #ifdef _KY021
         component_list.push_back(dynamic_cast<Component*>(/*rain_gauge = */new KY021()));
-    #endif
-    #ifdef _MHRTC2
-        component_list.push_back(dynamic_cast<Component*>(/*rtc = */new MHRTC2()));
+        delay(100);
     #endif
     #ifdef _MPL3115A2
         component_list.push_back(dynamic_cast<Component*>(/*barometer = */new MPL3115A2()));
+        delay(100);
     #endif
     #ifdef _SOLAR_TRACKER
-        component_list.push_back(dynamic_cast<Component*>(/*solar_tracker = */new SolarTracker()));  
+        component_list.push_back(dynamic_cast<Component*>(/*solar_tracker = */new SolarTracker()));
+        delay(100);
     #endif
     #ifdef _TEMT6000
         component_list.push_back(dynamic_cast<Component*>(/*luxmeter0 = */new TEMT6000()));
-    #endif
-    #ifdef _TTP223B
-        component_list.push_back(dynamic_cast<Component*>(/*led = */new TTP223B()));
+        delay(100);
     #endif
     #ifdef _UV
         component_list.push_back(dynamic_cast<Component*>(/*uv_sensor = */new UV()));
+        delay(100);
     #endif
 }
 
-String makeJson(){
-    StaticJsonDocument<1000> doc;
-    String doc_serialized;
-    for(auto element : component_list)
-        if(element->isStarted())
-            element->makeJson(doc);
-    serializeJson(doc, doc_serialized);
-    return doc_serialized;
-}
+#ifdef MAKE_JSON
+    String makeJson(bool time = false){
+        StaticJsonDocument<1000> doc;
+        String doc_serialized;
+        for(auto element : component_list)
+            if(element->isStarted())
+                element->makeJson(doc);
+        #ifdef _MHRTC2
+            rtc->read();
+            doc[F(TIME_KEY)] = rtc->getDateTime();
+        #endif
+        serializeJson(doc, doc_serialized);
+        return doc_serialized;
+    }
+#endif
 
 void setup(){
     Serial.begin(9600);
-    while(!Serial);
-    relay->on();
-    relay->print();
+    while(!Serial){}
+    delay(100);
+    #ifdef _RELAY
+        relay->on();
+        relay->print();
+    #endif
+    delay(100);
     newAll();
 }
 
@@ -104,13 +123,19 @@ void loop(){
         else
             element->start();
     }
-    if(millis() - stopwatch > SEND_JSON_DELAY || !stopwatch){
-        String json_str = makeJson();
-        // micro_sd->save(json_str);
-        // wifi->sendJson(json_str);
-        Serial.println(json_str);
-        Serial.println();
-        stopwatch = millis();
-    }
+    #ifdef MAKE_JSON
+        if(millis() - stopwatch > SEND_JSON_DELAY || !stopwatch){
+            String json_str = makeJson(true);
+            delay(100);
+            // wifi->sendJson(makeJson());
+            delay(100);
+            #ifdef _MICROSD_READER_WRITER
+                sd->save(json_str);
+            #endif
+            Serial.println(json_str);
+            Serial.println();
+            stopwatch = millis();
+        }
+    #endif
     delay(1000);
 }

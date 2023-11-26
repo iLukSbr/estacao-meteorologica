@@ -21,6 +21,10 @@ SolarTracker::~SolarTracker(){
     delete servo_panel;
 }
 
+const char* SolarTracker::getDirection() const{
+    return nullptr;
+}
+
 void SolarTracker::checkLightChange(){
     bool move_allowed;
     float mean1_2 = (ldr1->getIlluminance() + ldr2->getIlluminance())/2.f;

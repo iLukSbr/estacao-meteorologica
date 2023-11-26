@@ -1,58 +1,62 @@
-// /* Optical switch encoder speed sensor */
-// //TODO: attachInterrupt(0, counter, FALLING);
+/* Optical switch encoder speed sensor */
+//TODO: attachInterrupt(0, counter, FALLING);
 
-// #include "pch.h"
-// #include "Encoder.h"
+#include "pch.h"
+#include "Encoder.h"
 
-// Encoder::Encoder():
-//     info(0.f),
-//     timeold(0),
-//     rpm(0)
-// {
-//     start();
-// }
+Encoder::Encoder():
+    pulses(0),
+    info(0.f),
+    timeold(0)
+{
+    Serial.println(F("Starting Encoder Optocoupler wind speed sensor..."));
+    start();
+    Serial.println(F("Encoder Optocoupler wind speed sensor OK!"));
+}
 
-// Encoder::~Encoder(){
+Encoder::~Encoder(){
     
-// }
+}
 
-// float Encoder::getSpeed() const{
-//     return info;
-// }
+float Encoder::getSpeed() const{
+    return info;
+}
 
-// void Encoder::print() const{
-//     Serial.println(F("Encoder: "));
-//     Serial.print(F("speed = "));
-//     Serial.print(getSpeed());
-//     Serial.println(F(" m/s"));
-// }
+void Encoder::interruptHandler(){// Call the non-static member function 'counter()' via the instance pointer
+    instance->counter();
+}
 
-// void Encoder::read(){
-//     if (millis() - timeold >= 1000)
-//     {
-//         detachInterrupt(0);
-//         if(pulses <= 3)
-//             pulses = 0;
-//         rpm = (60000/ENCODER_N)/(millis() - timeold)*pulses;
-//         timeold = millis();
-//         pulses = 0;
-//         attachInterrupt(2, counter, FALLING);
-//     }
-//     info = rpm*PI*CIRCUNFERENCE_DIAMETER/216000.f;
-// }
+void Encoder::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("velocidadeVento")] = getSpeed();
+}
 
-// void Encoder::start(){
-//     pinMode(ENCODER_PIN, INPUT);
-//     attachInterrupt(2, counter, FALLING);
-//     started = true;
-// }
+void Encoder::print() const{
+    Serial.println(F("Encoder: "));
+    Serial.print(F("speed = "));
+    Serial.print(getSpeed());
+    Serial.println(F(" km/h"));
+}
 
-// void Encoder::counter(){
-//   pulses++;
-// }
+void Encoder::read(){
+    Serial.println(F("Reading Encoder Optocoupler wind speed sensor..."));
+    detachInterrupt(digitalPinToInterrupt(ENCODER_PIN));
+    if(pulses <= 3)
+        pulses = 0;
+    info = RADIUS_TO_CUP*360000*pulses*PI/(millis() - timeold);
+    timeold = millis();
+    pulses = 0;
+    start();
+}
 
-// volatile byte Encoder::pulses = 0;
+void Encoder::start(){
+    pinMode(ENCODER_PIN, INPUT);
+    instance = this;// Set the instance pointer to 'this' for later use in the interrupt handler
+    attachInterrupt(digitalPinToInterrupt(ENCODER_PIN), &Encoder::interruptHandler, FALLING);
+    started = true;
+}
 
-// void Encoder::makeJson(JsonDocument& doc){// Create JSON entries
-//     doc[F("velocidadeVento")] = getSpeed();
-// }
+void Encoder::counter(){
+  pulses++;
+}
+
+Encoder* Encoder::instance = nullptr;// Initialize the static member variable

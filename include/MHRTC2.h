@@ -2,14 +2,13 @@
 
 #pragma once
 
-#ifndef _MHRTC2
-    #define _MHRTC2
-    #define _MHRTC2_ 1
-#endif
-
 #include <RTClib.h>
 
 #include "Component.h"
+
+#ifndef _MHRTC2
+    #define _MHRTC2
+#endif
 
 #define RTC_CLK_PIN 13// Serial Clock
 #define RTC_DAT_PIN 12// Input/Output

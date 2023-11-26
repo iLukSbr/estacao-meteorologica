@@ -11,11 +11,12 @@
 
 #include "Component.h"
 
-#define MPL3115A2_SEA_PRESSURE 1005.05// (hPa) Adjust till altitude is accurate
-#define MPL3115A2_PRESSURE_OFFSET 1.f// multiplier, adjust till pressure is accurate
+#define MPL3115A2_SEA_PRESSURE 1023.5// (hPa) Adjust till altitude is accurate
+#define MPL3115A2_PRESSURE_OFFSET 1.10847439// multiplier, adjust till pressure is accurate
 #define MPL3115A2_TEMPERATURE_OFFSET 1.f// multiplier, adjust till temperature is accurate
+#define MPL3115A2_ALTITUDE_OFFSET 1.f// multiplier, adjust till temperature is accurate
 #define ALTITUDE_KEY "altitude"
-#define PRESSURE_KEY "pressure"
+#define PRESSURE_KEY "pressao"
 
 class MPL3115A2 : public Component{
     private:

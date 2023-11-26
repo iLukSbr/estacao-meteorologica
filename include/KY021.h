@@ -27,7 +27,10 @@ class KY021 : public Component{
     public:
         KY021();
         ~KY021();
+        
         float getRainfall() const;
+
+        void makeJson(JsonDocument& doc) override;
         void print() const override;
         void read() override;
         void start() override;
