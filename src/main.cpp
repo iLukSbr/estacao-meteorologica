@@ -107,26 +107,26 @@ void newAll(){
         doc[F("porcentagemBaterias")] = 9000;
         doc[F("tensaoEletricaPlacaSolar")] = 9000;
         doc[F("orientacaoPlacaSolar")] = "S";
-    //     for(auto element : component_list){
-    //     if(element->isStarted()){
-    //         if(element->verifyDelay()){
-    //             element->read();
-    //             element->print();
-    //             Serial.println();
-    //         }
-    //     }
-    //     else
-    //         element->start();
-    // }
-    //     for(auto element : component_list)
-    //         if(element->isStarted())
-    //             element->makeJson(doc);
+        for(auto element : component_list){
+        if(element->isStarted()){
+            if(element->verifyDelay()){
+                element->read();
+                element->print();
+                Serial.println();
+            }
+        }
+        else
+            element->start();
+    }
+        for(auto element : component_list)
+            if(element->isStarted())
+                element->makeJson(doc);
         int tamdoc = measureJson(doc);
         Serial.println();
         Serial.print(F("Tamanho do json = "));
         Serial.println(tamdoc);
 
-        if (wifi->sendCommand("AT+CIPSTART=\"SSL\",\"api-oficinas.onrender.com\",443", 1, "OK")) {
+        if (wifi->sendCommand("AT+CIPSTART=\"SSL\",\"api-oficinas.onrender.com\",443", 3, "OK")) {
             String tam = String(139 + tamdoc);
             String cipSend = "AT+CIPSEND=";
             cipSend += tam;

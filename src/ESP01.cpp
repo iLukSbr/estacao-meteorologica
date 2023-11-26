@@ -71,7 +71,7 @@ void ESP01::init(unsigned long baudRate) {
   Serial3.begin(baudRate);
   while(!Serial3){}
   // Serial3.print("AT+UART_CUR=9600,8,1,0,0\r\n");
-  // delay(1000);
+  delay(1000);
   // Serial3.begin(9600);
 }
 

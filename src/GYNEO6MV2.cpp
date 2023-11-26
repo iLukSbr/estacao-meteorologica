@@ -47,7 +47,7 @@ void GYNEO6MV2::read(){// Get data from component
             if (gps->location.isValid()){
                 info[0] = gps->location.lat();// Latitude (°)
                 info[1] = gps->location.lng();// Longitude (°)
-                if(info[0] == 0.f || info[1] == 0.f){
+                if((info[0] < 10.f && info[0] > -10.f) || (info[1] < 10.f && info[1] > -10.f)){
                     info[0] = DEFAULT_LATITUDE;
                     info[1] = DEFAULT_LONGITUDE;
                 }
@@ -126,6 +126,8 @@ void GYNEO6MV2::gatherDateTime(const bool search){// Get date and time, keep sea
         read();
         i++;
         if(i>START_TRIES && !search){
+            info[0] = DEFAULT_LATITUDE;
+            info[1] = DEFAULT_LONGITUDE;
             Serial.println(F("GPS signal not found, timeout!"));
             return;
         }
