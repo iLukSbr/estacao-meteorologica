@@ -57,3 +57,11 @@ void INA219::start(){
         multi->setShuntVoltOffset_mV(calibration_volt);
     }
 }
+
+
+void INA219::makeJson(JsonDocument& doc){// Create JSON entries
+    if(count == 0)
+      doc[F("tensaoEletricaPlacaSolar")] = getVoltage();
+    else if(count == 1)
+        doc[F("porcentagemBateria")] = getPercentage();
+}

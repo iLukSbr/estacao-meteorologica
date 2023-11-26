@@ -11,6 +11,8 @@
     #define _INA219_ 1
 #endif
 
+#define INA219_I2C_ADDRESS 0x40
+
 class INA219 : public Component{
     private:
         byte count;
@@ -25,7 +27,7 @@ class INA219 : public Component{
         float calibration_volt;
 
     public:
-        INA219(byte address, byte _count, INA219_PGAIN _amp_def, INA219_BUS_RANGE _volt_def, float _calibration_factor, float _calibration_volt);
+        INA219(byte address, byte _count, INA219_PGAIN _amp_def, INA219_BUS_RANGE _volt_def, float _calibration_factor, float _calibration_voltage);
         ~INA219();
 
         float getCurrent();

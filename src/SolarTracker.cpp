@@ -142,3 +142,8 @@ void SolarTracker::start(){
     // }while(!gyro->isStarted());
     started = true;
 }
+
+
+void SolarTracker::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F("direcaoPlacaSolar")] = getDirection();
+}

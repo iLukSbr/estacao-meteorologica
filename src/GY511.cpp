@@ -64,5 +64,4 @@ void GY511::start(){
     compass->m_min = running_min;
     compass->m_max = running_max;
     started = true;
-    Serial.println(F("GY511 magnetometer OK!"));
 }
