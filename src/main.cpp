@@ -119,7 +119,7 @@ void newAll(){
             element->start();
     }
         for(auto element : component_list)
-            if(element->isStarted())
+            // if(element->isStarted())
                 element->makeJson(doc);
         int tamdoc = measureJson(doc);
         Serial.println();
@@ -137,10 +137,11 @@ void newAll(){
         }
 
         wifi->sendCommand("AT+CIPCLOSE", 1, "OK");
-            #ifdef _MHRTC2
-                rtc->read();
-                doc[F(TIME_KEY)] = rtc->getDateTime();
-            #endif
+        #ifdef _MHRTC2
+            rtc->read();
+            doc[F(TIME_KEY)] = rtc->getDateTime();
+        #endif
+        delay(500);
         doc.clear();
         Serial3.end();
     }

@@ -31,7 +31,7 @@ void Encoder::interruptHandler(){// Call the non-static member function 'counter
 }
 
 void Encoder::makeJson(JsonDocument& doc){// Create JSON entries
-    doc[F(ENCODER_KEY)] = serialized(String(getSpeed(),4));
+    doc[F(ENCODER_KEY)] = getSpeed();
 }
 
 void Encoder::print() const{

@@ -47,7 +47,7 @@ void GYNEO6MV2::read(){// Get data from component
             if (gps->location.isValid()){
                 info[0] = gps->location.lat();// Latitude (°)
                 info[1] = gps->location.lng();// Longitude (°)
-                if((info[0] < 10.f && info[0] > -10.f) || (info[1] < 10.f && info[1] > -10.f)){
+                if((info[0] < 1.f && info[0] > -1.f) || (info[1] < 1.f && info[1] > -1.f)){
                     info[0] = DEFAULT_LATITUDE;
                     info[1] = DEFAULT_LONGITUDE;
                 }
@@ -91,8 +91,8 @@ void GYNEO6MV2::print() const{// Display data for test
 }
 
 void GYNEO6MV2::makeJson(JsonDocument& doc){// Create JSON entries
-    doc[F(LATITUDE_KEY)] = serialized(String(info[0],4));
-    doc[F(LONGITUDE_KEY)] = serialized(String(info[1],4));
+    doc[F(LATITUDE_KEY)] = serialized(String(info[0],6));
+    doc[F(LONGITUDE_KEY)] = serialized(String(info[1],6));
 }
 
 const uint16_t GYNEO6MV2::getYear() const{
