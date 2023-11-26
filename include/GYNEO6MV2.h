@@ -54,7 +54,7 @@ class GYNEO6MV2 : public Component{
   private:
     bool signal_status;
 
-    double info[6] = {0.f};
+    float info[6] = {0.f};
 
     TinyGPSPlus* gps;
     

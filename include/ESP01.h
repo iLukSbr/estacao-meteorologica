@@ -17,6 +17,10 @@ class ESP01 : public Component{
         void send(char* data);
         void start() override;    
 
+        int countTrueCommand;
+        int countTimeCommand;
+        bool found;
+
         int latitude;
         int longitude;
         int altitude;
@@ -33,11 +37,8 @@ class ESP01 : public Component{
         int tensaoEletricaPlacaSolar;
         const char* orientacaoPlacaSolar;
 
-        int countTrueCommand;
-        int countTimeCommand;
-        bool found;
         bool sendCommand(String command, int maxTime, String readReplay);
         void begin(int baudRate);
-        void sendData(String host, String path, int port, int tamdoc, StaticJsonDocument<1000>& doc);
+        void sendData(int tamdoc, StaticJsonDocument<384> doc);
         void printResponse();
 };

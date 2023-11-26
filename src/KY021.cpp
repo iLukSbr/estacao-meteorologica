@@ -32,7 +32,7 @@ void KY021::interruptHandler(){// Call the non-static member function 'counter()
 }
 
 void KY021::makeJson(JsonDocument& doc){// Create JSON entries
-    doc[F(KY021_KEY)] = getRainfall();
+    doc[F(KY021_KEY)] = serialized(String(getRainfall(),4));
 }
 
 void KY021::print() const{

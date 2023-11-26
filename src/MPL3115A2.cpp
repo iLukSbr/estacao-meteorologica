@@ -31,8 +31,8 @@ float MPL3115A2::getTemperatureKelvin() const{
 }
 
 void MPL3115A2::makeJson(JsonDocument& doc){
-    doc[F(ALTITUDE_KEY)] = getAltitude();
-    doc[F(PRESSURE_KEY)] = getPressure();
+    doc[F(ALTITUDE_KEY)] = serialized(String(getAltitude(),4));
+    doc[F(PRESSURE_KEY)] = serialized(String(getPressure(),4));
 }
 
 void MPL3115A2::print() const{

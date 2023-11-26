@@ -34,8 +34,8 @@ float KY015::getHeatIndexKelvin() const{
 }
 
 void KY015::makeJson(JsonDocument& doc){
-    doc[F(HUMIDITY_KEY)] = getHumidity();
-    doc[F(TEMPERATURE_KEY)] = getTemperatureCelsius();
+    doc[F(HUMIDITY_KEY)] = serialized(String(getHumidity(),4));
+    doc[F(TEMPERATURE_KEY)] = serialized(String(getTemperatureCelsius(),4));
 }
 
 void KY015::print() const{

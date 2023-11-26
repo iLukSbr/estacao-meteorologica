@@ -5,7 +5,7 @@
 #include "componentInclude.h"// enable/disable components there
 
 #define MAKE_JSON
-#define SEND_JSON_DELAY 60000// ms
+#define SEND_JSON_DELAY 10000// ms
 #define TIME_KEY "dataHora"
 
 /* Specific pointers to access exclusive methods of the component
@@ -90,7 +90,7 @@ void newAll(){
 
 #ifdef MAKE_JSON
     void sendJson(){
-        StaticJsonDocument<1000> doc;
+        StaticJsonDocument<384> doc;
         doc[F("latitude")] = 9;
         doc[F("longitude")] = 9;
         doc[F("altitude")] = 9;
@@ -120,11 +120,6 @@ void newAll(){
         for(auto element : component_list)
             if(element->isStarted())
                 element->makeJson(doc);
-        #ifdef _MHRTC2
-            rtc->read();
-            doc[F(TIME_KEY)] = rtc->getDateTime();
-        #endif
-
         int tamdoc = measureJson(doc);
         Serial.println();
         Serial.print(F("Tamanho do json = "));
@@ -136,12 +131,16 @@ void newAll(){
         cipSend += tam;
         wifi->sendCommand(cipSend, 1, ">");
         delay(500);
-        wifi->sendData("api-oficinas.onrender.com", "/sensores", 443, tamdoc, doc);
+        wifi->sendData(tamdoc, doc);
         delay(500);
     }
 
     wifi->sendCommand("AT+CIPCLOSE", 1, "OK");
-    
+        #ifdef _MHRTC2
+            rtc->read();
+            doc[F(TIME_KEY)] = rtc->getDateTime();
+        #endif
+    doc.clear();
 }
 #endif
 

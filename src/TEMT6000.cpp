@@ -18,7 +18,7 @@ float TEMT6000::getIlluminance() const{
 }
 
 void TEMT6000::makeJson(JsonDocument& doc){
-    doc[F(ILLUMINANCE_KEY)] = getIlluminance();
+    doc[F(ILLUMINANCE_KEY)] = serialized(String(getIlluminance(),4));
 }
 
 void TEMT6000::print() const{
