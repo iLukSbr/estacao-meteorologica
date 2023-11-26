@@ -3,13 +3,8 @@
 #include "pch.h"
 #include "ESP01.h"
 
-ESP01::ESP01() : countTrueCommand(0), countTimeCommand(0), found(false),
-  latitude(2), longitude(2), altitude(2), temperatura(2), pressao(2), umidade(2),
-                        velocidadeVento(2), direcaoVento("N"), indiceUV(2), intensidadeLuminosa(2),
-                        chuva(true), volumeChuva(2), porcentagemBaterias(2),
-                        tensaoEletricaPlacaSolar(2), orientacaoPlacaSolar("N")
+ESP01::ESP01() : countTrueCommand(0), countTimeCommand(0), found(false)
 {
-  Serial3.begin(115200);
 }
 
 ESP01::~ESP01(){
@@ -69,16 +64,19 @@ bool ESP01::sendCommand(String command, int maxTime, String readReplay) {
   }
 
   found = false;
+  return false;
 }
 
-void ESP01::begin(int baudRate) {
-  // Serial3.begin(baudRate);
+void ESP01::init(unsigned long baudRate) {
+  Serial3.begin(baudRate);
+  while(!Serial3){}
   // Serial3.print("AT+UART_CUR=9600,8,1,0,0\r\n");
+  // delay(1000);
   // Serial3.begin(9600);
 }
 
-void ESP01::sendData(int tamdoc, StaticJsonDocument<384> doc) {
-  int delayp = 700;
+void ESP01::sendData(int tamdoc, StaticJsonDocument<384>& doc) {
+  int delayp = 100;
   /*   SERIAL PRINT
 
   Serial.println(F("POST /sensores HTTP/1.1"));
@@ -107,15 +105,17 @@ void ESP01::sendData(int tamdoc, StaticJsonDocument<384> doc) {
   Serial3.println(F("Content-Type: application/json"));
   delay(delayp); 
   Serial3.print(F("Content-Length: "));
+  delay(delayp);
   Serial3.println(String(tamdoc));
   delay(delayp);
   Serial3.println();
   delay(delayp); 
-  serializeJson(doc,Serial);
   serializeJson(doc,Serial3);
-  delay(delayp); 
+  delay(delayp);
+  serializeJson(doc,Serial);
+  delay(delayp);
   // PRINT RESPOSTA
-  //printResponse();
+  printResponse();
   // delay(5000);
   countTrueCommand++;
 }

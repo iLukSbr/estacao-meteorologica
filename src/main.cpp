@@ -90,58 +90,60 @@ void newAll(){
 
 #ifdef MAKE_JSON
     void sendJson(){
+        wifi->init(115200);
         StaticJsonDocument<384> doc;
-        doc[F("latitude")] = 9;
-        doc[F("longitude")] = 9;
-        doc[F("altitude")] = 9;
-        doc[F("temperatura")] = 9;
-        doc[F("pressao")] = 9;
-        doc[F("umidade")] = 9;
-        doc[F("velocidadeVento")] = 9;
+        doc[F("latitude")] = 9000;
+        doc[F("longitude")] = 9000;
+        doc[F("altitude")] = 9000;
+        doc[F("temperatura")] = 9000;
+        doc[F("pressao")] = 9000;
+        doc[F("umidade")] = 9000;
+        doc[F("velocidadeVento")] = 9000;
         doc[F("direcaoVento")] = "S";
-        doc[F("indiceUV")] = 9;
-        doc[F("intensidadeLuminosa")] = 9;
+        doc[F("indiceUV")] = 9000;
+        doc[F("intensidadeLuminosa")] = 9000;
         doc[F("chuva")] = true;
-        doc[F("volumeChuva")] = 9;
-        doc[F("porcentagemBaterias")] = 9;
-        doc[F("tensaoEletricaPlacaSolar")] = 9;
+        doc[F("volumeChuva")] = 9000;
+        doc[F("porcentagemBaterias")] = 9000;
+        doc[F("tensaoEletricaPlacaSolar")] = 9000;
         doc[F("orientacaoPlacaSolar")] = "S";
-        for(auto element : component_list){
-        if(element->isStarted()){
-            if(element->verifyDelay()){
-                element->read();
-                element->print();
-                Serial.println();
-            }
-        }
-        else
-            element->start();
-    }
-        for(auto element : component_list)
-            if(element->isStarted())
-                element->makeJson(doc);
+    //     for(auto element : component_list){
+    //     if(element->isStarted()){
+    //         if(element->verifyDelay()){
+    //             element->read();
+    //             element->print();
+    //             Serial.println();
+    //         }
+    //     }
+    //     else
+    //         element->start();
+    // }
+    //     for(auto element : component_list)
+    //         if(element->isStarted())
+    //             element->makeJson(doc);
         int tamdoc = measureJson(doc);
         Serial.println();
         Serial.print(F("Tamanho do json = "));
         Serial.println(tamdoc);
 
-    if (wifi->sendCommand("AT+CIPSTART=\"SSL\",\"api-oficinas.onrender.com\",443", 1, "OK")) {
-        String tam = String(139 + tamdoc);
-        String cipSend = "AT+CIPSEND=";
-        cipSend += tam;
-        wifi->sendCommand(cipSend, 1, ">");
-        delay(500);
-        wifi->sendData(tamdoc, doc);
-        delay(500);
-    }
+        if (wifi->sendCommand("AT+CIPSTART=\"SSL\",\"api-oficinas.onrender.com\",443", 1, "OK")) {
+            String tam = String(139 + tamdoc);
+            String cipSend = "AT+CIPSEND=";
+            cipSend += tam;
+            wifi->sendCommand(cipSend, 1, ">");
+            delay(500);
+            wifi->sendData(tamdoc, doc);
+            delay(500);
+        }
 
-    wifi->sendCommand("AT+CIPCLOSE", 1, "OK");
-        #ifdef _MHRTC2
-            rtc->read();
-            doc[F(TIME_KEY)] = rtc->getDateTime();
-        #endif
-    doc.clear();
-}
+        wifi->sendCommand("AT+CIPCLOSE", 1, "OK");
+            #ifdef _MHRTC2
+                rtc->read();
+                doc[F(TIME_KEY)] = rtc->getDateTime();
+            #endif
+        doc.clear();
+        Serial3.end();
+    }
 #endif
 
 void setup(){
