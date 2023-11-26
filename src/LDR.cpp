@@ -1,5 +1,6 @@
 /* LDR luminosity sensor */
 
+#include "pch.h"
 #include "LDR.h"
 
 LDR::LDR(byte _ldr_pin, byte _count, unsigned int _resistor):

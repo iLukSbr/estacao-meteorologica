@@ -10,7 +10,9 @@
 #include "Component.h"
 
 #define TEMT6000_PIN A5
-#define TEMT6000_MEASURES 256
+#define TEMT6000_MEASURES 255
+#define TEMT6000_OFFSET 5.5// multiplier
+#define ILLUMINANCE_KEY "intensidadeLuminosa"
 
 class TEMT6000 : public Component{
     private: 
@@ -22,6 +24,7 @@ class TEMT6000 : public Component{
 
         float getIlluminance() const;
 
+        void makeJson(JsonDocument& doc) override;
         void print() const override;
         void read() override;
         void start() override;

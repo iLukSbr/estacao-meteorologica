@@ -1,5 +1,6 @@
 /* Voltage and current sensor INA219 */
 
+#include "pch.h"
 #include <INA219.h>
 
 INA219::INA219(byte address, byte _count, INA219_PGAIN _amp_def, INA219_BUS_RANGE _volt_def, float _calibration_factor, float _calibration_volt):

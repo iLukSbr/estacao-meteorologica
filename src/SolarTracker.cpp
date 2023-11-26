@@ -1,6 +1,7 @@
 /* Solar Tracker */
 /* P.S. This start() has do...while and read() has !gyro->isMoving() blocking */
 
+#include "pch.h"
 #include "SolarTracker.h"
 
 SolarTracker::SolarTracker():

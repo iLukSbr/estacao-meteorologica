@@ -1,8 +1,10 @@
+#include "pch.h"
+
 #include <Wire.h>
 
 #include "componentInclude.h"// enable/disable components there
 
-// #define JSON_DELAY 60000// ms
+#define SEND_JSON_DELAY 60000// ms
 
 /* Specific pointers to access exclusive methods of the component
     Uncomment here and in newAll() if necessary
@@ -13,11 +15,11 @@
 // INA219 *multimeter_solar, *multimeter_batteries;
 // KY015* thermometer;
 // KY021* rain_gauge;
-// KY36* led;
+// TTP223B* led;
 // MHRTC2* rtc;
 // SDReaderWriter* micro_sd;
 // MPL3115A2* barometer;
-// Relay* relay;
+Relay* relay;
 // SolarTracker* solar_tracker;
 // TEMT6000* luxmeter0;
 // UV* uv_sensor;
@@ -34,7 +36,7 @@ void beginI2C(){
 void newAll(){
     beginI2C();
     // #ifdef _WIND_VANE
-        component_list.push_back(dynamic_cast<Component*>(/*magnetometer = */new GY511()));
+        // component_list.push_back(dynamic_cast<Component*>(/*magnetometer = */new GY511()));
     // #endif
     #ifdef _ENCODER
         component_list.push_back(dynamic_cast<Component*>(/*speedometer = */new Encoder()));
@@ -52,9 +54,6 @@ void newAll(){
     #ifdef _KY021
         component_list.push_back(dynamic_cast<Component*>(/*rain_gauge = */new KY021()));
     #endif
-    #ifdef _KY036
-        component_list.push_back(dynamic_cast<Component*>(/*led = */new KY036()));
-    #endif
     #ifdef _MHRTC2
         component_list.push_back(dynamic_cast<Component*>(/*rtc = */new MHRTC2()));
     #endif
@@ -67,74 +66,51 @@ void newAll(){
     #ifdef _TEMT6000
         component_list.push_back(dynamic_cast<Component*>(/*luxmeter0 = */new TEMT6000()));
     #endif
+    #ifdef _TTP223B
+        component_list.push_back(dynamic_cast<Component*>(/*led = */new TTP223B()));
+    #endif
     #ifdef _UV
-        component_list.push_back(dynamic_cast<Component*>(uv_sensor = new UV()));
+        component_list.push_back(dynamic_cast<Component*>(/*uv_sensor = */new UV()));
     #endif
 }
 
-// char* makeJSON(){
-//     StaticJsonDocument<1000> doc;
-//     char* doc_serialized;
-//     for(auto element : component_list){
-//         if(element->isStarted()){
-//             element->makeJSON(doc);
-//         }
-//     }
-//     #ifdef UNO_MAIN
-//         uno->receive();
-//         char* slave_doc_serialized = uno->getData();
-//         deserializeJson(slave_doc, slave_doc_serialized);
-//         merge(doc, slave_doc);
-//     #endif
-//     serializeJson(doc, doc_serialized);
-//     return doc_serialized;
-// }
-
-// void merge(JsonObject dest, JsonObjectConst src)
-// {
-//     for(JsonPairConst kvp : src)
-//         dest[kvp.key()] = kvp.value();
-// }
+String makeJson(){
+    StaticJsonDocument<1000> doc;
+    String doc_serialized;
+    for(auto element : component_list)
+        if(element->isStarted())
+            element->makeJson(doc);
+    serializeJson(doc, doc_serialized);
+    return doc_serialized;
+}
 
 void setup(){
     Serial.begin(9600);
     while(!Serial);
-    // relay->on();
-    // relay->print();
+    relay->on();
+    relay->print();
     newAll();
 }
 
 void loop(){
-    // Serial.println("passou1");
     for(auto element : component_list){
-        // Serial.println("passou2");
-        // uv_sensor->read();
-        // Serial.println("passou3");
-        // uv_sensor->print();
         if(element->isStarted()){
-            // 
-            // if(element->verifyDelay()){
+            if(element->verifyDelay()){
                 element->read();
-                // Serial.println("passou4");
                 element->print();
-                // Serial.println("passou5");
                 Serial.println();
-            // }
+            }
         }
         else
             element->start();
     }
-    // if(millis() - stopwatch > JSON_DELAY || !stopwatch){
-    //     char* json_str = makeJSON();
-    //     micro_sd->save(json_str);
-    //     #ifdef UNO_MAIN
-    //         wifi->send(json_str);
-    //     #elif defined(UNO_SLAVE)
-    //         // uno->send(json_str);
-    //     #endif
-    //     Serial.println(json_str);
-    //     Serial.println();
-    //     stopwatch = millis();
-    // }
+    if(millis() - stopwatch > SEND_JSON_DELAY || !stopwatch){
+        String json_str = makeJson();
+        // micro_sd->save(json_str);
+        // wifi->sendJson(json_str);
+        Serial.println(json_str);
+        Serial.println();
+        stopwatch = millis();
+    }
     delay(1000);
 }

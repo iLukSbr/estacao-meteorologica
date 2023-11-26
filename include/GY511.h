@@ -20,7 +20,7 @@ class GY511 : public Component{
 
         LSM303* compass;
 
-        char info[3] = {0};
+        char info[4] = {0};
         
     protected:
         const char directions[16][3] = {

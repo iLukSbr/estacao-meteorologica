@@ -1,5 +1,6 @@
 /* Servo Motor */
 
+#include "pch.h"
 #include "ServoMotor.h"
 
 ServoMotor::ServoMotor(byte _pin, byte _min_angle, byte _max_angle, byte _count, byte _step):

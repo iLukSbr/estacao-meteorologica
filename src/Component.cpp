@@ -1,5 +1,6 @@
 /* Component */
 
+#include "pch.h"
 #include "component.h"
 
 Component::Component():
@@ -25,4 +26,8 @@ bool Component::verifyDelay(){
     }
     else
         return false;
+}
+
+void Component::makeJson(JsonDocument& doc){
+    
 }

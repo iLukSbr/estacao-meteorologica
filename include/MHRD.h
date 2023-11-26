@@ -10,6 +10,7 @@
 #include "Component.h"
 
 #define MHRD_PIN 9
+#define RAINING_KEY "chuva"
 
 class MHRD : public Component{
     private:
@@ -21,6 +22,7 @@ class MHRD : public Component{
 
         bool getRaining() const;
 
+        void makeJson(JsonDocument& doc) override;
         void print() const override;
         void read() override;
         void start() override;

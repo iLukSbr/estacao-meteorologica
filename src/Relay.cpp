@@ -1,5 +1,6 @@
 /* Relay module */
 
+#include "pch.h"
 #include "Relay.h"
 
 Relay::Relay():
@@ -33,13 +34,16 @@ void Relay::print() const{
 }
 
 void Relay::read(){
+    Serial.println(F("Reading relay..."));
     if(info)
-        digitalWrite(RELAY_PIN, HIGH);
-    else
         digitalWrite(RELAY_PIN, LOW);
+    else
+        digitalWrite(RELAY_PIN, HIGH);
 }
 
 void Relay::start(){
+    Serial.println(F("Starting relay..."));
     pinMode(RELAY_PIN, OUTPUT);
     started = true;
+    Serial.println(F("Relay OK!"));
 }

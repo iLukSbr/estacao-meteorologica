@@ -1,5 +1,6 @@
 /* MH-Real Time Clock 2  DS1302*/
 
+#include "pch.h"
 #include "MHRTC2.h"
 
 MHRTC2::MHRTC2():

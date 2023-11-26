@@ -1,5 +1,6 @@
 /* ITGMPU6050 gyroscope, accelerometer and thermometer */
 
+#include "pch.h"
 #include "ITGMPU6050.h"
 
 ITGMPU6050::ITGMPU6050():

@@ -1,5 +1,6 @@
 /* KY-021 reed switch module for rain sensor tipping bucket */
 
+#include "pch.h"
 #include "KY021.h"
 
 KY021::KY021():

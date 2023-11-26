@@ -1,48 +1,56 @@
-/* GPS uBlox */
+/*
+MIT License
 
+Copyright (c) 2023 Lucas Yukio Fukuda Matsumoto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+#include "pch.h"
 #include "GYNEO6MV2.h"
 
 GYNEO6MV2::GYNEO6MV2():
-    // Serial2(new SoftwareSerial(GPS_RX_PIN, GPS_TX_PIN)),
+    signal_status(false),
     gps(new TinyGPSPlus())
-{
+{// Create object
+    Serial2.begin(GPS_BAUD_RATE);// Serial baud rate
     start();
 }
 
-GYNEO6MV2::~GYNEO6MV2(){
-
+GYNEO6MV2::~GYNEO6MV2(){// Release memory
+    delete gps;
 }
 
-const char* GYNEO6MV2::getDateTime() const{
-    return date_time;
-}
-
-float GYNEO6MV2::getLatitude() const{
-    return info[0];
-}
-
-float GYNEO6MV2::getLongitude() const{
-    return info[1];
-}
-
-void GYNEO6MV2::print() const{
-    Serial.println(F("GPS:"));
-    Serial.print(F("latitude = "));
-    Serial.print(getLatitude());
-    Serial.println(F("°"));
-    Serial.print(F("longitude = "));
-    Serial.print(getLongitude());
-    Serial.println(F("°"));
-    Serial.print(F("date and time UTC = "));
-    Serial.println(getDateTime());
-}
-
-void GYNEO6MV2::read(){
-    while(Serial2.available()){
+void GYNEO6MV2::read(){// Get data from component
+    Serial.println(F("Reading GY-NEO6MV2 GPS..."));
+    uint16_t i = 0;
+    info[0] = DEFAULT_LATITUDE;
+    info[1] = DEFAULT_LONGITUDE;
+    while(Serial2.available() > 0){
         if(gps->encode(Serial2.read())){// Getting data
-            if(gps->location.isValid()){
+            if (gps->location.isValid()){
                 info[0] = gps->location.lat();// Latitude (°)
                 info[1] = gps->location.lng();// Longitude (°)
+                if(info[0] == 0.f || info[1] == 0.f){
+                    info[0] = DEFAULT_LATITUDE;
+                    info[1] = DEFAULT_LONGITUDE;
+                }
             }
             if(gps->altitude.isValid())
                 info[2] = gps->altitude.meters();// Terrain altitude (m)
@@ -53,14 +61,92 @@ void GYNEO6MV2::read(){
             if(gps->satellites.isValid())
                 info[5] = gps->satellites.value();// Number of GPS satellite signals acquired
         }
+        if(i > 5*LOOP_DELAY && gps->charsProcessed() < GPS_MIN_CHARS_PROCESSED){// If data is not valid
+            Serial.println(F("GPS signal not detected."));
+            break;
+        }
+        i++;
     }
-    // int year;
-    // byte month, day, hour, minute, second, hundredths;
-    // gps.crack_datetime(&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
-    // sprintf(date_time, "%02d/%02d/%02d %02d:%02d:%02d ", month, day, year, hour, minute, second);
+}
+
+void GYNEO6MV2::print() const{// Display data for test
+    Serial.println(F("NEO-M8N GPS: "));
+    Serial.print(F("latitude = "));
+    Serial.print(info[0], GPS_DECIMAL_PLACES);
+    Serial.println(F("°"));
+    Serial.print(F("logitude = "));
+    Serial.print(info[1], GPS_DECIMAL_PLACES);
+    Serial.println(F("°"));
+    Serial.print(F("surface altitude = "));
+    Serial.print(info[2]);
+    Serial.println(F(" m"));
+    Serial.print(F("speed = "));
+    Serial.print(info[3]);
+    Serial.println(F(" km/h"));
+    Serial.print(F("course = "));
+    Serial.print(info[4]);
+    Serial.println(F("°"));
+    Serial.print(F("satellites = "));
+    Serial.println(info[5]);
+}
+
+void GYNEO6MV2::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F(LATITUDE_KEY)] = info[0];
+    doc[F(LONGITUDE_KEY)] = info[1];
+}
+
+const uint16_t GYNEO6MV2::getYear() const{
+    return year();
+}
+
+const uint8_t GYNEO6MV2::getMonth() const{
+    return month();
+}
+
+const uint8_t GYNEO6MV2::getDay() const{
+    return day();
+}
+
+const uint8_t GYNEO6MV2::getHour() const{
+    return hour();
+}
+
+const uint8_t GYNEO6MV2::getMinute() const{
+    return minute();
+}
+
+const uint8_t GYNEO6MV2::getSecond() const{
+    return second();
+}
+
+void GYNEO6MV2::gatherDateTime(const bool search){// Get date and time, keep searching signal if true
+    uint8_t i = 0;
+    Serial.println(F("Searching for GPS signal..."));
+    do{
+        read();
+        i++;
+        if(i>START_TRIES && !search){
+            Serial.println(F("GPS signal not found, timeout!"));
+            return;
+        }
+        delay(LOOP_DELAY);
+    }while((!gps->date.isValid() || !gps->time.isValid()) || gps->date.year()>ACTUAL_YEAR);// Colecting date and time
+    if(!isStarted())
+        started = true;
+    if(!signal_status)
+        signal_status = true;
+    setTime(gps->time.hour(), gps->time.minute(), gps->time.second() + UTC_GPS_TIME_DRIFT, gps->date.day(), gps->date.month(), gps->date.year());
+    adjustTime(UTC_OFFSET*SECS_PER_HOUR);
+    delay(LOOP_DELAY);
 }
 
 void GYNEO6MV2::start(){
-    Serial2.begin(GPS_SERIAL_BAUD);
-    started = true;
+    Serial.println(F("Starting GY-NEO6MV2 GPS..."));
+    gatherDateTime(false);
+    if(isStarted())
+        Serial.println(F("GY-NEO6MV2 GPS OK!"));
+}
+
+const bool GYNEO6MV2::isSignalAcquired() const{
+    return signal_status;
 }
