@@ -17,6 +17,7 @@
 // INA219 *multimeter_solar, *multimeter_batteries;
 // KY015* thermometer;
 // KY021* rain_gauge;
+// MHRD* rain_sensor;
 // MHRTC2* rtc = new MHRTC2();
 // MPL3115A2* barometer;
 #ifdef _RELAY
@@ -63,6 +64,10 @@ void newAll(){
     #endif
     #ifdef _KY021
         component_list.push_back(dynamic_cast<Component*>(/*rain_gauge = */new KY021()));
+        delay(100);
+    #endif
+    #ifdef _MHRD
+        component_list.push_back(dynamic_cast<Component*>(/*rain_sensor = */new MHRD()));
         delay(100);
     #endif
     #ifdef _MPL3115A2

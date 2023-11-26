@@ -4,12 +4,15 @@
 #include "KY021.h"
 
 KY021::KY021():
-    seesaw_state(false),
+    pulses(0),
     info(0.f),
-    last_tip(0),
-    rainmeter(new MHRD())
+    timeold(0)
 {
+    measure_delay = 10000;
+    Serial.println(F("Starting KY-021 reed switch module..."));
     start();
+    started = true;
+    Serial.println(F("KY-021 reed switch module OK!"));
 }
 
 KY021::~KY021(){
@@ -20,39 +23,40 @@ float KY021::getRainfall() const{
     return info;
 }
 
+void KY021::counter(){
+    pulses++;
+}
+
+void KY021::interruptHandler(){// Call the non-static member function 'counter()' via the instance pointer
+    instance->counter();
+}
+
+void KY021::makeJson(JsonDocument& doc){// Create JSON entries
+    doc[F(KY021_KEY)] = getRainfall();
+}
+
 void KY021::print() const{
-    Serial.println(F("Pluviometer:"));
-    Serial.print(F("volume = "));
-    Serial.print(info);
+    Serial.println(F("Pluviometer KY-021 reed switch module:"));
+    Serial.print(F("rain volume = "));
+    Serial.print(info, 4);
     Serial.println(F(" mm/h"));
 }
 
 void KY021::read(){
-    bool actual_seesaw_state;
-    long actual_time = millis();
-    long time_span;
-    actual_seesaw_state = ((digitalRead(KY021_PIN) == HIGH) ? true : false);
-    rainmeter->read();
-    if(rainmeter->getRaining()){
-        if(actual_seesaw_state != seesaw_state){
-            time_span = actual_time - last_tip;
-            last_tip = actual_time;
-        }
-    }
-    info = (SEESAW_VOLUME/FUNNEL_AREA)/(time_span/3600000.f);
+    Serial.println(F("Reading KY-021 reed switch module..."));
+    detachInterrupt(digitalPinToInterrupt(KY021_PIN));
+    info = (SEESAW_VOLUME*pulses/FUNNEL_AREA)*3600000.f/(millis() - timeold);
+    Serial.print(F("pulses = "));
+    Serial.println(pulses);
+    pulses = 0;
+    start();
 }
 
 void KY021::start(){
     pinMode(KY021_PIN, INPUT);
-    if(digitalRead(KY021_PIN) == HIGH)
-        seesaw_state = true;
-    else
-        seesaw_state = false;
-    started = true;
-    read();
+    instance = this;// Set the instance pointer to 'this' for later use in the interrupt handler
+    attachInterrupt(digitalPinToInterrupt(KY021_PIN), &KY021::interruptHandler, FALLING);
+    timeold = millis();
 }
 
-
-void KY021::makeJson(JsonDocument& doc){// Create JSON entries
-    doc[F("volumeChuva")] = getRainfall();
-}
+KY021* KY021::instance = nullptr;// Initialize the static member variable

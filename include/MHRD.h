@@ -9,7 +9,7 @@
 
 #include "Component.h"
 
-#define MHRD_PIN 9
+#define MHRD_PIN 4
 #define RAINING_KEY "chuva"
 
 class MHRD : public Component{

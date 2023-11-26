@@ -10,19 +10,22 @@
 #include "Component.h"
 #include "MHRD.h"
 
-#define KY021_PIN 8
+#define KY021_PIN 3
 #define SEESAW_VOLUME 0.002// liter
-#define FUNNEL_AREA 0.5// m^2
+#define FUNNEL_AREA 0.01// m^2
+#define KY021_KEY "volumeChuva"
 
 class KY021 : public Component{
     private:
-        bool seesaw_state;
+        volatile int pulses;
 
         float info;
 
-        long last_tip;
-
         MHRD* rainmeter;
+
+        static KY021* instance;// Declare the static member variable
+
+        unsigned int timeold;
 
     public:
         KY021();
@@ -30,8 +33,11 @@ class KY021 : public Component{
         
         float getRainfall() const;
 
+        void counter();
         void makeJson(JsonDocument& doc) override;
         void print() const override;
         void read() override;
         void start() override;
+
+        static void interruptHandler();
 };

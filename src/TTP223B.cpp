@@ -41,7 +41,7 @@ void TTP223B::start(){
     pinMode(TTP223B_PIN, INPUT);
     pinMode(LED_PIN, OUTPUT);   
     instance = this;// Set the instance pointer to 'this' for later use in the interrupt handler
-    attachInterrupt(digitalPinToInterrupt(TTP223B_PIN), &TTP223B::interruptHandler, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(TTP223B_PIN), &TTP223B::interruptHandler, RISING);
     started = true;
     Serial.println("TTP223B touch sensor OK!");
 }

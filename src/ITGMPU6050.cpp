@@ -1,4 +1,4 @@
-/* ITGMPU6050 gyroscope, accelerometer and thermometer */
+/* ITGMPU6050 gyroscope and accelerometer */
 
 #include "pch.h"
 #include "ITGMPU6050.h"
@@ -83,7 +83,7 @@ void ITGMPU6050::gyroSignals(){
 }
 
 void ITGMPU6050::print() const{
-    Serial.println(F("ITGMPU6050:"));
+    Serial.println(F("ITGMPU6050 accelerometer/gyroscope:"));
     Serial.print(F("roll rate = "));
     Serial.print(info[0]);
     Serial.println(F(" °/s"));
@@ -96,6 +96,7 @@ void ITGMPU6050::print() const{
 }
 
 void ITGMPU6050::read(){
+    Serial.println(F("Reading ITG/MPU6050 accelerometer/gyroscope..."));
     gyroSignals();
     rate_roll -= rate_cali_roll;
     rate_pitch -= rate_cali_pitch;
@@ -110,11 +111,12 @@ void ITGMPU6050::read(){
 }
 
 void ITGMPU6050::start(){
-    Serial.println(F("Starting ITG/MPU6050..."));
+    Serial.println(F("Starting ITG/MPU6050 accelerometer/gyroscope..."));
     Wire.beginTransmission(0x68);
     Wire.write(0x6B);// Puts gyroscope into power on mode
     Wire.write(0x00);
     Wire.endTransmission();
     calibrate();
     started = true;
+    Serial.println(F("ITG/MPU6050 accelerometer/gyroscope OK!..."));
 }

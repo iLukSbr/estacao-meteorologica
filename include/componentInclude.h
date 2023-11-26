@@ -2,11 +2,12 @@
 
 /* Comment the header to disable or uncomment to enable the component */
 // #include "CD74HC4067.h"
-#include "Encoder.h"
+// #include "Encoder.h"
 // #include "GYNEO6MV2.h"
 // #include "INA219.h"
 // #include "KY015.h"
-// #include "KY021.h"
+#include "KY021.h"
+#include "MHRD.h"
 // #include "MHRTC2.h"
 // #include "MPL3115A2.h"
 // #include "Relay.h"
@@ -52,4 +53,4 @@
    #define _UV_ 0
 #endif
 
-#define QUANTITY_OF_COMPONENTS (_CD74HC4067_ + _ENCODER_ + _GYNEO6MV2_ + N_MULTIMETERS*_INA219_ + _KY015_ + _KY021_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)
+#define QUANTITY_OF_COMPONENTS (_CD74HC4067_ + _ENCODER_ + _GYNEO6MV2_ + N_MULTIMETERS*_INA219_ + _KY015_ + _KY021_ + _MHRD_ + _MPL3115A2_ + _SOLAR_TRACKER_ + _TEMT6000_ + _UV_)

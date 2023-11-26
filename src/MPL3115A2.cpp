@@ -36,7 +36,7 @@ void MPL3115A2::makeJson(JsonDocument& doc){
 }
 
 void MPL3115A2::print() const{
-    Serial.println(F("MPL3115A2:"));
+    Serial.println(F("MPL3115A2 altimeter/barometer/thermometer:"));
     Serial.print(F("pressure = "));
     Serial.print(getPressure());
     Serial.println(F(" Pa"));
@@ -51,17 +51,21 @@ void MPL3115A2::print() const{
 }
 
 void MPL3115A2::read(){
+    Serial.println(F("Reading MPL3115A2 altimeter/barometer/thermometer..."));
     info[0] = baro->getAltitude()*MPL3115A2_ALTITUDE_OFFSET;
     info[1] = 100*(baro->getPressure()*MPL3115A2_PRESSURE_OFFSET);
     info[2] = baro->getTemperature()*MPL3115A2_TEMPERATURE_OFFSET;
 }
 
 void MPL3115A2::start(){
+    Serial.println(F("Starting MPL3115A2 altimeter/barometer/thermometer..."));
     for(byte i=0; i<START_TRIES; i++){
         delay(LOOP_DELAY);
         if(baro->begin() && !isnan(baro->getPressure()) && !isnan(baro->getTemperature()) && !isnan(baro->getAltitude())){
             started = true;
+            Serial.println(F("MPL3115A2 altimeter/barometer/thermometer OK!"));
             return;
         }
     }
+    Serial.println(F("MPL3115A2 altimeter/barometer/thermometer failed!"));
 }
