@@ -76,12 +76,12 @@ ESP01::ESP01() : countTrueCommand(0), countTimeCommand(0), found(false),
 
   void ESP01::begin(int baudRate) {
     Serial3.begin(baudRate);
-    Serial3.print("AT+UART_CUR=9600,8,1,0,0\r\n");
-    Serial3.begin(9600);
+    // Serial3.print("AT+UART_CUR=9600,8,1,0,0\r\n");
+    // Serial3.begin(9600);
   }
 
   void ESP01::sendData(String host, String path, int port, int tamdoc, StaticJsonDocument<1000>& doc) {
-    int delayp = 200;
+    int delayp = 500;
     /*   SERIAL PRINT
 
     Serial.println(F("POST /sensores HTTP/1.1"));

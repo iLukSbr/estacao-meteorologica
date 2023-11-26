@@ -91,8 +91,8 @@ void GYNEO6MV2::print() const{// Display data for test
 }
 
 void GYNEO6MV2::makeJson(JsonDocument& doc){// Create JSON entries
-    doc[F(LATITUDE_KEY)] = serialized(String(info[0],6));
-    doc[F(LONGITUDE_KEY)] = serialized(String(info[1],6));
+    doc[F(LATITUDE_KEY)] = info[0];
+    doc[F(LONGITUDE_KEY)] = info[1];
 }
 
 const uint16_t GYNEO6MV2::getYear() const{
