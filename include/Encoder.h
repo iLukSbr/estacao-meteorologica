@@ -12,6 +12,7 @@
 #define ENCODER_PIN 2
 #define ENCODER_N 36// Number of encoder interrupts
 #define RADIUS_TO_CUP 0.000085// (km) Radius from bearing center to cup center
+#define ENCODER_KEY "velocidadeVento"
 
 class Encoder : public Component{
     private:

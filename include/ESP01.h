@@ -38,6 +38,6 @@ class ESP01 : public Component{
         bool found;
         bool sendCommand(String command, int maxTime, String readReplay);
         void begin(int baudRate);
-        void sendData(String host, String path, int port, int tamdoc, StaticJsonDocument<384>& doc);
+        void sendData(String host, String path, int port, int tamdoc, StaticJsonDocument<1000>& doc);
         void printResponse();
 };

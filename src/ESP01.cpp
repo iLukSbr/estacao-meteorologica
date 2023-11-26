@@ -80,7 +80,7 @@ ESP01::ESP01() : countTrueCommand(0), countTimeCommand(0), found(false),
     Serial3.begin(9600);
   }
 
-  void ESP01::sendData(String host, String path, int port, int tamdoc, StaticJsonDocument<384>& doc) {
+  void ESP01::sendData(String host, String path, int port, int tamdoc, StaticJsonDocument<1000>& doc) {
     int delayp = 200;
     /*   SERIAL PRINT
 
