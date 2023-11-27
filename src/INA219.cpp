@@ -49,7 +49,7 @@ void INA219::read(){
     if(count == 0)
         info[1] = 100.f*info[2]/12.f;
     else if(count == 1)
-        info[1] = 100.f*info[2]/16.8f;
+        info[1] = 100.f*(info[2]-12.f)/(16.8f-12.f);
 }
 
 void INA219::start(){
