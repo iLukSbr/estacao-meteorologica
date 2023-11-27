@@ -10,9 +10,9 @@
     #define _MHRTC2
 #endif
 
-#define RTC_CLK_PIN 13// Serial Clock
-#define RTC_DAT_PIN 12// Input/Output
-#define RTC_RST_PIN 11// Chip Enable
+#define RTC_CLK_PIN 40// Serial Clock
+#define RTC_DAT_PIN 42// Input/Output
+#define RTC_RST_PIN 44// Chip Enable
 
 class MHRTC2 : public Component{
     private: 

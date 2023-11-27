@@ -96,7 +96,7 @@ void ITGMPU6050::print() const{
 }
 
 void ITGMPU6050::read(){
-    Serial.println(F("Reading ITG/MPU6050 accelerometer/gyroscope..."));
+    // Serial.println(F("Reading ITG/MPU6050 accelerometer/gyroscope..."));
     gyroSignals();
     rate_roll -= rate_cali_roll;
     rate_pitch -= rate_cali_pitch;

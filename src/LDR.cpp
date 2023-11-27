@@ -30,6 +30,9 @@ void LDR::print() const{
 }
 
 void LDR::read(){
+    // Serial.print(F("Reading LDR"));
+    // Serial.print(count);
+    // Serial.println(F("..."));
     float median = 0.f, resistor_voltage, ldr_voltage, ldr_resistance;
     for(byte i=0; i<LDR_MEASURES; i++){
         resistor_voltage = analogRead(ldr_pin)*5.f/1024.f;
@@ -46,4 +49,7 @@ void LDR::start(){
     Serial.println(F("..."));
     pinMode(ldr_pin, INPUT);
     started = true;
+    Serial.print(F("LDR"));
+    Serial.print(count);
+    Serial.println(F(" OK!"));
 }

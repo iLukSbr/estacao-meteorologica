@@ -36,6 +36,8 @@
 #define LDR4_PIN A3
 #define LDR4_RESISTOR 9970
 
+#define SOLAR_MOVEMENT_KEY "orientacaoPlacaSolar"
+
 class SolarTracker : public Component{
     private:
         bool light_change_detected;
@@ -50,11 +52,11 @@ class SolarTracker : public Component{
         LDR* ldr3;
         LDR* ldr4;
 
+        char info[4];
+
     public:
         SolarTracker();
         ~SolarTracker();
-
-        const char* getDirection() const;
 
         void checkLightChange();
         void checkServosMovement();

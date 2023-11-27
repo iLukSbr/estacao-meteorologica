@@ -12,7 +12,7 @@
 #include "MPL3115A2.h"
 // #include "Relay.h"
 // #include "SDReaderWriter.h"
-// #include "SolarTracker.h"
+#include "SolarTracker.h"
 #include "TEMT6000.h"
 #include "TTP223B.h"
 #include "UV.h"

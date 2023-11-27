@@ -8,7 +8,7 @@
 
 #include "Component.h"
 
-#define RELAY_PIN 4
+#define RELAY_PIN 49
 
 class Relay : public Component
 {

@@ -83,6 +83,9 @@ void ServoMotor::start(){
     info = (min_angle + max_angle)/2;
     servo->write(info);
     started = true;
+    Serial.print(F("Servo Motor "));
+    Serial.print(count);
+    Serial.println(F(" OK!"));
 }
 
 void ServoMotor::unblock(){

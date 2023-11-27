@@ -21,10 +21,6 @@ SolarTracker::~SolarTracker(){
     delete servo_panel;
 }
 
-const char* SolarTracker::getDirection() const{
-    return nullptr;
-}
-
 void SolarTracker::checkLightChange(){
     bool move_allowed;
     float mean1_2 = (ldr1->getIlluminance() + ldr2->getIlluminance())/2.f;
@@ -99,7 +95,7 @@ void SolarTracker::lightChangeDetected(){
 }
 
 void SolarTracker::print() const{
-    // gyro->read();
+    gyro->read();
     ldr1->read();
     ldr2->read();
     ldr3->read();
@@ -116,38 +112,36 @@ void SolarTracker::print() const{
 }
 
 void SolarTracker::read(){
+    // Serial.println(F("Reading Solar Tracker..."));
     gyro->read();
     ldr1->read();
     ldr2->read();
     ldr3->read();
     ldr4->read();
     checkLightChange();
-    // if(light_change_detected)
-    //     checkServosMovement();
+    if(light_change_detected)
+        checkServosMovement();
 }
 
 void SolarTracker::start(){
     Serial.println(F("Starting Solar Tracker..."));
-    do{
-        servo_base = new ServoMotor(SERVO_BASE_PIN, SERVO_BASE_MIN, SERVO_BASE_MAX, 1, SERVO_BASE_STEP);
-        delay(10);
-    }while(!servo_base->isStarted());
-    do{
-        servo_panel = new ServoMotor(SERVO_PANEL_PIN, SERVO_PANEL_MIN, SERVO_PANEL_MAX, 2, SERVO_PANEL_STEP);
-    }while(!servo_base->isStarted());
+    servo_base = new ServoMotor(SERVO_BASE_PIN, SERVO_BASE_MIN, SERVO_BASE_MAX, 1, SERVO_BASE_STEP);
+    delay(100);
+    servo_panel = new ServoMotor(SERVO_PANEL_PIN, SERVO_PANEL_MIN, SERVO_PANEL_MAX, 2, SERVO_PANEL_STEP);
+    delay(100);
     ldr1 = new LDR(LDR1_PIN, 1, LDR1_RESISTOR);
+    delay(100);
     ldr2 = new LDR(LDR2_PIN, 2, LDR2_RESISTOR);
+    delay(100);
     ldr3 = new LDR(LDR3_PIN, 3, LDR3_RESISTOR);
+    delay(100);
     ldr4 = new LDR(LDR4_PIN, 4, LDR4_RESISTOR);
     delay(3000);
-    // do{
-    //     gyro = new ITGMPU6050();
-    //     delay(10);
-    // }while(!gyro->isStarted());
+    gyro = new ITGMPU6050();
     started = true;
+    Serial.println(F("Solar Tracker OK!"));
 }
 
-
 void SolarTracker::makeJson(JsonDocument& doc){// Create JSON entries
-    doc[F("direcaoPlacaSolar")] = getDirection();
+    doc[F(SOLAR_MOVEMENT_KEY)] = "movendo";
 }

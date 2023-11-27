@@ -18,7 +18,9 @@ ESP01* wifi = new ESP01();
 // KY015* thermometer;
 // KY021* rain_gauge;
 // MHRD* rain_sensor;
-// MHRTC2* rtc = new MHRTC2();
+#ifdef _MHRTC2
+    MHRTC2* rtc = new MHRTC2();
+#endif
 // MPL3115A2* barometer;
 #ifdef _RELAY
     Relay* relay = new Relay();
@@ -26,7 +28,7 @@ ESP01* wifi = new ESP01();
 #ifdef _MICROSD_READER_WRITER
     SDReaderWriter* sd = new SDReaderWriter();
 #endif
-// SolarTracker* solar_tracker;
+SolarTracker* solar_tracker;
 // TEMT6000* luxmeter0;
 #ifdef _TTP223B
     TTP223B* led = new TTP223B();
@@ -76,7 +78,7 @@ void newAll(){
         delay(100);
     #endif
     #ifdef _SOLAR_TRACKER
-        component_list.push_back(dynamic_cast<Component*>(/*solar_tracker = */new SolarTracker()));
+        component_list.push_back(dynamic_cast<Component*>(solar_tracker = new SolarTracker()));
         delay(100);
     #endif
     #ifdef _TEMT6000
@@ -113,16 +115,17 @@ void newAll(){
         doc[F("tensaoEletricaPlacaSolar")] = 9000;
         doc[F("orientacaoPlacaSolar")] = "S";
         for(auto element : component_list){
-        if(element->isStarted()){
-            if(element->verifyDelay()){
-                element->read();
-                element->print();
-                Serial.println();
+            solar_tracker->read();
+            if(element->isStarted()){
+                if(element->verifyDelay()){
+                    element->read();
+                    element->print();
+                    Serial.println();
+                }
             }
+            else
+                element->start();
         }
-        else
-            element->start();
-    }
         for(auto element : component_list)
             // if(element->isStarted())
                 element->makeJson(doc);
@@ -142,11 +145,11 @@ void newAll(){
         }
 
         wifi->sendCommand("AT+CIPCLOSE", 1, "OK");
+        delay(500);
         #ifdef _MHRTC2
             rtc->read();
             doc[F(TIME_KEY)] = rtc->getDateTime();
         #endif
-        delay(500);
         doc.clear();
         Serial3.end();
     }

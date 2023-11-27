@@ -9,7 +9,7 @@
 
 #include "Component.h"
 
-#define LDR_MEASURES 256
+#define LDR_MEASURES 255
 
 class LDR : public Component{
     private: 
