@@ -16,6 +16,11 @@ GY511::~GY511(){
     delete compass;
 }
 
+
+float GY511::getHeading(){
+    return compass->heading();
+}
+
 byte GY511::getDirectionPart() const{
     return part;
 }

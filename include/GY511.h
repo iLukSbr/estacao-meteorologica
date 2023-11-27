@@ -48,6 +48,8 @@ class GY511 : public Component{
         
         byte getDirectionPart() const;
 
+        float getHeading();
+
         const char* getDirection() const;
 
         void print() const override;

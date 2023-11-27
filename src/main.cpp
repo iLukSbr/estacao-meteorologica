@@ -32,6 +32,7 @@ ESP01* wifi = new ESP01();
     TTP223B* led = new TTP223B();
 #endif
 // UV* uv_sensor;
+// WindVane* wind_direction;
 
 unsigned long stopwatch = 0;
 
@@ -53,9 +54,9 @@ void newAll(){
         delay(100);
     #endif
     #ifdef _INA219
-        // component_list.push_back(dynamic_cast<Component*>(/*multimeter_solar = */new INA219(0x40, 0, PG_80, BRNG_16, 1.f, 1.f)));
+        component_list.push_back(dynamic_cast<Component*>(/*multimeter_solar = */new INA219(0x40, 0, PG_80, BRNG_16, 1.f, 1.f)));
         delay(100);
-        // component_list.push_back(dynamic_cast<Component*>(/*multimeter_batteries = */new INA219(0x41, 1, PG_160, BRNG_32, 1.f, 1.f)));
+        component_list.push_back(dynamic_cast<Component*>(/*multimeter_batteries = */new INA219(0x41, 1, PG_160, BRNG_32, 1.f, 1.f)));
         delay(100);
     #endif
     #ifdef _KY015
@@ -85,6 +86,10 @@ void newAll(){
     #ifdef _UV
         component_list.push_back(dynamic_cast<Component*>(/*uv_sensor = */new UV()));
         delay(100);
+    #endif
+    #ifdef _WIND_VANE
+        component_list.push_back(dynamic_cast<Component*>(/*wind_direction = */new WindVane()));
+        delay(100);  
     #endif
 }
 

@@ -11,7 +11,8 @@
     #define _INA219_ 1
 #endif
 
-#define INA219_I2C_ADDRESS 0x40
+#define SOLAR_VOLTAGE_KEY "tensaoEletricaPlacaSolar"
+#define BATTERY_PERCENTAGE_KEY "porcentagemBaterias"
 
 class INA219 : public Component{
     private:

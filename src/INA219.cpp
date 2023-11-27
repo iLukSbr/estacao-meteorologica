@@ -1,7 +1,7 @@
 /* Voltage and current sensor INA219 */
 
 #include "pch.h"
-#include <INA219.h>
+#include "INA219.h"
 
 INA219::INA219(byte address, byte _count, INA219_PGAIN _amp_def, INA219_BUS_RANGE _volt_def, float _calibration_factor, float _calibration_volt):
     count(_count),
@@ -43,10 +43,17 @@ void INA219::print() const{
 }
 
 void INA219::read(){
-    
+    Serial.println(F("Reading INA219 multimeter..."));
+    info[0] = multi->getCurrent_mA();
+    info[2] = multi->getBusVoltage_V() + multi->getShuntVoltage_mV()/1000.f;
+    if(count == 0)
+        info[1] = 100.f*info[2]/12.f;
+    else if(count == 1)
+        info[1] = 100.f*info[2]/16.8f;
 }
 
 void INA219::start(){
+    Serial.println(F("Starting INA219 multimeter..."));
     if(multi->init()){
         started = true;
         multi->setADCMode(SAMPLE_MODE_128);
@@ -55,13 +62,15 @@ void INA219::start(){
         multi->setBusRange(volt_def);
         multi->setCorrectionFactor(calibration_factor);
         multi->setShuntVoltOffset_mV(calibration_volt);
+        Serial.println(F("INA219 multimeter OK!"));
     }
+    else
+        Serial.println(F("INA219 multimeter failed."));
 }
-
 
 void INA219::makeJson(JsonDocument& doc){// Create JSON entries
     if(count == 0)
-      doc[F("tensaoEletricaPlacaSolar")] = getVoltage();
+      doc[F(SOLAR_VOLTAGE_KEY)] = getVoltage();
     else if(count == 1)
-        doc[F("porcentagemBateria")] = getPercentage();
+        doc[F(BATTERY_PERCENTAGE_KEY)] = getPercentage();
 }
