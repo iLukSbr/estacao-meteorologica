@@ -150,6 +150,11 @@ void newAll(){
             rtc->read();
             doc[F(TIME_KEY)] = rtc->getDateTime();
         #endif
+        String doc_serialized;
+        serializeJson(doc, doc_serialized);
+        delay(100);
+        sd->save(doc_serialized);
+        delay(100);
         doc.clear();
         Serial3.end();
     }
@@ -173,13 +178,7 @@ void loop(){
             delay(100);
             sendJson();
             delay(100);
-            #ifdef _MICROSD_READER_WRITER
-                // sd->save(json_str);
-            #endif
-            // Serial.println(json_str);
-            // Serial.println();
             stopwatch = millis();
         }
     #endif
-    // delay(30000);
 }

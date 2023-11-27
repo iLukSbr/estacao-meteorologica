@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include <RTClib.h>
+#include <ThreeWire.h>
+#include <RtcDS1302.h>
 
 #include "Component.h"
 
@@ -16,15 +17,18 @@
 
 class MHRTC2 : public Component{
     private: 
-        DS1302* rtc;
+        ThreeWire* myWire;
 
-        char info[20] = {0};
+        RtcDS1302<ThreeWire>* rtc;
+
+        char info[26] = {0};
 
     public:
         MHRTC2();
         ~MHRTC2();
 
         const char* getDateTime() const;
+        void makeDateTime(const RtcDateTime& dt);
 
         void print() const override;
         void read() override;
